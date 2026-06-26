@@ -522,12 +522,12 @@ function render(){
               <input type="number" value="${el.h}" min="0" step="0.5" inputmode="decimal" oninput="updateElem(${el.id},'h',this.value)" style="width:52px">
             </div>
             <div class="elem-col" style="margin-left:4px">
-              <div class="elem-row-label">Qté</div>
-              <input type="number" value="${el.qte}" min="0" inputmode="numeric" oninput="updateElem(${el.id},'qte',this.value)" style="width:44px">
-            </div>
-            <div class="elem-col" style="margin-left:4px">
               <div class="elem-row-label">ML/u.</div>
               <input type="number" value="${el.ml}" min="0" step="0.1" inputmode="decimal" oninput="updateElem(${el.id},'ml',this.value)" style="width:52px">
+            </div>
+            <div class="elem-col" style="margin-left:4px">
+              <div class="elem-row-label">Qté</div>
+              <input type="number" value="${el.qte}" min="0" inputmode="numeric" oninput="updateElem(${el.id},'qte',this.value)" style="width:44px">
             </div>
             <div class="elem-surf" id="surf-${el.id}">${s>0?s.toFixed(2)+' m²':'—'}</div>
             <button class="elem-del" onclick="deleteElem(${el.id})" title="Supprimer">
@@ -688,7 +688,7 @@ function exportDoc(){
     const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
     const per=l&&h?(2*(l+h)).toFixed(3):'—';
     const s=rowSurf(el);
-    return `<tr><td>${el.nom}</td><td style="text-align:center">${el.l}×${el.h}</td><td style="text-align:center">${el.qte}</td><td style="text-align:center">${el.ml}</td><td style="text-align:center">${per}</td><td style="text-align:right;font-weight:600">${s>0?s.toFixed(2):'—'}</td></tr>`;
+    return `<tr><td>${el.nom}</td><td style="text-align:center">${el.l}×${el.h}</td><td style="text-align:center">${el.ml}</td><td style="text-align:center">${el.qte}</td><td style="text-align:center">${per}</td><td style="text-align:right;font-weight:600">${s>0?s.toFixed(2):'—'}</td></tr>`;
   }).join('');
   const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><style>
     body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0}
@@ -724,7 +724,7 @@ function exportDoc(){
       <div class="kpi"><div class="n">${state.elements.length}</div><div class="u">lignes relevées</div></div>
     </div>
     <h2>Éléments de charpente</h2>
-    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>Qté</th><th>ML/u.</th><th>Périm. (m)</th><th style="text-align:right">Surface (m²)</th></tr></thead>
+    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>ML/u.</th><th>Qté</th><th>Périm. (m)</th><th style="text-align:right">Surface (m²)</th></tr></thead>
     <tbody>${rows}</tbody>
     <tfoot><tr><td colspan="3"><strong>Totaux</strong></td><td style="text-align:center"><strong>${ml.toFixed(2)} ml</strong></td><td></td><td style="text-align:right"><strong>${surf.toFixed(2)} m²</strong></td></tr></tfoot>
     </table>
@@ -756,11 +756,78 @@ function exportDoc(){
   showToast('Relevé téléchargé');
 }
 
+// ─── SAUVEGARDE AUTOMATIQUE ───────────────────────────────────────────────────
+const SAVE_KEY = 'pcp_releve_v2';
+
+function saveState(){
+  try {
+    const toSave = {
+      step: typeof state.step === 'number' ? state.step : 0,
+      client: state.client,
+      essence: state.essence,
+      insectes: state.insectes,
+      traitement: state.traitement,
+      elements: state.elements,
+      chantier: state.chantier,
+      _idCounter: state._idCounter,
+    };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(toSave));
+  } catch(e){}
+}
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(!raw) return false;
+    const saved = JSON.parse(raw);
+    Object.assign(state, saved);
+    return true;
+  } catch(e){ return false; }
+}
+
+// Auto-save every 3 seconds + on visibility change
+setInterval(saveState, 3000);
+document.addEventListener('visibilitychange', saveState);
+window.addEventListener('pagehide', saveState);
+
+// Patch go() and updateElem() to also trigger save
+const _origGo = go;
+function go(n){
+  _origGo(n);
+  saveState();
+}
+
+const _origUpdateElem = updateElem;
+function updateElem(id,field,val){
+  _origUpdateElem(id,field,val);
+  saveState();
+}
+
+// Patch newReleve to clear storage
+const _origNew = newReleve;
+function newReleve(){
+  _origNew();
+  try{ localStorage.removeItem(SAVE_KEY); }catch(e){}
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
 
-render();
+const hadSaved = loadState();
+if(hadSaved && state.elements.length > 0){
+  // Notify user data was restored
+  setTimeout(()=>showToast('Relevé en cours restauré ✓'), 400);
+}
+
+// Restore correct screen
+if(state.step === 'vignettes'){
+  renderStepper();
+  renderVignetteStep();
+} else {
+  render();
+}
 </script>
 </body>
 </html>
