@@ -332,13 +332,6 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// ─── GO / SAVE ────────────────────────────────────────────────────────────────
-function go(n){
-  if(state.rec){state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;}
-  state.step=n;render();
-  window.scrollTo(0,0);
-}
-
 function saveClient(){
   state.client.nom=document.getElementById('f-nom')?.value||'';
   state.client.adresse=document.getElementById('f-adr')?.value||'';
@@ -660,22 +653,10 @@ function toggleInj(){
   if(d)d.style.display=state.chantier.injecteurs?'':'none';
 }
 
-function newReleve(){
-  if(!confirm('Commencer un nouveau relevé ? Les données seront effacées.'))return;
-  state.step=0;
-  state.client={nom:'',adresse:'',cp:'',ville:''};
-  state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
-  state.elements=[];
-  state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
-  render();
-}
-
-// Override go() to handle 'vignettes' pseudo-step
-const _go=go;
 function go(n){
   if(state.rec){state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;}
-  if(n==='vignettes'){state.step='vignettes';renderStepper();renderVignetteStep();window.scrollTo(0,0);return;}
-  state.step=n;render();window.scrollTo(0,0);
+  if(n==='vignettes'){state.step='vignettes';renderStepper();renderVignetteStep();saveState();window.scrollTo(0,0);return;}
+  state.step=n;render();saveState();window.scrollTo(0,0);
 }
 
 // ─── EXPORT ───────────────────────────────────────────────────────────────────
@@ -790,24 +771,15 @@ setInterval(saveState, 3000);
 document.addEventListener('visibilitychange', saveState);
 window.addEventListener('pagehide', saveState);
 
-// Patch go() and updateElem() to also trigger save
-const _origGo = go;
-function go(n){
-  _origGo(n);
-  saveState();
-}
-
-const _origUpdateElem = updateElem;
-function updateElem(id,field,val){
-  _origUpdateElem(id,field,val);
-  saveState();
-}
-
-// Patch newReleve to clear storage
-const _origNew = newReleve;
 function newReleve(){
-  _origNew();
-  try{ localStorage.removeItem(SAVE_KEY); }catch(e){}
+  if(!confirm('Commencer un nouveau relevé ? Les données seront effacées.'))return;
+  state.step=0;
+  state.client={nom:'',adresse:'',cp:'',ville:''};
+  state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
+  state.elements=[];
+  state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
+  try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+  render();
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
