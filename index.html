@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Relevé Charpente">
+<meta name="theme-color" content="#1a3a5c">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Relevé Charpente — PCP</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --blue: #1a3a5c;
+  --blue-light: #e8f0f8;
+  --blue-mid: #3a6fa8;
+  --accent: #2563eb;
+  --accent-bg: #eff6ff;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --surface: #ffffff;
+  --surface-1: #f8fafc;
+  --success: #16a34a;
+  --radius: 10px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--surface-1);
+  color: var(--text);
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.app-header {
+  background: var(--blue);
+  color: white;
+  padding: calc(var(--safe-top) + 14px) 16px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner { display: flex; align-items: center; gap: 10px; }
+.header-icon { font-size: 20px; }
+.header-title { font-size: 15px; font-weight: 600; line-height: 1.2; }
+.header-sub { font-size: 11px; opacity: 0.75; }
+
+/* STEPPER */
+.stepper-wrap { background: var(--blue); padding: 0 16px 14px; }
+.stepper { display: flex; gap: 3px; }
+.step-dot { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.25); transition: background 0.3s; }
+.step-dot.active { background: #60a5fa; }
+.step-dot.done { background: rgba(255,255,255,0.6); }
+.step-labels { display: flex; margin-top: 6px; }
+.step-label { flex: 1; font-size: 10px; color: rgba(255,255,255,0.6); text-align: center; transition: color 0.3s; }
+.step-label.active { color: white; font-weight: 600; }
+
+/* CONTENT */
+.content { padding: 16px; padding-bottom: calc(var(--safe-bottom) + 90px); max-width: 600px; margin: 0 auto; }
+
+/* CARDS */
+.card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+.card-title { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+
+/* FIELDS */
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+.field-label { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; display: block; }
+.field input[type=text], .field input[type=number], .field select {
+  width: 100%; font-size: 16px; padding: 11px 12px;
+  border: 1px solid var(--border-strong); border-radius: var(--radius);
+  background: var(--surface); color: var(--text);
+  appearance: none; -webkit-appearance: none;
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.field-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+/* CHIP SELECTORS */
+.chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 14px; border: 1px solid var(--border-strong); border-radius: 20px; font-size: 14px; cursor: pointer; color: var(--text-muted); background: var(--surface); transition: all 0.15s; user-select: none; }
+.chip.selected { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+/* TOGGLE ROWS */
+.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 0.5px solid var(--border); }
+.toggle-row:last-child { border-bottom: none; }
+.toggle-row .tlabel { font-size: 15px; color: var(--text); }
+.toggle-switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--border-strong); border-radius: 26px; transition: 0.2s; }
+.toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+input:checked + .toggle-slider { background: var(--accent); }
+input:checked + .toggle-slider:before { transform: translateX(18px); }
+
+/* ELEMENTS TABLE */
+.elem-table-wrap { overflow-x: auto; margin: 0 -16px; padding: 0 16px; }
+.elem-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 380px; }
+.elem-table th { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 4px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.elem-table td { padding: 5px 4px; border-bottom: 0.5px solid var(--border); vertical-align: middle; }
+.elem-table tr:last-child td { border-bottom: none; }
+.elem-name { font-size: 13px; color: var(--text); min-width: 90px; }
+.elem-table input[type=number] { width: 100%; font-size: 14px; padding: 6px 4px; border: 1px solid var(--border); border-radius: 6px; text-align: center; }
+.elem-table input:focus { border-color: var(--accent); outline: none; }
+.add-elem-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--accent); padding: 10px 0 4px; background: none; border: none; cursor: pointer; }
+
+/* MIC SECTION */
+.mic-card { background: var(--blue-light); border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+.mic-card-title { font-size: 12px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+.mic-row { display: flex; gap: 12px; align-items: flex-start; }
+.mic-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--blue-mid); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+.mic-btn svg { width: 24px; height: 24px; fill: var(--blue-mid); }
+.mic-btn.listening { background: #fef2f2; border-color: #ef4444; animation: pulse 1.2s infinite; }
+.mic-btn.listening svg { fill: #ef4444; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+.mic-text { flex: 1; }
+.mic-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-style: italic; }
+.transcript { background: white; border: 1px dashed var(--border-strong); border-radius: 8px; padding: 8px 10px; font-size: 13px; color: var(--text-muted); min-height: 38px; }
+.no-speech { font-size: 12px; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 8px 10px; margin-top: 8px; }
+
+/* NAV */
+.nav-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px calc(var(--safe-bottom) + 10px); background: var(--surface); border-top: 0.5px solid var(--border); display: flex; gap: 10px; z-index: 100; }
+.btn-back { padding: 13px 18px; border-radius: var(--radius); border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); font-size: 15px; cursor: pointer; white-space: nowrap; }
+.btn-next { flex: 1; padding: 13px; border-radius: var(--radius); border: none; background: var(--accent); color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
+.btn-next:active { opacity: 0.85; transform: scale(0.98); }
+
+/* KPI CARDS */
+.kpi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px; }
+.kpi-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; }
+.kpi-val { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
+.kpi-label { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+
+/* SYNTHESE */
+.synth-section { margin-bottom: 16px; }
+.synth-section h3 { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; padding-bottom: 6px; border-bottom: 1.5px solid var(--blue-light); margin-bottom: 8px; }
+.synth-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; padding: 5px 0; border-bottom: 0.5px solid var(--border); }
+.synth-row:last-child { border-bottom: none; }
+.synth-row .lbl { color: var(--text-muted); }
+.synth-row .val { font-weight: 600; color: var(--text); }
+.synth-total { background: var(--accent-bg); border-radius: 8px; padding: 10px 12px; margin-top: 8px; display: flex; justify-content: space-between; }
+.synth-total .lbl { font-weight: 600; color: var(--accent); font-size: 14px; }
+.synth-total .val { font-weight: 700; color: var(--accent); font-size: 16px; }
+
+.download-btn { width: 100%; padding: 15px; background: var(--blue); color: white; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+.new-btn { width: 100%; padding: 13px; background: var(--surface); color: var(--text-muted); border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 15px; cursor: pointer; }
+
+.inj-detail { padding: 10px 0 4px; }
+.inj-row { display: flex; align-items: center; gap: 10px; }
+.inj-row label { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+.inj-row input { width: 80px; font-size: 16px; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius); }
+
+.toast { position: fixed; top: calc(var(--safe-top) + 80px); left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 18px; border-radius: 20px; font-size: 14px; opacity: 0; transition: opacity 0.3s; z-index: 200; white-space: nowrap; }
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-inner">
+    <span class="header-icon">🪵</span>
+    <div>
+      <div class="header-title">Relevé de charpente</div>
+      <div class="header-sub">Traitement insectes xylophages — PCP</div>
+    </div>
+  </div>
+</div>
+<div class="stepper-wrap">
+  <div class="stepper" id="stepper"></div>
+  <div class="step-labels" id="step-labels"></div>
+</div>
+
+<div class="content" id="content"></div>
+<div class="nav-bar" id="nav-bar"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const STEPS = ['Client', 'Bois & traitement', 'Charpente', 'Chantier', 'Synthèse'];
+
+const state = {
+  step: 0,
+  client: { nom:'', adresse:'', cp:'', ville:'' },
+  essence: 'Résineux',
+  insecte: 'Capricorne',
+  traitement: 'Curatif',
+  elements: [
+    { nom:'Tirants', l:'', h:'', qte:'', ml:'' },
+    { nom:'Faux entraits', l:'', h:'', qte:'', ml:'' },
+    { nom:'Arbalétriers', l:'', h:'', qte:'', ml:'' },
+    { nom:'Poinçons', l:'', h:'', qte:'', ml:'' },
+    { nom:'Contrefiches', l:'', h:'', qte:'', ml:'' },
+    { nom:'Pannes', l:'', h:'', qte:'', ml:'' },
+    { nom:'Sablières', l:'', h:'', qte:'', ml:'' },
+    { nom:'Chevrons', l:'', h:'', qte:'', ml:'' },
+    { nom:'Solives', l:'', h:'', qte:'', ml:'' },
+    { nom:'Jambes de force', l:'', h:'', qte:'', ml:'' },
+    { nom:'Liens de faîtage', l:'', h:'', qte:'', ml:'' },
+    { nom:'Arêtiers', l:'', h:'', qte:'', ml:'' },
+  ],
+  chantier: { eau:false, elec:false, sol:false, parking:false, hauteur:'', injecteurs:false, nbInj:'', tourillon:false, buchage:'Faible', echaf:false },
+  rec: null, listening: false
+};
+
+function calcSurf() {
+  let surf=0, ml=0;
+  state.elements.forEach(e => {
+    const l=parseFloat(e.l)/100||0, h=parseFloat(e.h)/100||0, q=parseInt(e.qte)||0, m=parseFloat(e.ml)||0;
+    if(l&&h&&q&&m){ surf+=2*(l+h)*m*q; ml+=m*q; }
+  });
+  return {surf, ml};
+}
+
+function renderStepper() {
+  document.getElementById('stepper').innerHTML = STEPS.map((_,i)=>{
+    let c='step-dot'; if(i<state.step)c+=' done'; else if(i===state.step)c+=' active';
+    return `<div class="${c}"></div>`;
+  }).join('');
+  document.getElementById('step-labels').innerHTML = STEPS.map((s,i)=>`<div class="step-label ${i===state.step?'active':''}">${s}</div>`).join('');
+}
+
+function render() {
+  renderStepper();
+  const c=document.getElementById('content');
+  const n=document.getElementById('nav-bar');
+
+  if(state.step===0) {
+    c.innerHTML=`
+      <div class="card">
+        <div class="card-title">Informations client</div>
+        <div class="field"><label class="field-label">Nom / Raison sociale</label><input type="text" id="f-nom" value="${state.client.nom}" placeholder="Ex : Jean Dupont" autocomplete="name"></div>
+        <div class="field"><label class="field-label">Adresse du chantier</label><input type="text" id="f-adr" value="${state.client.adresse}" placeholder="Ex : 12 rue des Lilas" autocomplete="street-address"></div>
+        <div class="field field-grid">
+          <div><label class="field-label">Code postal</label><input type="text" id="f-cp" value="${state.client.cp}" placeholder="33000" inputmode="numeric"></div>
+          <div><label class="field-label">Ville</label><input type="text" id="f-ville" value="${state.client.ville}" placeholder="Bordeaux"></div>
+        </div>
+      </div>
+      ${micCard('client','Dites : "Client Jean Dupont, 12 rue des Lilas, 33000 Bordeaux"')}
+    `;
+    n.innerHTML=`<button class="btn-next" onclick="saveClient()">Suivant →</button>`;
+    initMic('client');
+
+  } else if(state.step===1) {
+    c.innerHTML=`
+      <div class="card">
+        <div class="card-title">Essence du bois</div>
+        <div class="chip-group" id="essence-group">
+          ${['Résineux','Chêne','Autre feuillu'].map(e=>`<div class="chip ${state.essence===e?'selected':''}" onclick="pick('essence','${e}')">${e}</div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Insecte ciblé</div>
+        <div class="chip-group" id="insecte-group">
+          ${['Capricorne','Vrillette','Lyctus','Termites','Autre'].map(e=>`<div class="chip ${state.insecte===e?'selected':''}" onclick="pick('insecte','${e}')">${e}</div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Type de traitement</div>
+        <div class="chip-group" id="trait-group">
+          ${['Curatif','Préventif'].map(e=>`<div class="chip ${state.traitement===e?'selected':''}" onclick="pick('traitement','${e}')">${e}</div>`).join('')}
+        </div>
+      </div>
+    `;
+    n.innerHTML=`<button class="btn-back" onclick="go(0)">← Retour</button><button class="btn-next" onclick="go(2)">Suivant →</button>`;
+
+  } else if(state.step===2) {
+    c.innerHTML=`
+      <div class="card" style="padding:12px">
+        <div class="card-title" style="padding:0 4px">Éléments — section (cm), quantité, ml/unité</div>
+        <div class="elem-table-wrap">
+          <table class="elem-table">
+            <thead><tr><th>Élément</th><th>Larg.</th><th>Haut.</th><th>Qté</th><th>ML u.</th></tr></thead>
+            <tbody>
+            ${state.elements.map((el,i)=>`
+              <tr>
+                <td class="elem-name">${el.nom}</td>
+                <td><input type="number" min="0" step="0.5" value="${el.l}" inputmode="decimal" oninput="state.elements[${i}].l=this.value"></td>
+                <td><input type="number" min="0" step="0.5" value="${el.h}" inputmode="decimal" oninput="state.elements[${i}].h=this.value"></td>
+                <td><input type="number" min="0" value="${el.qte}" inputmode="numeric" oninput="state.elements[${i}].qte=this.value"></td>
+                <td><input type="number" min="0" step="0.1" value="${el.ml}" inputmode="decimal" oninput="state.elements[${i}].ml=this.value"></td>
+              </tr>
+            `).join('')}
+            </tbody>
+          </table>
+        </div>
+        <button class="add-elem-btn" onclick="addElem()">＋ Ajouter un élément</button>
+      </div>
+      ${micCard('elem','Dites : "Pannes, section 8 par 6, quantité 12, 4 mètres"')}
+    `;
+    n.innerHTML=`<button class="btn-back" onclick="go(1)">← Retour</button><button class="btn-next" onclick="go(3)">Suivant →</button>`;
+    initMic('elem');
+
+  } else if(state.step===3) {
+    const ch=state.chantier;
+    const toggles=[
+      ['eau','Point d\'eau disponible'],['elec','Électricité disponible'],
+      ['sol','Sol dur (béton/carrelage)'],['parking','Stationnement possible'],
+      ['tourillon','Pose de tourillons'],['echaf','Échafaudage nécessaire']
+    ];
+    c.innerHTML=`
+      <div class="card">
+        ${toggles.map(([k,l])=>`
+          <div class="toggle-row">
+            <span class="tlabel">${l}</span>
+            <label class="toggle-switch"><input type="checkbox" ${ch[k]?'checked':''} onchange="state.chantier['${k}']=this.checked"><span class="toggle-slider"></span></label>
+          </div>
+        `).join('')}
+        <div class="toggle-row">
+          <span class="tlabel">Injecteurs déjà présents</span>
+          <label class="toggle-switch"><input type="checkbox" id="inj-chk" ${ch.injecteurs?'checked':''} onchange="state.chantier.injecteurs=this.checked;toggleInj()"><span class="toggle-slider"></span></label>
+        </div>
+        <div id="inj-detail" style="${ch.injecteurs?'':'display:none'}">
+          <div class="inj-row"><label>Nombre d'injecteurs :</label><input type="number" min="0" inputmode="numeric" value="${ch.nbInj}" oninput="state.chantier.nbInj=this.value"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="field field-grid">
+          <div><label class="field-label">Hauteur sous plafond (m)</label><input type="number" step="0.1" min="0" inputmode="decimal" value="${ch.hauteur}" oninput="state.chantier.hauteur=this.value" placeholder="2.5"></div>
+          <div><label class="field-label">Niveau de bûchage</label>
+            <select onchange="state.chantier.buchage=this.value">
+              ${['Aucun','Faible','Moyen','Important'].map(b=>`<option ${ch.buchage===b?'selected':''}>${b}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+      </div>
+    `;
+    n.innerHTML=`<button class="btn-back" onclick="go(2)">← Retour</button><button class="btn-next" onclick="go(4)">Voir synthèse →</button>`;
+
+  } else if(state.step===4) {
+    const {surf,ml}=calcSurf();
+    const ch=state.chantier;
+    const filled=state.elements.filter(e=>e.qte&&e.ml);
+    c.innerHTML=`
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-val">${surf.toFixed(1)}</div><div class="kpi-label">m² surface dév.</div></div>
+        <div class="kpi-card"><div class="kpi-val">${ml.toFixed(1)}</div><div class="kpi-label">mètres linéaires</div></div>
+        <div class="kpi-card"><div class="kpi-val">${filled.length}</div><div class="kpi-label">éléments relevés</div></div>
+      </div>
+      <div class="card">
+        <div class="synth-section">
+          <h3>Identification</h3>
+          <div class="synth-row"><span class="lbl">Client</span><span class="val">${state.client.nom||'—'}</span></div>
+          <div class="synth-row"><span class="lbl">Adresse</span><span class="val">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
+        </div>
+        <div class="synth-section">
+          <h3>Bois & traitement</h3>
+          <div class="synth-row"><span class="lbl">Essence</span><span class="val">${state.essence}</span></div>
+          <div class="synth-row"><span class="lbl">Insecte ciblé</span><span class="val">${state.insecte}</span></div>
+          <div class="synth-row"><span class="lbl">Type</span><span class="val">${state.traitement}</span></div>
+        </div>
+        <div class="synth-section">
+          <h3>Éléments de charpente</h3>
+          ${filled.map(el=>{
+            const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
+            const s=l&&h?(2*(l+h)*parseFloat(el.ml)*parseInt(el.qte)).toFixed(2):'—';
+            return `<div class="synth-row"><span class="lbl">${el.nom} (${el.l}×${el.h}cm / ${el.qte}u / ${el.ml}ml)</span><span class="val">${s} m²</span></div>`;
+          }).join('')||'<div style="color:#94a3b8;font-size:13px">Aucun élément saisi</div>'}
+          <div class="synth-total"><span class="lbl">Surface développée</span><span class="val">${surf.toFixed(2)} m²</span></div>
+          <div class="synth-total" style="margin-top:6px"><span class="lbl">Linéaire total</span><span class="val">${ml.toFixed(2)} ml</span></div>
+        </div>
+        <div class="synth-section">
+          <h3>Conditions de chantier</h3>
+          <div class="synth-row"><span class="lbl">Point d'eau</span><span class="val">${ch.eau?'✓ Oui':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Électricité</span><span class="val">${ch.elec?'✓ Oui':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Sol dur</span><span class="val">${ch.sol?'✓ Oui':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Stationnement</span><span class="val">${ch.parking?'✓ Oui':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Hauteur sous plafond</span><span class="val">${ch.hauteur||'—'} m</span></div>
+          <div class="synth-row"><span class="lbl">Injecteurs présents</span><span class="val">${ch.injecteurs?`✓ Oui (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Pose tourillons</span><span class="val">${ch.tourillon?'✓ Oui':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Bûchage</span><span class="val">${ch.buchage}</span></div>
+          <div class="synth-row"><span class="lbl">Échafaudage</span><span class="val">${ch.echaf?'✓ Nécessaire':'Non nécessaire'}</span></div>
+        </div>
+      </div>
+      <button class="download-btn" onclick="exportDoc()">⬇ Télécharger le relevé</button>
+      <button class="new-btn" onclick="newReleve()">Nouveau relevé</button>
+    `;
+    n.innerHTML=`<button class="btn-back" onclick="go(3)">← Modifier</button>`;
+  }
+}
+
+function micCard(ctx, hint) {
+  const ok=typeof webkitSpeechRecognition!=='undefined'||typeof SpeechRecognition!=='undefined';
+  return `
+    <div class="mic-card">
+      <div class="mic-card-title">🎤 Saisie vocale</div>
+      <div class="mic-row">
+        <button class="mic-btn" id="mic-${ctx}" onclick="toggleMic('${ctx}')" aria-label="Microphone">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm-1 14.93A7.001 7.001 0 0 1 5 9H3a9 9 0 0 0 8 8.94V20H8v2h8v-2h-3v-2.07A9 9 0 0 0 21 9h-2a7 7 0 0 1-6 6.93z"/></svg>
+        </button>
+        <div class="mic-text">
+          <div class="mic-hint">${hint}</div>
+          <div class="transcript" id="tr-${ctx}">Appuyez sur le micro pour parler…</div>
+          ${!ok?'<div class="no-speech">Reconnaissance vocale non disponible. Utilisez Chrome.</div>':''}
+        </div>
+      </div>
+    </div>`;
+}
+
+function initMic(ctx) {}
+
+function toggleMic(ctx) {
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showToast('Micro non supporté sur ce navigateur');return;}
+  if(state.rec){state.rec.stop();state.rec=null;state.listening=false;updateMic(ctx,false);return;}
+  const r=new SR();
+  r.lang='fr-FR'; r.continuous=true; r.interimResults=true;
+  r.onresult=e=>{
+    let interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal){processVoice(ctx,e.results[i][0].transcript);}
+      else interim+=e.results[i][0].transcript;
+    }
+    const t=document.getElementById(`tr-${ctx}`);
+    if(t&&interim)t.textContent=interim;
+  };
+  r.onerror=()=>{state.rec=null;state.listening=false;updateMic(ctx,false);};
+  r.onend=()=>{state.rec=null;state.listening=false;updateMic(ctx,false);};
+  state.rec=r; state.listening=true; r.start(); updateMic(ctx,true);
+}
+
+function updateMic(ctx,on){
+  const b=document.getElementById(`mic-${ctx}`);
+  if(!b)return;
+  b.classList.toggle('listening',on);
+}
+
+function processVoice(ctx,text){
+  const t=document.getElementById(`tr-${ctx}`);
+  if(t)t.textContent='✓ '+text;
+  const low=text.toLowerCase();
+  if(ctx==='client'){
+    const m=low.match(/client\s+([a-zàâäéèêëîïôùûüç\s\-]+?)(?:,|\s+\d)/i);
+    if(m){const f=document.getElementById('f-nom');if(f){f.value=m[1].trim();state.client.nom=f.value;}}
+    const cp=low.match(/(\d{5})/);
+    if(cp){const f=document.getElementById('f-cp');if(f){f.value=cp[1];state.client.cp=f.value;}}
+  }
+  if(ctx==='elem'){
+    const found=state.elements.find(el=>low.includes(el.nom.toLowerCase()));
+    if(found){
+      const sec=low.match(/(\d+(?:[,.]\d+)?)\s*(?:par|x|×|sur)\s*(\d+(?:[,.]\d+)?)/i);
+      const qm=low.match(/quantit[ée]\s+(\d+)|(\d+)\s+(?:pièce|unité|u\b)/i);
+      const mm=low.match(/(\d+(?:[,.]\d+)?)\s*(?:mètre|ml|m\b)/i);
+      const i=state.elements.indexOf(found);
+      if(sec){state.elements[i].l=sec[1].replace(',','.');state.elements[i].h=sec[2].replace(',','.');}
+      if(qm)state.elements[i].qte=qm[1]||qm[2];
+      if(mm)state.elements[i].ml=mm[1].replace(',','.');
+      showToast(`✓ ${found.nom} enregistré`);
+      render();
+    }
+  }
+}
+
+function pick(field,val){
+  state[field]=val;
+  document.querySelectorAll(`#${field==='essence'?'essence':field==='insecte'?'insecte':'trait'}-group .chip`).forEach(c=>c.classList.toggle('selected',c.textContent===val));
+}
+
+function saveClient(){
+  state.client.nom=document.getElementById('f-nom')?.value||'';
+  state.client.adresse=document.getElementById('f-adr')?.value||'';
+  state.client.cp=document.getElementById('f-cp')?.value||'';
+  state.client.ville=document.getElementById('f-ville')?.value||'';
+  go(1);
+}
+
+function go(n){state.step=n;render();}
+
+function addElem(){
+  const nom=prompt('Nom de l\'élément :');
+  if(nom&&nom.trim()){state.elements.push({nom:nom.trim(),l:'',h:'',qte:'',ml:''});render();}
+}
+
+function toggleInj(){
+  const d=document.getElementById('inj-detail');
+  if(d)d.style.display=state.chantier.injecteurs?'':'none';
+}
+
+function newReleve(){
+  if(!confirm('Commencer un nouveau relevé ? Les données actuelles seront effacées.'))return;
+  state.step=0;
+  state.client={nom:'',adresse:'',cp:'',ville:''};
+  state.essence='Résineux';state.insecte='Capricorne';state.traitement='Curatif';
+  state.elements.forEach(e=>{e.l='';e.h='';e.qte='';e.ml='';});
+  state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
+  render();
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function exportDoc(){
+  const {surf,ml}=calcSurf();
+  const ch=state.chantier;
+  const date=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  const filled=state.elements.filter(e=>e.qte&&e.ml);
+  const rows=filled.map(el=>{
+    const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
+    const per=l&&h?(2*(l+h)).toFixed(3):'—';
+    const s=l&&h?(2*(l+h)*parseFloat(el.ml)*parseInt(el.qte)).toFixed(2):'—';
+    return `<tr><td>${el.nom}</td><td>${el.l}×${el.h}</td><td>${el.qte}</td><td>${el.ml}</td><td>${per}</td><td style="text-align:right;font-weight:600">${s}</td></tr>`;
+  }).join('');
+  const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><style>
+    body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0;padding:0}
+    .hdr{background:#1a3a5c;color:white;padding:20px 28px}
+    .hdr h1{font-size:16pt;margin:0 0 4px}
+    .hdr p{margin:0;font-size:10pt;opacity:0.8}
+    .body{padding:22px 28px}
+    h2{font-size:11pt;font-weight:700;color:#1a3a5c;border-bottom:2px solid #e8f0f8;padding-bottom:4px;margin:18px 0 10px}
+    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:0.5px solid #e2e8f0}
+    .irow:last-child{border-bottom:none}
+    .irow .l{color:#64748b}
+    .irow .v{font-weight:600}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+    .kpi{background:#eff6ff;border-radius:8px;padding:12px;text-align:center}
+    .kpi .n{font-size:22pt;font-weight:700;color:#2563eb}
+    .kpi .u{font-size:9pt;color:#64748b}
+    table{width:100%;border-collapse:collapse;font-size:10pt}
+    th{background:#1a3a5c;color:white;padding:7px 8px;text-align:left;font-size:9pt}
+    td{padding:6px 8px;border-bottom:0.5px solid #e2e8f0}
+    tr:nth-child(even){background:#f8fafc}
+    tfoot td{background:#eff6ff;font-weight:700}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
+    .ftr{background:#f8fafc;padding:10px 28px;border-top:0.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
+    @media print{.no-print{display:none}}
+  </style></head><body>
+  <div class="hdr"><h1>Relevé de charpente — Traitement xylophages</h1><p>Établi le ${date}</p></div>
+  <div class="body">
+    <h2>Identification</h2>
+    <div class="irow"><span class="l">Client</span><span class="v">${state.client.nom||'—'}</span></div>
+    <div class="irow"><span class="l">Adresse</span><span class="v">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
+    <div class="irow"><span class="l">Essence</span><span class="v">${state.essence}</span></div>
+    <div class="irow"><span class="l">Insecte ciblé</span><span class="v">${state.insecte}</span></div>
+    <div class="irow"><span class="l">Type de traitement</span><span class="v">${state.traitement}</span></div>
+    <div class="kpis">
+      <div class="kpi"><div class="n">${surf.toFixed(1)}</div><div class="u">m² surface développée</div></div>
+      <div class="kpi"><div class="n">${ml.toFixed(1)}</div><div class="u">mètres linéaires</div></div>
+      <div class="kpi"><div class="n">${filled.length}</div><div class="u">éléments relevés</div></div>
+    </div>
+    <h2>Éléments de charpente</h2>
+    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>Qté</th><th>ML/u.</th><th>Périm. (m)</th><th>Surface (m²)</th></tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr><td colspan="3">Totaux</td><td>${ml.toFixed(2)} ml</td><td></td><td style="text-align:right">${surf.toFixed(2)} m²</td></tr></tfoot>
+    </table>
+    <h2>Conditions de chantier</h2>
+    <div class="grid2">
+      <div>
+        <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓ Disponible':'Non'}</span></div>
+        <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓ Disponible':'Non'}</span></div>
+        <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓ Oui':'Non'}</span></div>
+        <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓ Possible':'Non'}</span></div>
+        <div class="irow"><span class="l">Hauteur sous plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
+      </div>
+      <div>
+        <div class="irow"><span class="l">Injecteurs présents</span><span class="v">${ch.injecteurs?`✓ Oui (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
+        <div class="irow"><span class="l">Pose tourillons</span><span class="v">${ch.tourillon?'✓ Oui':'Non'}</span></div>
+        <div class="irow"><span class="l">Bûchage</span><span class="v">${ch.buchage}</span></div>
+        <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓ Nécessaire':'Non'}</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr">Document établi par le commercial — à joindre au devis client · Pest Control Partnership</div>
+  </body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const fname=`releve_${(state.client.nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
+  a.href=url;a.download=fname;a.click();
+  URL.revokeObjectURL(url);
+  showToast('Relevé téléchargé');
+}
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').then(()=>console.log('SW registered'));
+}
+
+render();
+</script>
+</body>
+</html>
