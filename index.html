@@ -11,161 +11,162 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Relevé Charpente — PCP</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-:root {
-  --blue: #1a3a5c;
-  --blue-light: #e8f0f8;
-  --blue-mid: #3a6fa8;
-  --accent: #2563eb;
-  --accent-bg: #eff6ff;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --text: #1e293b;
-  --text-muted: #64748b;
-  --text-light: #94a3b8;
-  --surface: #ffffff;
-  --surface-1: #f8fafc;
-  --success: #16a34a;
-  --radius: 10px;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --blue:#1a3a5c;--blue-light:#e8f0f8;--blue-mid:#3a6fa8;
+  --accent:#2563eb;--accent-bg:#eff6ff;
+  --border:#e2e8f0;--border-strong:#cbd5e1;
+  --text:#1e293b;--text-muted:#64748b;--text-light:#94a3b8;
+  --surface:#fff;--surface-1:#f8fafc;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --green:#16a34a;--green-bg:#f0fdf4;
+  --radius:10px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
 }
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--surface-1);
-  color: var(--text);
-  min-height: 100dvh;
-  overflow-x: hidden;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--surface-1);color:var(--text);min-height:100dvh;overflow-x:hidden}
 
 /* HEADER */
-.app-header {
-  background: var(--blue);
-  color: white;
-  padding: calc(var(--safe-top) + 14px) 16px 14px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.header-inner { display: flex; align-items: center; gap: 10px; }
-.header-icon { font-size: 20px; }
-.header-title { font-size: 15px; font-weight: 600; line-height: 1.2; }
-.header-sub { font-size: 11px; opacity: 0.75; }
+.app-header{background:var(--blue);color:white;padding:calc(var(--safe-top) + 12px) 16px 12px;position:sticky;top:0;z-index:100}
+.header-inner{display:flex;align-items:center;gap:10px}
+.header-title{font-size:15px;font-weight:600;line-height:1.2}
+.header-sub{font-size:11px;opacity:.75}
 
 /* STEPPER */
-.stepper-wrap { background: var(--blue); padding: 0 16px 14px; }
-.stepper { display: flex; gap: 3px; }
-.step-dot { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.25); transition: background 0.3s; }
-.step-dot.active { background: #60a5fa; }
-.step-dot.done { background: rgba(255,255,255,0.6); }
-.step-labels { display: flex; margin-top: 6px; }
-.step-label { flex: 1; font-size: 10px; color: rgba(255,255,255,0.6); text-align: center; transition: color 0.3s; }
-.step-label.active { color: white; font-weight: 600; }
+.stepper-wrap{background:var(--blue);padding:0 16px 12px}
+.stepper{display:flex;gap:3px}
+.step-dot{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.25);transition:background .3s}
+.step-dot.active{background:#60a5fa}
+.step-dot.done{background:rgba(255,255,255,.6)}
+.step-labels{display:flex;margin-top:5px}
+.step-label{flex:1;font-size:10px;color:rgba(255,255,255,.6);text-align:center;transition:color .3s}
+.step-label.active{color:white;font-weight:600}
 
 /* CONTENT */
-.content { padding: 16px; padding-bottom: calc(var(--safe-bottom) + 90px); max-width: 600px; margin: 0 auto; }
+.content{padding:14px;padding-bottom:calc(var(--safe-bottom) + 88px);max-width:600px;margin:0 auto}
 
 /* CARDS */
-.card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
-.card-title { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
+.card-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
 
 /* FIELDS */
-.field { margin-bottom: 14px; }
-.field:last-child { margin-bottom: 0; }
-.field-label { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; display: block; }
-.field input[type=text], .field input[type=number], .field select {
-  width: 100%; font-size: 16px; padding: 11px 12px;
-  border: 1px solid var(--border-strong); border-radius: var(--radius);
-  background: var(--surface); color: var(--text);
-  appearance: none; -webkit-appearance: none;
-}
-.field input:focus, .field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.field-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.field{margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+.field-label{font-size:13px;color:var(--text-muted);margin-bottom:5px;display:block}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* CHIP SELECTORS */
-.chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { padding: 8px 14px; border: 1px solid var(--border-strong); border-radius: 20px; font-size: 14px; cursor: pointer; color: var(--text-muted); background: var(--surface); transition: all 0.15s; user-select: none; }
-.chip.selected { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+/* INPUT WITH MIC */
+.input-mic-row{display:flex;gap:8px;align-items:center}
+.input-mic-row input{flex:1;font-size:16px;padding:11px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);-webkit-appearance:none}
+.input-mic-row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.mic-inline{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--border-strong);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.mic-inline svg{width:20px;height:20px;fill:var(--text-muted)}
+.mic-inline.listening{background:var(--red-bg);border-color:var(--red);animation:pulse 1.2s infinite}
+.mic-inline.listening svg{fill:var(--red)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+
+/* PLAIN INPUTS */
+input[type=text],input[type=number],select{font-size:16px;padding:11px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);-webkit-appearance:none;width:100%}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+
+/* CHIPS */
+.chip-group{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border:1px solid var(--border-strong);border-radius:20px;font-size:14px;cursor:pointer;color:var(--text-muted);background:var(--surface);transition:all .15s;user-select:none}
+.chip.selected{background:var(--accent-bg);border-color:var(--accent);color:var(--accent);font-weight:600}
+
+/* ELEMENT VIGNETTES GRID */
+.vignettes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.vignette{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:10px 6px 8px;cursor:pointer;text-align:center;transition:all .2s;user-select:none;position:relative}
+.vignette:active{transform:scale(.96)}
+.vignette.selected{border-color:var(--accent);background:var(--accent-bg)}
+.vignette svg{width:52px;height:42px;margin-bottom:4px}
+.vignette-name{font-size:11px;font-weight:600;color:var(--text);line-height:1.2}
+.vignette-count{position:absolute;top:6px;right:6px;background:var(--accent);color:white;border-radius:10px;font-size:10px;font-weight:700;padding:1px 6px;min-width:18px;text-align:center}
+
+/* ELEMENT LIST (step 3) */
+.elem-list{display:flex;flex-direction:column;gap:8px}
+.elem-block{background:var(--surface);border:.5px solid var(--border);border-radius:12px;overflow:hidden}
+.elem-block-header{background:var(--blue-light);padding:8px 12px;display:flex;align-items:center;justify-content:space-between}
+.elem-block-name{font-size:13px;font-weight:700;color:var(--blue)}
+.elem-block-add{background:none;border:none;color:var(--accent);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
+.elem-row{display:grid;grid-template-columns:auto auto auto auto 28px;gap:6px;align-items:center;padding:8px 12px;border-top:.5px solid var(--border)}
+.elem-row-label{font-size:11px;color:var(--text-muted);text-align:center;margin-bottom:2px}
+.elem-col{display:flex;flex-direction:column;align-items:center}
+.elem-col input{width:100%;font-size:14px;padding:6px 4px;text-align:center;border:1px solid var(--border);border-radius:6px}
+.section-x{font-size:14px;font-weight:700;color:var(--text-muted);padding-top:16px}
+.elem-surf{font-size:12px;font-weight:600;color:var(--accent);text-align:center;padding-top:16px;min-width:44px}
+.elem-del{background:none;border:none;cursor:pointer;padding-top:14px;display:flex;align-items:flex-start;justify-content:center}
+.elem-del svg{width:20px;height:20px;fill:var(--red)}
+
+.add-more-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--accent-bg);border:1.5px dashed var(--accent);border-radius:12px;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
 
 /* TOGGLE ROWS */
-.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 0.5px solid var(--border); }
-.toggle-row:last-child { border-bottom: none; }
-.toggle-row .tlabel { font-size: 15px; color: var(--text); }
-.toggle-switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
-.toggle-switch input { opacity: 0; width: 0; height: 0; }
-.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--border-strong); border-radius: 26px; transition: 0.2s; }
-.toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-input:checked + .toggle-slider { background: var(--accent); }
-input:checked + .toggle-slider:before { transform: translateX(18px); }
+.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:.5px solid var(--border)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-row .tlabel{font-size:15px;color:var(--text)}
+.toggle-switch{position:relative;width:44px;height:26px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--border-strong);border-radius:26px;transition:.2s}
+.toggle-slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+input:checked+.toggle-slider{background:var(--accent)}
+input:checked+.toggle-slider:before{transform:translateX(18px)}
 
-/* ELEMENTS TABLE */
-.elem-table-wrap { overflow-x: auto; margin: 0 -16px; padding: 0 16px; }
-.elem-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 380px; }
-.elem-table th { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 4px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
-.elem-table td { padding: 5px 4px; border-bottom: 0.5px solid var(--border); vertical-align: middle; }
-.elem-table tr:last-child td { border-bottom: none; }
-.elem-name { font-size: 13px; color: var(--text); min-width: 90px; }
-.elem-table input[type=number] { width: 100%; font-size: 14px; padding: 6px 4px; border: 1px solid var(--border); border-radius: 6px; text-align: center; }
-.elem-table input:focus { border-color: var(--accent); outline: none; }
-.add-elem-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--accent); padding: 10px 0 4px; background: none; border: none; cursor: pointer; }
-
-/* MIC SECTION */
-.mic-card { background: var(--blue-light); border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-.mic-card-title { font-size: 12px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
-.mic-row { display: flex; gap: 12px; align-items: flex-start; }
-.mic-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--blue-mid); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
-.mic-btn svg { width: 24px; height: 24px; fill: var(--blue-mid); }
-.mic-btn.listening { background: #fef2f2; border-color: #ef4444; animation: pulse 1.2s infinite; }
-.mic-btn.listening svg { fill: #ef4444; }
-@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-.mic-text { flex: 1; }
-.mic-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-style: italic; }
-.transcript { background: white; border: 1px dashed var(--border-strong); border-radius: 8px; padding: 8px 10px; font-size: 13px; color: var(--text-muted); min-height: 38px; }
-.no-speech { font-size: 12px; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 8px 10px; margin-top: 8px; }
-
-/* NAV */
-.nav-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 10px 16px calc(var(--safe-bottom) + 10px); background: var(--surface); border-top: 0.5px solid var(--border); display: flex; gap: 10px; z-index: 100; }
-.btn-back { padding: 13px 18px; border-radius: var(--radius); border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); font-size: 15px; cursor: pointer; white-space: nowrap; }
-.btn-next { flex: 1; padding: 13px; border-radius: var(--radius); border: none; background: var(--accent); color: white; font-size: 15px; font-weight: 600; cursor: pointer; }
-.btn-next:active { opacity: 0.85; transform: scale(0.98); }
-
-/* KPI CARDS */
-.kpi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px; }
-.kpi-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 12px 8px; text-align: center; }
-.kpi-val { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
-.kpi-label { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.kpi-card{background:var(--surface);border:.5px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center}
+.kpi-val{font-size:22px;font-weight:700;color:var(--accent);line-height:1}
+.kpi-label{font-size:10px;color:var(--text-muted);margin-top:3px}
 
 /* SYNTHESE */
-.synth-section { margin-bottom: 16px; }
-.synth-section h3 { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; padding-bottom: 6px; border-bottom: 1.5px solid var(--blue-light); margin-bottom: 8px; }
-.synth-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; padding: 5px 0; border-bottom: 0.5px solid var(--border); }
-.synth-row:last-child { border-bottom: none; }
-.synth-row .lbl { color: var(--text-muted); }
-.synth-row .val { font-weight: 600; color: var(--text); }
-.synth-total { background: var(--accent-bg); border-radius: 8px; padding: 10px 12px; margin-top: 8px; display: flex; justify-content: space-between; }
-.synth-total .lbl { font-weight: 600; color: var(--accent); font-size: 14px; }
-.synth-total .val { font-weight: 700; color: var(--accent); font-size: 16px; }
+.synth-section{margin-bottom:16px}
+.synth-section h3{font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;padding-bottom:6px;border-bottom:2px solid var(--blue-light);margin-bottom:8px}
+.synth-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:5px 0;border-bottom:.5px solid var(--border)}
+.synth-row:last-child{border-bottom:none}
+.synth-row .lbl{color:var(--text-muted)}
+.synth-row .val{font-weight:600;color:var(--text)}
+.synth-total{background:var(--accent-bg);border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between}
+.synth-total .lbl{font-weight:600;color:var(--accent);font-size:14px}
+.synth-total .val{font-weight:700;color:var(--accent);font-size:16px}
 
-.download-btn { width: 100%; padding: 15px; background: var(--blue); color: white; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
-.new-btn { width: 100%; padding: 13px; background: var(--surface); color: var(--text-muted); border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 15px; cursor: pointer; }
+/* NAV */
+.nav-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 16px calc(var(--safe-bottom) + 10px);background:var(--surface);border-top:.5px solid var(--border);display:flex;gap:10px;z-index:100}
+.btn-back{padding:13px 18px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);font-size:15px;cursor:pointer;white-space:nowrap}
+.btn-next{flex:1;padding:13px;border-radius:var(--radius);border:none;background:var(--accent);color:white;font-size:15px;font-weight:600;cursor:pointer}
+.btn-next:active{opacity:.85;transform:scale(.98)}
 
-.inj-detail { padding: 10px 0 4px; }
-.inj-row { display: flex; align-items: center; gap: 10px; }
-.inj-row label { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
-.inj-row input { width: 80px; font-size: 16px; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius); }
+.download-btn{width:100%;padding:15px;background:var(--blue);color:white;border:none;border-radius:var(--radius);font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.new-btn{width:100%;padding:13px;background:var(--surface);color:var(--text-muted);border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;cursor:pointer}
 
-.toast { position: fixed; top: calc(var(--safe-top) + 80px); left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 18px; border-radius: 20px; font-size: 14px; opacity: 0; transition: opacity 0.3s; z-index: 200; white-space: nowrap; }
-.toast.show { opacity: 1; }
+.toast{position:fixed;top:calc(var(--safe-top) + 80px);left:50%;transform:translateX(-50%);background:#1e293b;color:white;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .3s;z-index:200;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1}
+
+/* MODAL overlay for section input */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center}
+.modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:20px 20px calc(var(--safe-bottom) + 20px);width:100%;max-width:500px;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+.section-inputs{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-inputs input{flex:1;font-size:22px;padding:12px;text-align:center;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-weight:600}
+.section-inputs input:focus{border-color:var(--accent);outline:none}
+.section-sep{font-size:22px;font-weight:700;color:var(--text-muted)}
+.modal-field{margin-bottom:14px}
+.modal-field label{font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px}
+.modal-btns{display:flex;gap:10px}
+.modal-btns .btn-cancel{flex:1;padding:13px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);font-size:15px;cursor:pointer;color:var(--text-muted)}
+.modal-btns .btn-ok{flex:2;padding:13px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer}
+
+.no-speech{font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;margin-top:8px}
+.inj-row{display:flex;align-items:center;gap:10px;padding-top:8px}
+.inj-row label{font-size:13px;color:var(--text-muted);white-space:nowrap}
+.inj-row input{width:80px}
 </style>
 </head>
 <body>
 
 <div class="app-header">
   <div class="header-inner">
-    <span class="header-icon">🪵</span>
+    <span style="font-size:20px">🪵</span>
     <div>
       <div class="header-title">Relevé de charpente</div>
       <div class="header-sub">Traitement insectes xylophages — PCP</div>
@@ -180,127 +181,373 @@ input:checked + .toggle-slider:before { transform: translateX(18px); }
 <div class="content" id="content"></div>
 <div class="nav-bar" id="nav-bar"></div>
 <div class="toast" id="toast"></div>
+<div id="modal-container"></div>
 
 <script>
-const STEPS = ['Client', 'Bois & traitement', 'Charpente', 'Chantier', 'Synthèse'];
-
-const state = {
-  step: 0,
-  client: { nom:'', adresse:'', cp:'', ville:'' },
-  essence: 'Résineux',
-  insecte: 'Capricorne',
-  traitement: 'Curatif',
-  elements: [
-    { nom:'Tirants', l:'', h:'', qte:'', ml:'' },
-    { nom:'Faux entraits', l:'', h:'', qte:'', ml:'' },
-    { nom:'Arbalétriers', l:'', h:'', qte:'', ml:'' },
-    { nom:'Poinçons', l:'', h:'', qte:'', ml:'' },
-    { nom:'Contrefiches', l:'', h:'', qte:'', ml:'' },
-    { nom:'Pannes', l:'', h:'', qte:'', ml:'' },
-    { nom:'Sablières', l:'', h:'', qte:'', ml:'' },
-    { nom:'Chevrons', l:'', h:'', qte:'', ml:'' },
-    { nom:'Solives', l:'', h:'', qte:'', ml:'' },
-    { nom:'Jambes de force', l:'', h:'', qte:'', ml:'' },
-    { nom:'Liens de faîtage', l:'', h:'', qte:'', ml:'' },
-    { nom:'Arêtiers', l:'', h:'', qte:'', ml:'' },
-  ],
-  chantier: { eau:false, elec:false, sol:false, parking:false, hauteur:'', injecteurs:false, nbInj:'', tourillon:false, buchage:'Faible', echaf:false },
-  rec: null, listening: false
+// ─── SVG ICONS PER ELEMENT ───────────────────────────────────────────────────
+const ELEM_SVG = {
+  'Tirant': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="19" width="44" height="6" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <circle cx="6" cy="22" r="3" fill="#2563eb"/>
+    <circle cx="46" cy="22" r="3" fill="#2563eb"/>
+  </svg>`,
+  'Faux entrait': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="8" y1="34" x2="44" y2="34" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <rect x="10" y="20" width="32" height="5" rx="1.5" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="8" y1="34" x2="26" y2="8" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="44" y1="34" x2="26" y2="8" stroke="#64748b" stroke-width="1.5"/>
+  </svg>`,
+  'Arbalétrier': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="8" width="40" height="5" rx="1.5" transform="rotate(25 6 8)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+  </svg>`,
+  'Poinçon': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="23" y="6" width="6" height="30" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="8" y1="36" x2="26" y2="6" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="44" y1="36" x2="26" y2="6" stroke="#94a3b8" stroke-width="1.5"/>
+  </svg>`,
+  'Contrefiche': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="14" y="10" width="28" height="5" rx="1.5" transform="rotate(50 14 10)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="26" y1="6" x2="26" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
+  </svg>`,
+  'Panne': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="16" width="44" height="8" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="4" y1="20" x2="48" y2="20" stroke="#93c5fd" stroke-width="1"/>
+  </svg>`,
+  'Sablière': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="28" width="44" height="8" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="8" y1="28" x2="26" y2="8" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="44" y1="28" x2="26" y2="8" stroke="#94a3b8" stroke-width="1.5"/>
+  </svg>`,
+  'Chevron': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="9" width="28" height="4" rx="1.5" transform="rotate(22 4 9)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <rect x="20" y="9" width="28" height="4" rx="1.5" transform="rotate(-22 48 9)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+  </svg>`,
+  'Solive': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="17" width="44" height="7" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="16" y1="17" x2="16" y2="24" stroke="#93c5fd" stroke-width="1"/>
+    <line x1="28" y1="17" x2="28" y2="24" stroke="#93c5fd" stroke-width="1"/>
+    <line x1="40" y1="17" x2="40" y2="24" stroke="#93c5fd" stroke-width="1"/>
+  </svg>`,
+  'Jambe de force': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="8" width="5" height="26" rx="1.5" transform="rotate(15 20 8)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="26" y1="6" x2="26" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
+  </svg>`,
+  'Lien de faîtage': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="22" y="5" width="8" height="14" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="8" y1="36" x2="26" y2="5" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="44" y1="36" x2="26" y2="5" stroke="#94a3b8" stroke-width="1.5"/>
+  </svg>`,
+  'Arêtier': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="6" width="32" height="5" rx="1.5" transform="rotate(35 6 6)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+    <line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
+  </svg>`,
 };
 
-function calcSurf() {
-  let surf=0, ml=0;
-  state.elements.forEach(e => {
-    const l=parseFloat(e.l)/100||0, h=parseFloat(e.h)/100||0, q=parseInt(e.qte)||0, m=parseFloat(e.ml)||0;
-    if(l&&h&&q&&m){ surf+=2*(l+h)*m*q; ml+=m*q; }
-  });
-  return {surf, ml};
+const ELEM_NAMES = Object.keys(ELEM_SVG);
+
+const STEPS = ['Client','Bois','Éléments','Chantier','Synthèse'];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+const state = {
+  step: 0,
+  client: {nom:'',adresse:'',cp:'',ville:''},
+  essence: 'Résineux',
+  insectes: ['Capricorne'],
+  traitement: 'Curatif',
+  elements: [],   // {nom, l, h, qte, ml, id}
+  chantier: {eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false},
+  rec: null, listening: false, recTarget: null,
+  _idCounter: 0,
+};
+
+function newId(){ return ++state._idCounter; }
+
+// ─── CALC ─────────────────────────────────────────────────────────────────────
+function rowSurf(el){
+  const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0,q=parseInt(el.qte)||0,m=parseFloat(el.ml)||0;
+  return (l&&h&&q&&m)?2*(l+h)*m*q:0;
+}
+function calcTotals(){
+  let surf=0,ml=0;
+  state.elements.forEach(e=>{surf+=rowSurf(e);ml+=(parseInt(e.qte)||0)*(parseFloat(e.ml)||0);});
+  return {surf,ml};
 }
 
-function renderStepper() {
-  document.getElementById('stepper').innerHTML = STEPS.map((_,i)=>{
-    let c='step-dot'; if(i<state.step)c+=' done'; else if(i===state.step)c+=' active';
+// ─── STEPPER ──────────────────────────────────────────────────────────────────
+function renderStepper(){
+  document.getElementById('stepper').innerHTML=STEPS.map((_,i)=>{
+    let c='step-dot';if(i<state.step)c+=' done';else if(i===state.step)c+=' active';
     return `<div class="${c}"></div>`;
   }).join('');
-  document.getElementById('step-labels').innerHTML = STEPS.map((s,i)=>`<div class="step-label ${i===state.step?'active':''}">${s}</div>`).join('');
+  document.getElementById('step-labels').innerHTML=STEPS.map((s,i)=>
+    `<div class="step-label ${i===state.step?'active':''}">${s}</div>`
+  ).join('');
 }
 
-function render() {
+// ─── MIC HELPERS ──────────────────────────────────────────────────────────────
+function micBtn(targetId){
+  return `<button class="mic-inline" id="mic-${targetId}" onclick="toggleMicField('${targetId}')" aria-label="Dicter">
+    <svg viewBox="0 0 24 24"><path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm-1 14.93A7 7 0 0 1 5 9H3a9 9 0 0 0 8 8.94V20H8v2h8v-2h-3v-2.07A9 9 0 0 0 21 9h-2a7 7 0 0 1-6 6.93z"/></svg>
+  </button>`;
+}
+
+function toggleMicField(targetId){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showToast('Micro non disponible — utilisez Chrome');return;}
+  if(state.rec&&state.recTarget===targetId){
+    state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;
+    updateMicBtns();return;
+  }
+  if(state.rec){state.rec.stop();state.rec=null;}
+  const r=new SR();
+  r.lang='fr-FR';r.continuous=false;r.interimResults=true;
+  r.onresult=e=>{
+    let final='',interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal)final+=e.results[i][0].transcript;
+      else interim+=e.results[i][0].transcript;
+    }
+    const inp=document.getElementById(targetId);
+    if(inp){inp.value=final||interim;inp.dispatchEvent(new Event('input'));}
+  };
+  r.onend=()=>{state.rec=null;state.listening=false;state.recTarget=null;updateMicBtns();};
+  r.onerror=()=>{state.rec=null;state.listening=false;state.recTarget=null;updateMicBtns();};
+  state.rec=r;state.listening=true;state.recTarget=targetId;r.start();
+  updateMicBtns();
+}
+
+function updateMicBtns(){
+  document.querySelectorAll('.mic-inline').forEach(b=>{
+    const tid=b.id.replace('mic-','');
+    b.classList.toggle('listening',state.listening&&state.recTarget===tid);
+  });
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ─── GO / SAVE ────────────────────────────────────────────────────────────────
+function go(n){
+  if(state.rec){state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;}
+  state.step=n;render();
+  window.scrollTo(0,0);
+}
+
+function saveClient(){
+  state.client.nom=document.getElementById('f-nom')?.value||'';
+  state.client.adresse=document.getElementById('f-adr')?.value||'';
+  state.client.cp=document.getElementById('f-cp')?.value||'';
+  state.client.ville=document.getElementById('f-ville')?.value||'';
+  go(1);
+}
+
+// ─── MODAL (section input) ────────────────────────────────────────────────────
+function openModal(elemName){
+  const mc=document.getElementById('modal-container');
+  mc.innerHTML=`
+    <div class="modal-overlay" onclick="closeModalOutside(event)">
+      <div class="modal-sheet">
+        <div class="modal-title">${elemName}</div>
+        <div class="modal-sub">Renseignez la section et les dimensions</div>
+        <div class="modal-field">
+          <label>Section (cm) — largeur × hauteur</label>
+          <div class="section-inputs">
+            <input type="number" id="m-larg" inputmode="decimal" placeholder="8" min="0" step="0.5">
+            <span class="section-sep">×</span>
+            <input type="number" id="m-haut" inputmode="decimal" placeholder="6" min="0" step="0.5">
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Quantité</label>
+          <input type="number" id="m-qte" inputmode="numeric" placeholder="12" min="1">
+        </div>
+        <div class="modal-field">
+          <label>Longueur unitaire (ML/u. en mètres)</label>
+          <input type="number" id="m-ml" inputmode="decimal" placeholder="4.5" min="0" step="0.1">
+        </div>
+        <div class="modal-btns">
+          <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+          <button class="btn-ok" onclick="validateModal('${elemName}')">Ajouter ✓</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('m-larg').focus();
+}
+
+function closeModalOutside(e){if(e.target===e.currentTarget)closeModal();}
+function closeModal(){document.getElementById('modal-container').innerHTML='';}
+
+function validateModal(nom){
+  const l=document.getElementById('m-larg').value;
+  const h=document.getElementById('m-haut').value;
+  const qte=document.getElementById('m-qte').value;
+  const ml=document.getElementById('m-ml').value;
+  if(!l||!h||!qte){showToast('Section et quantité obligatoires');return;}
+  state.elements.push({id:newId(),nom,l,h,qte,ml:ml||''});
+  closeModal();
+  // stay on vignette screen — update counts
+  renderVignetteStep();
+  showToast(`✓ ${nom} ajouté`);
+}
+
+// ─── VIGNETTE STEP (2b — picking elements) ───────────────────────────────────
+function countByName(nom){return state.elements.filter(e=>e.nom===nom).length;}
+
+function renderVignetteStep(){
+  const c=document.getElementById('content');
+  const n=document.getElementById('nav-bar');
+  c.innerHTML=`
+    <div class="card">
+      <div class="card-title">Sélectionnez les éléments à relever</div>
+      <div class="vignettes-grid">
+        ${ELEM_NAMES.map(name=>{
+          const cnt=countByName(name);
+          return `<div class="vignette ${cnt>0?'selected':''}" onclick="openModal('${name}')">
+            ${cnt>0?`<div class="vignette-count">${cnt}</div>`:''}
+            ${ELEM_SVG[name]}
+            <div class="vignette-name">${name}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  n.innerHTML=`
+    <button class="btn-back" onclick="go(1)">← Retour</button>
+    <button class="btn-next" onclick="goToElemList()">Voir le relevé →</button>`;
+}
+
+function goToElemList(){
+  if(state.elements.length===0){showToast('Ajoutez au moins un élément');return;}
+  go(2);
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function render(){
   renderStepper();
   const c=document.getElementById('content');
   const n=document.getElementById('nav-bar');
 
-  if(state.step===0) {
+  // STEP 0 — CLIENT
+  if(state.step===0){
+    const SR=typeof webkitSpeechRecognition!=='undefined'||typeof SpeechRecognition!=='undefined';
     c.innerHTML=`
       <div class="card">
         <div class="card-title">Informations client</div>
-        <div class="field"><label class="field-label">Nom / Raison sociale</label><input type="text" id="f-nom" value="${state.client.nom}" placeholder="Ex : Jean Dupont" autocomplete="name"></div>
-        <div class="field"><label class="field-label">Adresse du chantier</label><input type="text" id="f-adr" value="${state.client.adresse}" placeholder="Ex : 12 rue des Lilas" autocomplete="street-address"></div>
-        <div class="field field-grid">
-          <div><label class="field-label">Code postal</label><input type="text" id="f-cp" value="${state.client.cp}" placeholder="33000" inputmode="numeric"></div>
-          <div><label class="field-label">Ville</label><input type="text" id="f-ville" value="${state.client.ville}" placeholder="Bordeaux"></div>
+        <div class="field">
+          <label class="field-label">Nom / Raison sociale</label>
+          <div class="input-mic-row">
+            <input type="text" id="f-nom" value="${state.client.nom}" placeholder="Jean Dupont" autocomplete="name">
+            ${micBtn('f-nom')}
+          </div>
         </div>
-      </div>
-      ${micCard('client','Dites : "Client Jean Dupont, 12 rue des Lilas, 33000 Bordeaux"')}
-    `;
+        <div class="field">
+          <label class="field-label">Adresse du chantier</label>
+          <div class="input-mic-row">
+            <input type="text" id="f-adr" value="${state.client.adresse}" placeholder="12 rue des Lilas" autocomplete="street-address">
+            ${micBtn('f-adr')}
+          </div>
+        </div>
+        <div class="field field-grid">
+          <div>
+            <label class="field-label">Code postal</label>
+            <div class="input-mic-row">
+              <input type="text" id="f-cp" value="${state.client.cp}" placeholder="33000" inputmode="numeric">
+              ${micBtn('f-cp')}
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Ville</label>
+            <div class="input-mic-row">
+              <input type="text" id="f-ville" value="${state.client.ville}" placeholder="Bordeaux">
+              ${micBtn('f-ville')}
+            </div>
+          </div>
+        </div>
+        ${!SR?'<div class="no-speech">Micro non disponible sur ce navigateur. Utilisez Chrome.</div>':''}
+      </div>`;
     n.innerHTML=`<button class="btn-next" onclick="saveClient()">Suivant →</button>`;
-    initMic('client');
 
-  } else if(state.step===1) {
+  // STEP 1 — BOIS & TRAITEMENT
+  } else if(state.step===1){
     c.innerHTML=`
       <div class="card">
         <div class="card-title">Essence du bois</div>
-        <div class="chip-group" id="essence-group">
-          ${['Résineux','Chêne','Autre feuillu'].map(e=>`<div class="chip ${state.essence===e?'selected':''}" onclick="pick('essence','${e}')">${e}</div>`).join('')}
+        <div class="chip-group">
+          ${['Résineux','Chêne','Autre feuillu'].map(e=>`<div class="chip ${state.essence===e?'selected':''}" onclick="state.essence='${e}';this.closest('.chip-group').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">${e}</div>`).join('')}
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Insecte ciblé</div>
+        <div class="card-title">Insecte(s) ciblé(s) <span style="font-size:11px;font-weight:400;text-transform:none">(plusieurs choix possibles)</span></div>
         <div class="chip-group" id="insecte-group">
-          ${['Capricorne','Vrillette','Lyctus','Termites','Autre'].map(e=>`<div class="chip ${state.insecte===e?'selected':''}" onclick="pick('insecte','${e}')">${e}</div>`).join('')}
+          ${['Capricorne','Vrillette','Lyctus','Termites','Autre'].map(e=>`<div class="chip ${state.insectes.includes(e)?'selected':''}" onclick="toggleInsecte('${e}',this)">${e}</div>`).join('')}
         </div>
       </div>
       <div class="card">
         <div class="card-title">Type de traitement</div>
         <div class="chip-group" id="trait-group">
-          ${['Curatif','Préventif'].map(e=>`<div class="chip ${state.traitement===e?'selected':''}" onclick="pick('traitement','${e}')">${e}</div>`).join('')}
+          ${['Curatif','Préventif'].map(e=>`<div class="chip ${state.traitement===e?'selected':''}" onclick="state.traitement='${e}';document.querySelectorAll('#trait-group .chip').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">${e}</div>`).join('')}
         </div>
-      </div>
-    `;
-    n.innerHTML=`<button class="btn-back" onclick="go(0)">← Retour</button><button class="btn-next" onclick="go(2)">Suivant →</button>`;
+      </div>`;
+    n.innerHTML=`<button class="btn-back" onclick="go(0)">← Retour</button><button class="btn-next" onclick="go('vignettes')">Suivant →</button>`;
 
-  } else if(state.step===2) {
+  // STEP 2 — ELEMENT LIST
+  } else if(state.step===2){
+    // Sort elements alphabetically then by id within same name
+    const sorted=[...state.elements].sort((a,b)=>a.nom.localeCompare(b.nom,'fr')||(a.id-b.id));
+    // Group by name
+    const groups={};
+    sorted.forEach(el=>{if(!groups[el.nom])groups[el.nom]=[];groups[el.nom].push(el);});
+
+    const groupsHTML=Object.entries(groups).map(([nom,els])=>`
+      <div class="elem-block">
+        <div class="elem-block-header">
+          <span class="elem-block-name">${nom}</span>
+          <button class="elem-block-add" onclick="openModal('${nom}')" title="Ajouter une ligne">＋</button>
+        </div>
+        ${els.map(el=>{
+          const s=rowSurf(el);
+          return `<div class="elem-row" id="row-${el.id}">
+            <div class="elem-col">
+              <div class="elem-row-label">Larg.</div>
+              <input type="number" value="${el.l}" min="0" step="0.5" inputmode="decimal" oninput="updateElem(${el.id},'l',this.value)" style="width:52px">
+            </div>
+            <div class="section-x">×</div>
+            <div class="elem-col">
+              <div class="elem-row-label">Haut.</div>
+              <input type="number" value="${el.h}" min="0" step="0.5" inputmode="decimal" oninput="updateElem(${el.id},'h',this.value)" style="width:52px">
+            </div>
+            <div class="elem-col" style="margin-left:4px">
+              <div class="elem-row-label">Qté</div>
+              <input type="number" value="${el.qte}" min="0" inputmode="numeric" oninput="updateElem(${el.id},'qte',this.value)" style="width:44px">
+            </div>
+            <div class="elem-col" style="margin-left:4px">
+              <div class="elem-row-label">ML/u.</div>
+              <input type="number" value="${el.ml}" min="0" step="0.1" inputmode="decimal" oninput="updateElem(${el.id},'ml',this.value)" style="width:52px">
+            </div>
+            <div class="elem-surf" id="surf-${el.id}">${s>0?s.toFixed(2)+' m²':'—'}</div>
+            <button class="elem-del" onclick="deleteElem(${el.id})" title="Supprimer">
+              <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            </button>
+          </div>`;
+        }).join('')}
+      </div>`).join('');
+
     c.innerHTML=`
-      <div class="card" style="padding:12px">
-        <div class="card-title" style="padding:0 4px">Éléments — section (cm), quantité, ml/unité</div>
-        <div class="elem-table-wrap">
-          <table class="elem-table">
-            <thead><tr><th>Élément</th><th>Larg.</th><th>Haut.</th><th>Qté</th><th>ML u.</th></tr></thead>
-            <tbody>
-            ${state.elements.map((el,i)=>`
-              <tr>
-                <td class="elem-name">${el.nom}</td>
-                <td><input type="number" min="0" step="0.5" value="${el.l}" inputmode="decimal" oninput="state.elements[${i}].l=this.value"></td>
-                <td><input type="number" min="0" step="0.5" value="${el.h}" inputmode="decimal" oninput="state.elements[${i}].h=this.value"></td>
-                <td><input type="number" min="0" value="${el.qte}" inputmode="numeric" oninput="state.elements[${i}].qte=this.value"></td>
-                <td><input type="number" min="0" step="0.1" value="${el.ml}" inputmode="decimal" oninput="state.elements[${i}].ml=this.value"></td>
-              </tr>
-            `).join('')}
-            </tbody>
-          </table>
-        </div>
-        <button class="add-elem-btn" onclick="addElem()">＋ Ajouter un élément</button>
-      </div>
-      ${micCard('elem','Dites : "Pannes, section 8 par 6, quantité 12, 4 mètres"')}
-    `;
-    n.innerHTML=`<button class="btn-back" onclick="go(1)">← Retour</button><button class="btn-next" onclick="go(3)">Suivant →</button>`;
-    initMic('elem');
+      <div class="elem-list">${groupsHTML}</div>
+      <div class="add-more-btn" onclick="go('vignettes')">＋ Ajouter des éléments</div>`;
+    n.innerHTML=`<button class="btn-back" onclick="go('vignettes')">← Éléments</button><button class="btn-next" onclick="go(3)">Suivant →</button>`;
 
-  } else if(state.step===3) {
+  // STEP 3 — CHANTIER
+  } else if(state.step===3){
     const ch=state.chantier;
     const toggles=[
-      ['eau','Point d\'eau disponible'],['elec','Électricité disponible'],
-      ['sol','Sol dur (béton/carrelage)'],['parking','Stationnement possible'],
+      ['eau',"Point d'eau disponible"],['elec','Électricité disponible'],
+      ['sol','Sol dur (béton / carrelage)'],['parking','Stationnement possible'],
       ['tourillon','Pose de tourillons'],['echaf','Échafaudage nécessaire']
     ];
     c.innerHTML=`
@@ -309,38 +556,39 @@ function render() {
           <div class="toggle-row">
             <span class="tlabel">${l}</span>
             <label class="toggle-switch"><input type="checkbox" ${ch[k]?'checked':''} onchange="state.chantier['${k}']=this.checked"><span class="toggle-slider"></span></label>
-          </div>
-        `).join('')}
+          </div>`).join('')}
         <div class="toggle-row">
           <span class="tlabel">Injecteurs déjà présents</span>
-          <label class="toggle-switch"><input type="checkbox" id="inj-chk" ${ch.injecteurs?'checked':''} onchange="state.chantier.injecteurs=this.checked;toggleInj()"><span class="toggle-slider"></span></label>
+          <label class="toggle-switch"><input type="checkbox" ${ch.injecteurs?'checked':''} onchange="state.chantier.injecteurs=this.checked;toggleInj()"><span class="toggle-slider"></span></label>
         </div>
         <div id="inj-detail" style="${ch.injecteurs?'':'display:none'}">
-          <div class="inj-row"><label>Nombre d'injecteurs :</label><input type="number" min="0" inputmode="numeric" value="${ch.nbInj}" oninput="state.chantier.nbInj=this.value"></div>
+          <div class="inj-row"><label>Nombre d'injecteurs :</label><input type="number" min="0" inputmode="numeric" value="${ch.nbInj}" oninput="state.chantier.nbInj=this.value" style="width:80px"></div>
         </div>
       </div>
       <div class="card">
         <div class="field field-grid">
-          <div><label class="field-label">Hauteur sous plafond (m)</label><input type="number" step="0.1" min="0" inputmode="decimal" value="${ch.hauteur}" oninput="state.chantier.hauteur=this.value" placeholder="2.5"></div>
+          <div><label class="field-label">Hauteur sous plafond (m)</label>
+            <input type="number" step="0.1" min="0" inputmode="decimal" value="${ch.hauteur}" oninput="state.chantier.hauteur=this.value" placeholder="2.5">
+          </div>
           <div><label class="field-label">Niveau de bûchage</label>
             <select onchange="state.chantier.buchage=this.value">
               ${['Aucun','Faible','Moyen','Important'].map(b=>`<option ${ch.buchage===b?'selected':''}>${b}</option>`).join('')}
             </select>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
     n.innerHTML=`<button class="btn-back" onclick="go(2)">← Retour</button><button class="btn-next" onclick="go(4)">Voir synthèse →</button>`;
 
-  } else if(state.step===4) {
-    const {surf,ml}=calcSurf();
+  // STEP 4 — SYNTHESE
+  } else if(state.step===4){
+    const {surf,ml}=calcTotals();
     const ch=state.chantier;
-    const filled=state.elements.filter(e=>e.qte&&e.ml);
+    const sorted=[...state.elements].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
     c.innerHTML=`
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-val">${surf.toFixed(1)}</div><div class="kpi-label">m² surface dév.</div></div>
         <div class="kpi-card"><div class="kpi-val">${ml.toFixed(1)}</div><div class="kpi-label">mètres linéaires</div></div>
-        <div class="kpi-card"><div class="kpi-val">${filled.length}</div><div class="kpi-label">éléments relevés</div></div>
+        <div class="kpi-card"><div class="kpi-val">${state.elements.length}</div><div class="kpi-label">lignes relevées</div></div>
       </div>
       <div class="card">
         <div class="synth-section">
@@ -351,16 +599,18 @@ function render() {
         <div class="synth-section">
           <h3>Bois & traitement</h3>
           <div class="synth-row"><span class="lbl">Essence</span><span class="val">${state.essence}</span></div>
-          <div class="synth-row"><span class="lbl">Insecte ciblé</span><span class="val">${state.insecte}</span></div>
-          <div class="synth-row"><span class="lbl">Type</span><span class="val">${state.traitement}</span></div>
+          <div class="synth-row"><span class="lbl">Insecte(s)</span><span class="val">${state.insectes.join(', ')}</span></div>
+          <div class="synth-row"><span class="lbl">Traitement</span><span class="val">${state.traitement}</span></div>
         </div>
         <div class="synth-section">
           <h3>Éléments de charpente</h3>
-          ${filled.map(el=>{
-            const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
-            const s=l&&h?(2*(l+h)*parseFloat(el.ml)*parseInt(el.qte)).toFixed(2):'—';
-            return `<div class="synth-row"><span class="lbl">${el.nom} (${el.l}×${el.h}cm / ${el.qte}u / ${el.ml}ml)</span><span class="val">${s} m²</span></div>`;
-          }).join('')||'<div style="color:#94a3b8;font-size:13px">Aucun élément saisi</div>'}
+          ${sorted.map(el=>{
+            const s=rowSurf(el);
+            return `<div class="synth-row">
+              <span class="lbl">${el.nom} (${el.l}×${el.h}cm / ${el.qte}u / ${el.ml}ml)</span>
+              <span class="val">${s>0?s.toFixed(2)+' m²':'—'}</span>
+            </div>`;
+          }).join('')||'<div style="color:#94a3b8;font-size:13px">Aucun élément</div>'}
           <div class="synth-total"><span class="lbl">Surface développée</span><span class="val">${surf.toFixed(2)} m²</span></div>
           <div class="synth-total" style="margin-top:6px"><span class="lbl">Linéaire total</span><span class="val">${ml.toFixed(2)} ml</span></div>
         </div>
@@ -378,102 +628,31 @@ function render() {
         </div>
       </div>
       <button class="download-btn" onclick="exportDoc()">⬇ Télécharger le relevé</button>
-      <button class="new-btn" onclick="newReleve()">Nouveau relevé</button>
-    `;
+      <button class="new-btn" onclick="newReleve()">Nouveau relevé</button>`;
     n.innerHTML=`<button class="btn-back" onclick="go(3)">← Modifier</button>`;
   }
 }
 
-function micCard(ctx, hint) {
-  const ok=typeof webkitSpeechRecognition!=='undefined'||typeof SpeechRecognition!=='undefined';
-  return `
-    <div class="mic-card">
-      <div class="mic-card-title">🎤 Saisie vocale</div>
-      <div class="mic-row">
-        <button class="mic-btn" id="mic-${ctx}" onclick="toggleMic('${ctx}')" aria-label="Microphone">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm-1 14.93A7.001 7.001 0 0 1 5 9H3a9 9 0 0 0 8 8.94V20H8v2h8v-2h-3v-2.07A9 9 0 0 0 21 9h-2a7 7 0 0 1-6 6.93z"/></svg>
-        </button>
-        <div class="mic-text">
-          <div class="mic-hint">${hint}</div>
-          <div class="transcript" id="tr-${ctx}">Appuyez sur le micro pour parler…</div>
-          ${!ok?'<div class="no-speech">Reconnaissance vocale non disponible. Utilisez Chrome.</div>':''}
-        </div>
-      </div>
-    </div>`;
+// ─── ELEM UPDATE / DELETE ─────────────────────────────────────────────────────
+function updateElem(id,field,val){
+  const el=state.elements.find(e=>e.id===id);
+  if(!el)return;
+  el[field]=val;
+  const s=rowSurf(el);
+  const sd=document.getElementById(`surf-${id}`);
+  if(sd)sd.textContent=s>0?s.toFixed(2)+' m²':'—';
 }
 
-function initMic(ctx) {}
-
-function toggleMic(ctx) {
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){showToast('Micro non supporté sur ce navigateur');return;}
-  if(state.rec){state.rec.stop();state.rec=null;state.listening=false;updateMic(ctx,false);return;}
-  const r=new SR();
-  r.lang='fr-FR'; r.continuous=true; r.interimResults=true;
-  r.onresult=e=>{
-    let interim='';
-    for(let i=e.resultIndex;i<e.results.length;i++){
-      if(e.results[i].isFinal){processVoice(ctx,e.results[i][0].transcript);}
-      else interim+=e.results[i][0].transcript;
-    }
-    const t=document.getElementById(`tr-${ctx}`);
-    if(t&&interim)t.textContent=interim;
-  };
-  r.onerror=()=>{state.rec=null;state.listening=false;updateMic(ctx,false);};
-  r.onend=()=>{state.rec=null;state.listening=false;updateMic(ctx,false);};
-  state.rec=r; state.listening=true; r.start(); updateMic(ctx,true);
+function deleteElem(id){
+  if(!confirm('Supprimer cette ligne ?'))return;
+  state.elements=state.elements.filter(e=>e.id!==id);
+  render();
 }
 
-function updateMic(ctx,on){
-  const b=document.getElementById(`mic-${ctx}`);
-  if(!b)return;
-  b.classList.toggle('listening',on);
-}
-
-function processVoice(ctx,text){
-  const t=document.getElementById(`tr-${ctx}`);
-  if(t)t.textContent='✓ '+text;
-  const low=text.toLowerCase();
-  if(ctx==='client'){
-    const m=low.match(/client\s+([a-zàâäéèêëîïôùûüç\s\-]+?)(?:,|\s+\d)/i);
-    if(m){const f=document.getElementById('f-nom');if(f){f.value=m[1].trim();state.client.nom=f.value;}}
-    const cp=low.match(/(\d{5})/);
-    if(cp){const f=document.getElementById('f-cp');if(f){f.value=cp[1];state.client.cp=f.value;}}
-  }
-  if(ctx==='elem'){
-    const found=state.elements.find(el=>low.includes(el.nom.toLowerCase()));
-    if(found){
-      const sec=low.match(/(\d+(?:[,.]\d+)?)\s*(?:par|x|×|sur)\s*(\d+(?:[,.]\d+)?)/i);
-      const qm=low.match(/quantit[ée]\s+(\d+)|(\d+)\s+(?:pièce|unité|u\b)/i);
-      const mm=low.match(/(\d+(?:[,.]\d+)?)\s*(?:mètre|ml|m\b)/i);
-      const i=state.elements.indexOf(found);
-      if(sec){state.elements[i].l=sec[1].replace(',','.');state.elements[i].h=sec[2].replace(',','.');}
-      if(qm)state.elements[i].qte=qm[1]||qm[2];
-      if(mm)state.elements[i].ml=mm[1].replace(',','.');
-      showToast(`✓ ${found.nom} enregistré`);
-      render();
-    }
-  }
-}
-
-function pick(field,val){
-  state[field]=val;
-  document.querySelectorAll(`#${field==='essence'?'essence':field==='insecte'?'insecte':'trait'}-group .chip`).forEach(c=>c.classList.toggle('selected',c.textContent===val));
-}
-
-function saveClient(){
-  state.client.nom=document.getElementById('f-nom')?.value||'';
-  state.client.adresse=document.getElementById('f-adr')?.value||'';
-  state.client.cp=document.getElementById('f-cp')?.value||'';
-  state.client.ville=document.getElementById('f-ville')?.value||'';
-  go(1);
-}
-
-function go(n){state.step=n;render();}
-
-function addElem(){
-  const nom=prompt('Nom de l\'élément :');
-  if(nom&&nom.trim()){state.elements.push({nom:nom.trim(),l:'',h:'',qte:'',ml:''});render();}
+function toggleInsecte(name,el){
+  const idx=state.insectes.indexOf(name);
+  if(idx>=0){if(state.insectes.length===1){showToast('Au moins un insecte requis');return;}state.insectes.splice(idx,1);el.classList.remove('selected');}
+  else{state.insectes.push(name);el.classList.add('selected');}
 }
 
 function toggleInj(){
@@ -482,76 +661,75 @@ function toggleInj(){
 }
 
 function newReleve(){
-  if(!confirm('Commencer un nouveau relevé ? Les données actuelles seront effacées.'))return;
+  if(!confirm('Commencer un nouveau relevé ? Les données seront effacées.'))return;
   state.step=0;
   state.client={nom:'',adresse:'',cp:'',ville:''};
-  state.essence='Résineux';state.insecte='Capricorne';state.traitement='Curatif';
-  state.elements.forEach(e=>{e.l='';e.h='';e.qte='';e.ml='';});
+  state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
+  state.elements=[];
   state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
   render();
 }
 
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+// Override go() to handle 'vignettes' pseudo-step
+const _go=go;
+function go(n){
+  if(state.rec){state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;}
+  if(n==='vignettes'){state.step='vignettes';renderStepper();renderVignetteStep();window.scrollTo(0,0);return;}
+  state.step=n;render();window.scrollTo(0,0);
 }
 
+// ─── EXPORT ───────────────────────────────────────────────────────────────────
 function exportDoc(){
-  const {surf,ml}=calcSurf();
+  const {surf,ml}=calcTotals();
   const ch=state.chantier;
   const date=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  const filled=state.elements.filter(e=>e.qte&&e.ml);
-  const rows=filled.map(el=>{
+  const sorted=[...state.elements].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+  const rows=sorted.map(el=>{
     const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
     const per=l&&h?(2*(l+h)).toFixed(3):'—';
-    const s=l&&h?(2*(l+h)*parseFloat(el.ml)*parseInt(el.qte)).toFixed(2):'—';
-    return `<tr><td>${el.nom}</td><td>${el.l}×${el.h}</td><td>${el.qte}</td><td>${el.ml}</td><td>${per}</td><td style="text-align:right;font-weight:600">${s}</td></tr>`;
+    const s=rowSurf(el);
+    return `<tr><td>${el.nom}</td><td style="text-align:center">${el.l}×${el.h}</td><td style="text-align:center">${el.qte}</td><td style="text-align:center">${el.ml}</td><td style="text-align:center">${per}</td><td style="text-align:right;font-weight:600">${s>0?s.toFixed(2):'—'}</td></tr>`;
   }).join('');
   const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><style>
-    body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0;padding:0}
+    body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0}
     .hdr{background:#1a3a5c;color:white;padding:20px 28px}
-    .hdr h1{font-size:16pt;margin:0 0 4px}
-    .hdr p{margin:0;font-size:10pt;opacity:0.8}
+    .hdr h1{font-size:15pt;margin:0 0 4px}
+    .hdr p{margin:0;font-size:10pt;opacity:.8}
     .body{padding:22px 28px}
     h2{font-size:11pt;font-weight:700;color:#1a3a5c;border-bottom:2px solid #e8f0f8;padding-bottom:4px;margin:18px 0 10px}
-    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:0.5px solid #e2e8f0}
-    .irow:last-child{border-bottom:none}
-    .irow .l{color:#64748b}
-    .irow .v{font-weight:600}
+    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:.5px solid #e2e8f0}
+    .irow .l{color:#64748b}.irow .v{font-weight:600}
     .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
     .kpi{background:#eff6ff;border-radius:8px;padding:12px;text-align:center}
-    .kpi .n{font-size:22pt;font-weight:700;color:#2563eb}
-    .kpi .u{font-size:9pt;color:#64748b}
+    .kpi .n{font-size:20pt;font-weight:700;color:#2563eb}.kpi .u{font-size:9pt;color:#64748b}
     table{width:100%;border-collapse:collapse;font-size:10pt}
-    th{background:#1a3a5c;color:white;padding:7px 8px;text-align:left;font-size:9pt}
-    td{padding:6px 8px;border-bottom:0.5px solid #e2e8f0}
+    th{background:#1a3a5c;color:white;padding:7px 8px;font-size:9pt;text-align:left}
+    td{padding:6px 8px;border-bottom:.5px solid #e2e8f0}
     tr:nth-child(even){background:#f8fafc}
     tfoot td{background:#eff6ff;font-weight:700}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
-    .ftr{background:#f8fafc;padding:10px 28px;border-top:0.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
-    @media print{.no-print{display:none}}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
+    .ftr{background:#f8fafc;padding:10px 28px;border-top:.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
   </style></head><body>
-  <div class="hdr"><h1>Relevé de charpente — Traitement xylophages</h1><p>Établi le ${date}</p></div>
+  <div class="hdr"><h1>Relevé de charpente — Traitement insectes xylophages</h1><p>Établi le ${date}</p></div>
   <div class="body">
     <h2>Identification</h2>
     <div class="irow"><span class="l">Client</span><span class="v">${state.client.nom||'—'}</span></div>
     <div class="irow"><span class="l">Adresse</span><span class="v">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
     <div class="irow"><span class="l">Essence</span><span class="v">${state.essence}</span></div>
-    <div class="irow"><span class="l">Insecte ciblé</span><span class="v">${state.insecte}</span></div>
+    <div class="irow"><span class="l">Insecte(s) ciblé(s)</span><span class="v">${state.insectes.join(', ')}</span></div>
     <div class="irow"><span class="l">Type de traitement</span><span class="v">${state.traitement}</span></div>
     <div class="kpis">
       <div class="kpi"><div class="n">${surf.toFixed(1)}</div><div class="u">m² surface développée</div></div>
       <div class="kpi"><div class="n">${ml.toFixed(1)}</div><div class="u">mètres linéaires</div></div>
-      <div class="kpi"><div class="n">${filled.length}</div><div class="u">éléments relevés</div></div>
+      <div class="kpi"><div class="n">${state.elements.length}</div><div class="u">lignes relevées</div></div>
     </div>
     <h2>Éléments de charpente</h2>
-    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>Qté</th><th>ML/u.</th><th>Périm. (m)</th><th>Surface (m²)</th></tr></thead>
+    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>Qté</th><th>ML/u.</th><th>Périm. (m)</th><th style="text-align:right">Surface (m²)</th></tr></thead>
     <tbody>${rows}</tbody>
-    <tfoot><tr><td colspan="3">Totaux</td><td>${ml.toFixed(2)} ml</td><td></td><td style="text-align:right">${surf.toFixed(2)} m²</td></tr></tfoot>
+    <tfoot><tr><td colspan="3"><strong>Totaux</strong></td><td style="text-align:center"><strong>${ml.toFixed(2)} ml</strong></td><td></td><td style="text-align:right"><strong>${surf.toFixed(2)} m²</strong></td></tr></tfoot>
     </table>
     <h2>Conditions de chantier</h2>
-    <div class="grid2">
+    <div class="g2">
       <div>
         <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓ Disponible':'Non'}</span></div>
         <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓ Disponible':'Non'}</span></div>
@@ -572,14 +750,14 @@ function exportDoc(){
   const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  const fname=`releve_${(state.client.nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
-  a.href=url;a.download=fname;a.click();
-  URL.revokeObjectURL(url);
+  a.href=url;
+  a.download=`releve_${(state.client.nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
+  a.click();URL.revokeObjectURL(url);
   showToast('Relevé téléchargé');
 }
 
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').then(()=>console.log('SW registered'));
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
 
 render();
