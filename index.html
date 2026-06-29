@@ -168,7 +168,8 @@ const STEPS = ['Client','Bois','Éléments','Chantier','Synthèse'];
 // ─── STATE ────────────────────────────────────────────────────────────────────
 const state = {
   step:0, _idCounter:0,
-  client:{nom:'',adresse:'',cp:'',ville:''},
+  client:{nom:'',adresse:'',cp:'',ville:'',email:'',tel:''},
+  commercial:{nom:'',agence:''},
   essence:'Résineux', insectes:['Capricorne'], traitement:'Curatif',
   elements:[],
   chantier:{eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false},
@@ -385,7 +386,8 @@ function toggleInj(){
 function newReleve(){
   if(!confirm('Commencer un nouveau relevé ? Les données seront effacées.'))return;
   state.step=0;state._idCounter=0;
-  state.client={nom:'',adresse:'',cp:'',ville:''};
+  state.client={nom:'',adresse:'',cp:'',ville:'',email:'',tel:''};
+  state.commercial={nom:'',agence:''};
   state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
   state.elements=[];
   state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
@@ -399,6 +401,10 @@ function saveClient(){
   state.client.adresse=document.getElementById('f-adr')?.value||'';
   state.client.cp=document.getElementById('f-cp')?.value||'';
   state.client.ville=document.getElementById('f-ville')?.value||'';
+  state.client.email=document.getElementById('f-email')?.value||'';
+  state.client.tel=document.getElementById('f-tel')?.value||'';
+  state.commercial.nom=document.getElementById('f-commercial')?.value||'';
+  state.commercial.agence=document.getElementById('f-agence')?.value||'';
   go(1);
 }
 
@@ -423,7 +429,22 @@ function render(){
           <div><label class="field-label">Ville</label>
             <div class="input-mic-row"><input type="text" id="f-ville" value="${state.client.ville}" placeholder="Bordeaux">${micBtn('f-ville')}</div></div>
         </div>
+        <div class="field field-grid">
+          <div><label class="field-label">Email</label>
+            <input type="email" id="f-email" value="${state.client.email}" placeholder="jean@exemple.fr" inputmode="email"></div>
+          <div><label class="field-label">Téléphone</label>
+            <input type="tel" id="f-tel" value="${state.client.tel}" placeholder="06 00 00 00 00" inputmode="tel"></div>
+        </div>
         ${!SR?'<div class="no-speech">Micro non disponible. Utilisez Chrome.</div>':''}
+      </div>
+      <div class="card">
+        <div class="card-title">Informations internes</div>
+        <div class="field field-grid">
+          <div><label class="field-label">Nom du commercial</label>
+            <div class="input-mic-row"><input type="text" id="f-commercial" value="${state.commercial.nom}" placeholder="Pierre Martin">${micBtn('f-commercial')}</div></div>
+          <div><label class="field-label">Agence</label>
+            <div class="input-mic-row"><input type="text" id="f-agence" value="${state.commercial.agence}" placeholder="PAMI Bordeaux">${micBtn('f-agence')}</div></div>
+        </div>
       </div>`;
     n.innerHTML=`<button class="btn-next" onclick="saveClient()">Suivant →</button>`;
 
@@ -520,6 +541,10 @@ function render(){
         <div class="synth-section"><h3>Identification</h3>
           <div class="synth-row"><span class="lbl">Client</span><span class="val">${state.client.nom||'—'}</span></div>
           <div class="synth-row"><span class="lbl">Adresse</span><span class="val">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
+          ${state.client.email?`<div class="synth-row"><span class="lbl">Email</span><span class="val">${state.client.email}</span></div>`:''}
+          ${state.client.tel?`<div class="synth-row"><span class="lbl">Téléphone</span><span class="val">${state.client.tel}</span></div>`:''}
+          <div class="synth-row"><span class="lbl">Commercial</span><span class="val">${state.commercial.nom||'—'}</span></div>
+          <div class="synth-row"><span class="lbl">Agence</span><span class="val">${state.commercial.agence||'—'}</span></div>
         </div>
         <div class="synth-section"><h3>Bois & traitement</h3>
           <div class="synth-row"><span class="lbl">Essence</span><span class="val">${state.essence}</span></div>
@@ -580,6 +605,10 @@ function exportDoc(){
     <h2>Identification</h2>
     <div class="irow"><span class="l">Client</span><span class="v">${state.client.nom||'—'}</span></div>
     <div class="irow"><span class="l">Adresse</span><span class="v">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
+    ${state.client.email?`<div class="irow"><span class="l">Email</span><span class="v">${state.client.email}</span></div>`:''}
+    ${state.client.tel?`<div class="irow"><span class="l">Téléphone</span><span class="v">${state.client.tel}</span></div>`:''}
+    <div class="irow"><span class="l">Commercial</span><span class="v">${state.commercial.nom||'—'}</span></div>
+    <div class="irow"><span class="l">Agence</span><span class="v">${state.commercial.agence||'—'}</span></div>
     <div class="irow"><span class="l">Essence</span><span class="v">${state.essence}</span></div>
     <div class="irow"><span class="l">Insecte(s)</span><span class="v">${state.insectes.join(', ')}</span></div>
     <div class="irow"><span class="l">Traitement</span><span class="v">${state.traitement}</span></div>
