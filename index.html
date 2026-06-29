@@ -381,18 +381,18 @@ function openModal(elemName){
         <div class="modal-field">
           <label>Section (cm)</label>
           <div class="section-inputs">
-            <input type="number" id="m-larg" inputmode="decimal" placeholder="8" min="0" step="0.5">
+            <input type="number" id="m-larg" inputmode="decimal" min="0" step="0.5">
             <span class="section-sep">×</span>
-            <input type="number" id="m-haut" inputmode="decimal" placeholder="6" min="0" step="0.5">
+            <input type="number" id="m-haut" inputmode="decimal" min="0" step="0.5">
           </div>
         </div>
         <div class="modal-field">
           <label>ML/u. (longueur unitaire en mètres)</label>
-          <input type="number" id="m-ml" inputmode="decimal" placeholder="4.5" min="0" step="0.1">
+          <input type="number" id="m-ml" inputmode="decimal" min="0" step="0.1">
         </div>
         <div class="modal-field">
           <label>Quantité</label>
-          <input type="number" id="m-qte" inputmode="numeric" placeholder="12" min="1">
+          <input type="number" id="m-qte" inputmode="numeric" min="1">
         </div>
         <div class="modal-btns">
           <button class="btn-cancel" onclick="closeModal()">Annuler</button>
@@ -529,20 +529,20 @@ function render(){
       <div class="card">
         <div class="card-title">Informations client</div>
         <div class="field"><label class="field-label">Nom / Raison sociale</label>
-          <div class="input-mic-row"><input type="text" id="f-nom" value="${state.client.nom}" placeholder="Jean Dupont">${micBtn('f-nom')}</div></div>
+          <div class="input-mic-row"><input type="text" id="f-nom" value="${state.client.nom}">${micBtn('f-nom')}</div></div>
         <div class="field"><label class="field-label">Adresse du chantier</label>
-          <div class="input-mic-row"><input type="text" id="f-adr" value="${state.client.adresse}" placeholder="12 rue des Lilas">${micBtn('f-adr')}</div></div>
+          <div class="input-mic-row"><input type="text" id="f-adr" value="${state.client.adresse}">${micBtn('f-adr')}</div></div>
         <div class="field field-grid">
           <div><label class="field-label">Code postal</label>
-            <div class="input-mic-row"><input type="text" id="f-cp" value="${state.client.cp}" placeholder="33000" inputmode="numeric">${micBtn('f-cp')}</div></div>
+            <div class="input-mic-row"><input type="text" id="f-cp" value="${state.client.cp}" inputmode="numeric">${micBtn('f-cp')}</div></div>
           <div><label class="field-label">Ville</label>
-            <div class="input-mic-row"><input type="text" id="f-ville" value="${state.client.ville}" placeholder="Bordeaux">${micBtn('f-ville')}</div></div>
+            <div class="input-mic-row"><input type="text" id="f-ville" value="${state.client.ville}">${micBtn('f-ville')}</div></div>
         </div>
         <div class="field field-grid">
           <div><label class="field-label">Email</label>
-            <input type="email" id="f-email" value="${state.client.email}" placeholder="jean@exemple.fr" inputmode="email"></div>
+            <input type="email" id="f-email" value="${state.client.email}" inputmode="email"></div>
           <div><label class="field-label">Téléphone</label>
-            <input type="tel" id="f-tel" value="${state.client.tel}" placeholder="06 00 00 00 00" inputmode="tel"></div>
+            <input type="tel" id="f-tel" value="${state.client.tel}" inputmode="tel"></div>
         </div>
         ${!SR?'<div class="no-speech">Micro non disponible. Utilisez Chrome.</div>':''}
       </div>
@@ -550,9 +550,12 @@ function render(){
         <div class="card-title">Informations internes</div>
         <div class="field field-grid">
           <div><label class="field-label">Commercial</label>
-            <div class="input-mic-row"><input type="text" id="f-commercial" value="${state.commercial.nom}" placeholder="Pierre Martin">${micBtn('f-commercial')}</div></div>
+            <div class="input-mic-row"><input type="text" id="f-commercial" value="${state.commercial.nom}">${micBtn('f-commercial')}</div></div>
           <div><label class="field-label">Agence</label>
-            <div class="input-mic-row"><input type="text" id="f-agence" value="${state.commercial.agence}" placeholder="PAMI Bordeaux">${micBtn('f-agence')}</div></div>
+            <select id="f-agence" style="width:100%;font-size:16px;padding:11px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);-webkit-appearance:none">
+              <option value="">— Sélectionner —</option>
+              ${["AS85","AVILIA","BERNON","BEST","BXT","CHARPENET","DALL'AGNOL","EGM GAMA","ESBH","GARROS","HDV","KRISTAL","PAMI","PARAXILOCENTRE","PERLADE","PR Hygiene","ROLLAND DES BOIS","SAPA","SAPA / AVILIA","TERMICAP","TRAIT'ILE","VHP"].map(a=>`<option value="${a}" ${state.commercial.agence===a?'selected':''}>${a}</option>`).join('')}
+            </select></div>
         </div>
       </div>`;
     n.innerHTML=`<button class="btn-next" onclick="saveClient()">Suivant →</button>`;
@@ -748,7 +751,7 @@ function exportDoc(){
       <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓':'Non'}</span></div>
     </div></div>
   </div>
-  <div class="ftr">Document établi par le commercial — à joindre au devis client · Pest Control Partnership</div>
+  <div class="ftr">Document établi par le commercial &mdash; à joindre au devis client · Pest Control Partnership<br><br><em>L'ensemble des bois doit être accessible et dégagé préalablement à notre intervention. Toutes dégradations inhérentes à la bonne réalisation du traitement et effectuées dans les règles de l'art ne sauraient être imputées à notre société.</em></div>
   </body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
@@ -1008,7 +1011,7 @@ function exportSingleDoc(idx){
       <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓':'Non'}</span></div>
     </div></div>
   </div>
-  <div class="ftr">Document établi par le commercial — à joindre au devis client · Pest Control Partnership</div>
+  <div class="ftr">Document établi par le commercial &mdash; à joindre au devis client · Pest Control Partnership<br><br><em>L'ensemble des bois doit être accessible et dégagé préalablement à notre intervention. Toutes dégradations inhérentes à la bonne réalisation du traitement et effectuées dans les règles de l'art ne sauraient être imputées à notre société.</em></div>
   </body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const url=URL.createObjectURL(blob);
