@@ -19,6 +19,7 @@
   --text:#1e293b;--text-muted:#64748b;--text-light:#94a3b8;
   --surface:#fff;--surface-1:#f8fafc;
   --red:#dc2626;--red-bg:#fef2f2;
+  --green:#16a34a;--green-bg:#f0fdf4;
   --radius:10px;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
@@ -39,8 +40,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .content{padding:14px;padding-bottom:calc(var(--safe-bottom) + 88px);max-width:600px;margin:0 auto}
 .card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
 .card-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
-.field{margin-bottom:12px}
-.field:last-child{margin-bottom:0}
+.field{margin-bottom:12px}.field:last-child{margin-bottom:0}
 .field-label{font-size:13px;color:var(--text-muted);margin-bottom:5px;display:block}
 .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .input-mic-row{display:flex;gap:8px;align-items:center}
@@ -51,7 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .mic-inline.listening{background:var(--red-bg);border-color:var(--red);animation:pulse 1.2s infinite}
 .mic-inline.listening svg{fill:var(--red)}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-input[type=text],input[type=number],select{font-size:16px;padding:11px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);-webkit-appearance:none;width:100%}
+input[type=text],input[type=email],input[type=tel],input[type=number],select{font-size:16px;padding:11px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);-webkit-appearance:none;width:100%}
 input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 .chip-group{display:flex;flex-wrap:wrap;gap:8px}
 .chip{padding:8px 14px;border:1px solid var(--border-strong);border-radius:20px;font-size:14px;cursor:pointer;color:var(--text-muted);background:var(--surface);transition:all .15s;user-select:none}
@@ -94,8 +94,7 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
 .synth-section h3{font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;padding-bottom:6px;border-bottom:2px solid var(--blue-light);margin-bottom:8px}
 .synth-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:5px 0;border-bottom:.5px solid var(--border)}
 .synth-row:last-child{border-bottom:none}
-.synth-row .lbl{color:var(--text-muted)}
-.synth-row .val{font-weight:600;color:var(--text)}
+.synth-row .lbl{color:var(--text-muted)}.synth-row .val{font-weight:600;color:var(--text)}
 .synth-total{background:var(--accent-bg);border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between}
 .synth-total .lbl{font-weight:600;color:var(--accent);font-size:14px}
 .synth-total .val{font-weight:700;color:var(--accent);font-size:16px}
@@ -107,6 +106,10 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
 .new-btn{width:100%;padding:13px;background:var(--surface);color:var(--text-muted);border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;cursor:pointer}
 .toast{position:fixed;top:calc(var(--safe-top) + 80px);left:50%;transform:translateX(-50%);background:#1e293b;color:white;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .3s;z-index:200;white-space:nowrap;pointer-events:none}
 .toast.show{opacity:1}
+.sync-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:12px;margin-bottom:10px;font-weight:500}
+.sync-badge.ok{background:var(--green-bg);color:var(--green)}
+.sync-badge.pending{background:#fefce8;color:#ca8a04}
+.sync-badge.error{background:var(--red-bg);color:var(--red)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center}
 .modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:20px 20px calc(var(--safe-bottom) + 20px);width:100%;max-width:500px;animation:slideUp .25s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -125,6 +128,40 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
 .inj-row{display:flex;align-items:center;gap:10px;padding-top:8px}
 .inj-row label{font-size:13px;color:var(--text-muted);white-space:nowrap}
 .inj-row input{width:80px}
+
+/* ── ADMIN ── */
+.admin-wrap{padding:14px;max-width:900px;margin:0 auto;padding-bottom:40px}
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.admin-title{font-size:18px;font-weight:700;color:var(--blue)}
+.admin-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.admin-filters select,.admin-filters input{font-size:14px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);min-width:140px}
+.admin-table-wrap{overflow-x:auto;border-radius:12px;border:.5px solid var(--border)}
+.admin-table{width:100%;border-collapse:collapse;font-size:13px;min-width:700px}
+.admin-table th{background:var(--blue);color:white;padding:10px 12px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.admin-table td{padding:10px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-table tr:hover td{background:var(--surface-1)}
+.admin-table tr:nth-child(even) td{background:#fafbfc}
+.badge-sync{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.badge-sync.ok{background:var(--green)}
+.badge-sync.pending{background:#eab308}
+.btn-view{padding:5px 12px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-dl{padding:5px 12px;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;margin-left:4px}
+.admin-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+.admin-kpi{background:var(--surface);border:.5px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.admin-kpi .n{font-size:20px;font-weight:700;color:var(--accent)}
+.admin-kpi .u{font-size:11px;color:var(--text-muted);margin-top:2px}
+.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;display:flex;align-items:center;justify-content:center;padding:16px}
+.detail-sheet{background:var(--surface);border-radius:16px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;padding:20px}
+.detail-sheet h2{font-size:16px;font-weight:700;color:var(--blue);margin-bottom:14px}
+.detail-close{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-muted);line-height:1}
+.detail-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:.5px solid var(--border)}
+.detail-row:last-child{border-bottom:none}
+.detail-row .l{color:var(--text-muted)}.detail-row .v{font-weight:600}
+.detail-section{margin-bottom:14px}
+.detail-section h3{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;padding-bottom:4px;border-bottom:1.5px solid var(--blue-light);margin-bottom:8px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-state .icon{font-size:40px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -147,6 +184,13 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
 <div id="modal-container"></div>
 
 <script>
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const SUPA_URL = 'https://tjabgfufvvhuddnidjgl.supabase.co';
+const SUPA_KEY = 'sb_publishable_jOJgQ_-hli41kSx9Hnl4pg_94qEqkCI';
+const ADMIN_TOKEN = 'pcp2024admin';
+const SAVE_KEY = 'pcp_releve_v3';
+const QUEUE_KEY = 'pcp_sync_queue';
+
 // ─── SVG ─────────────────────────────────────────────────────────────────────
 const ELEM_SVG = {
   'Tirant':`<svg viewBox="0 0 52 42" fill="none"><rect x="4" y="19" width="44" height="6" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><circle cx="6" cy="22" r="3" fill="#2563eb"/><circle cx="46" cy="22" r="3" fill="#2563eb"/></svg>`,
@@ -174,18 +218,20 @@ const state = {
   elements:[],
   chantier:{eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false},
   rec:null, listening:false, recTarget:null,
+  lastSyncStatus: 'none', // 'ok' | 'pending' | 'error' | 'none'
 };
 function newId(){ return ++state._idCounter; }
 
 // ─── PERSISTENCE ─────────────────────────────────────────────────────────────
-const SAVE_KEY='pcp_releve_v3';
 function saveState(){
   try{
     localStorage.setItem(SAVE_KEY,JSON.stringify({
       step:state.step==='vignettes'?'vignettes':(typeof state.step==='number'?state.step:0),
-      client:state.client, essence:state.essence, insectes:state.insectes,
+      client:state.client, commercial:state.commercial,
+      essence:state.essence, insectes:state.insectes,
       traitement:state.traitement, elements:state.elements,
-      chantier:state.chantier, _idCounter:state._idCounter
+      chantier:state.chantier, _idCounter:state._idCounter,
+      lastSyncStatus:state.lastSyncStatus
     }));
   }catch(e){}
 }
@@ -193,7 +239,11 @@ function loadState(){
   try{
     const raw=localStorage.getItem(SAVE_KEY);
     if(!raw)return false;
-    Object.assign(state,JSON.parse(raw));
+    const saved=JSON.parse(raw);
+    Object.assign(state,saved);
+    if(!state.commercial)state.commercial={nom:'',agence:''};
+    if(!state.client.email)state.client.email='';
+    if(!state.client.tel)state.client.tel='';
     return true;
   }catch(e){return false;}
 }
@@ -201,11 +251,49 @@ setInterval(saveState,3000);
 document.addEventListener('visibilitychange',saveState);
 window.addEventListener('pagehide',saveState);
 
-// ─── TOAST ────────────────────────────────────────────────────────────────────
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+// ─── SYNC QUEUE ───────────────────────────────────────────────────────────────
+function getQueue(){try{return JSON.parse(localStorage.getItem(QUEUE_KEY)||'[]');}catch(e){return[];}}
+function saveQueue(q){try{localStorage.setItem(QUEUE_KEY,JSON.stringify(q));}catch(e){}}
+
+async function syncToSupabase(payload){
+  const res=await fetch(`${SUPA_URL}/rest/v1/releves`,{
+    method:'POST',
+    headers:{
+      'apikey':SUPA_KEY,
+      'Authorization':'Bearer '+SUPA_KEY,
+      'Content-Type':'application/json',
+      'Prefer':'return=minimal'
+    },
+    body:JSON.stringify(payload)
+  });
+  if(!res.ok){const t=await res.text();throw new Error(t);}
+  return true;
+}
+
+async function flushQueue(){
+  const q=getQueue();
+  if(q.length===0)return;
+  const remaining=[];
+  for(const item of q){
+    try{await syncToSupabase(item);}
+    catch(e){remaining.push(item);}
+  }
+  saveQueue(remaining);
+}
+
+window.addEventListener('online',()=>{flushQueue();});
+
+async function submitReleve(payload){
+  try{
+    await syncToSupabase(payload);
+    state.lastSyncStatus='ok';
+    showToast('✓ Relevé enregistré et synchronisé');
+  }catch(e){
+    const q=getQueue();q.push(payload);saveQueue(q);
+    state.lastSyncStatus='pending';
+    showToast('Hors ligne — relevé sauvegardé, sync dès reconnexion');
+  }
+  saveState();
 }
 
 // ─── CALC ────────────────────────────────────────────────────────────────────
@@ -219,19 +307,22 @@ function calcTotals(){
   return{surf,ml};
 }
 
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg,duration=2800){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),duration);
+}
+
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 function go(n){
   if(state.rec){state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;}
   if(n==='vignettes'){
-    state.step='vignettes';
-    renderStepper();
-    renderVignetteStep();
+    state.step='vignettes';renderStepper();renderVignetteStep();
   } else {
-    state.step=n;
-    render();
+    state.step=n;render();
   }
-  saveState();
-  window.scrollTo(0,0);
+  saveState();window.scrollTo(0,0);
 }
 
 // ─── STEPPER ─────────────────────────────────────────────────────────────────
@@ -247,8 +338,8 @@ function renderStepper(){
 }
 
 // ─── MIC ─────────────────────────────────────────────────────────────────────
-function micBtn(targetId){
-  return `<button class="mic-inline" id="mic-${targetId}" onclick="toggleMicField('${targetId}')" aria-label="Dicter">
+function micBtn(id){
+  return `<button class="mic-inline" id="mic-${id}" onclick="toggleMicField('${id}')" aria-label="Dicter">
     <svg viewBox="0 0 24 24"><path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm-1 14.93A7 7 0 0 1 5 9H3a9 9 0 0 0 8 8.94V20H8v2h8v-2h-3v-2.07A9 9 0 0 0 21 9h-2a7 7 0 0 1-6 6.93z"/></svg>
   </button>`;
 }
@@ -256,8 +347,7 @@ function toggleMicField(targetId){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){showToast('Micro non disponible — utilisez Chrome');return;}
   if(state.rec&&state.recTarget===targetId){
-    state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;
-    updateMicBtns();return;
+    state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;updateMicBtns();return;
   }
   if(state.rec){state.rec.stop();state.rec=null;}
   const r=new SR();
@@ -273,8 +363,7 @@ function toggleMicField(targetId){
   };
   r.onend=()=>{state.rec=null;state.listening=false;state.recTarget=null;updateMicBtns();};
   r.onerror=()=>{state.rec=null;state.listening=false;state.recTarget=null;updateMicBtns();};
-  state.rec=r;state.listening=true;state.recTarget=targetId;r.start();
-  updateMicBtns();
+  state.rec=r;state.listening=true;state.recTarget=targetId;r.start();updateMicBtns();
 }
 function updateMicBtns(){
   document.querySelectorAll('.mic-inline').forEach(b=>{
@@ -322,9 +411,7 @@ function validateModal(nom){
   const qte=document.getElementById('m-qte').value;
   if(!l||!h||!qte){showToast('Section et quantité obligatoires');return;}
   state.elements.push({id:newId(),nom,l,h,ml:ml||'',qte});
-  closeModal();
-  renderVignetteStep();
-  saveState();
+  closeModal();renderVignetteStep();saveState();
   showToast(`✓ ${nom} ajouté`);
 }
 
@@ -354,7 +441,7 @@ function goToElemList(){
   go(2);
 }
 
-// ─── ELEM LIST ────────────────────────────────────────────────────────────────
+// ─── ELEM ────────────────────────────────────────────────────────────────────
 function updateElem(id,field,val){
   const el=state.elements.find(e=>e.id===id);
   if(!el)return;
@@ -367,11 +454,8 @@ function updateElem(id,field,val){
 function deleteElem(id){
   if(!confirm('Supprimer cette ligne ?'))return;
   state.elements=state.elements.filter(e=>e.id!==id);
-  saveState();
-  render();
+  saveState();render();
 }
-
-// ─── TOGGLES ─────────────────────────────────────────────────────────────────
 function toggleInsecte(name,el){
   const idx=state.insectes.indexOf(name);
   if(idx>=0){if(state.insectes.length===1){showToast('Au moins un insecte requis');return;}state.insectes.splice(idx,1);el.classList.remove('selected');}
@@ -380,19 +464,6 @@ function toggleInsecte(name,el){
 function toggleInj(){
   const d=document.getElementById('inj-detail');
   if(d)d.style.display=state.chantier.injecteurs?'':'none';
-}
-
-// ─── NEW RELEVE ───────────────────────────────────────────────────────────────
-function newReleve(){
-  if(!confirm('Commencer un nouveau relevé ? Les données seront effacées.'))return;
-  state.step=0;state._idCounter=0;
-  state.client={nom:'',adresse:'',cp:'',ville:'',email:'',tel:''};
-  state.commercial={nom:'',agence:''};
-  state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
-  state.elements=[];
-  state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
-  try{localStorage.removeItem(SAVE_KEY);}catch(e){}
-  render();
 }
 
 // ─── SAVE CLIENT ──────────────────────────────────────────────────────────────
@@ -406,6 +477,44 @@ function saveClient(){
   state.commercial.nom=document.getElementById('f-commercial')?.value||'';
   state.commercial.agence=document.getElementById('f-agence')?.value||'';
   go(1);
+}
+
+// ─── NEW RELEVE ───────────────────────────────────────────────────────────────
+function newReleve(){
+  if(!confirm('Commencer un nouveau relevé ? Les données actuelles seront effacées.'))return;
+  state.step=0;state._idCounter=0;
+  state.client={nom:'',adresse:'',cp:'',ville:'',email:'',tel:''};
+  state.commercial={nom:state.commercial.nom,agence:state.commercial.agence}; // keep commercial info
+  state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
+  state.elements=[];
+  state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
+  state.lastSyncStatus='none';
+  try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+  render();
+}
+
+// ─── VALIDATE & SUBMIT ───────────────────────────────────────────────────────
+async function validerReleve(){
+  const {surf,ml}=calcTotals();
+  const payload={
+    commercial_nom:state.commercial.nom||null,
+    commercial_agence:state.commercial.agence||null,
+    client_nom:state.client.nom||null,
+    client_adresse:[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||null,
+    client_cp:state.client.cp||null,
+    client_ville:state.client.ville||null,
+    client_email:state.client.email||null,
+    client_tel:state.client.tel||null,
+    essence:state.essence,
+    insectes:state.insectes.join(', '),
+    traitement:state.traitement,
+    elements:state.elements,
+    chantier:state.chantier,
+    surface_totale:parseFloat(surf.toFixed(2)),
+    ml_total:parseFloat(ml.toFixed(2)),
+  };
+  await submitReleve(payload);
+  go(4);
 }
 
 // ─── RENDER ───────────────────────────────────────────────────────────────────
@@ -440,7 +549,7 @@ function render(){
       <div class="card">
         <div class="card-title">Informations internes</div>
         <div class="field field-grid">
-          <div><label class="field-label">Nom du commercial</label>
+          <div><label class="field-label">Commercial</label>
             <div class="input-mic-row"><input type="text" id="f-commercial" value="${state.commercial.nom}" placeholder="Pierre Martin">${micBtn('f-commercial')}</div></div>
           <div><label class="field-label">Agence</label>
             <div class="input-mic-row"><input type="text" id="f-agence" value="${state.commercial.agence}" placeholder="PAMI Bordeaux">${micBtn('f-agence')}</div></div>
@@ -525,13 +634,19 @@ function render(){
             </select></div>
         </div>
       </div>`;
-    n.innerHTML=`<button class="btn-back" onclick="go(2)">← Retour</button><button class="btn-next" onclick="go(4)">Voir synthèse →</button>`;
+    n.innerHTML=`<button class="btn-back" onclick="go(2)">← Retour</button><button class="btn-next" onclick="validerReleve()">Valider & enregistrer →</button>`;
 
   } else if(state.step===4){
     const {surf,ml}=calcTotals();
     const ch=state.chantier;
     const sorted=[...state.elements].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+    const syncBadge=state.lastSyncStatus==='ok'
+      ?`<div class="sync-badge ok">✓ Synchronisé</div>`
+      :state.lastSyncStatus==='pending'
+      ?`<div class="sync-badge pending">⏳ En attente de sync</div>`
+      :'';
     c.innerHTML=`
+      ${syncBadge}
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-val">${surf.toFixed(1)}</div><div class="kpi-label">m² surface dév.</div></div>
         <div class="kpi-card"><div class="kpi-val">${ml.toFixed(1)}</div><div class="kpi-label">mètres linéaires</div></div>
@@ -542,7 +657,7 @@ function render(){
           <div class="synth-row"><span class="lbl">Client</span><span class="val">${state.client.nom||'—'}</span></div>
           <div class="synth-row"><span class="lbl">Adresse</span><span class="val">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
           ${state.client.email?`<div class="synth-row"><span class="lbl">Email</span><span class="val">${state.client.email}</span></div>`:''}
-          ${state.client.tel?`<div class="synth-row"><span class="lbl">Téléphone</span><span class="val">${state.client.tel}</span></div>`:''}
+          ${state.client.tel?`<div class="synth-row"><span class="lbl">Tél.</span><span class="val">${state.client.tel}</span></div>`:''}
           <div class="synth-row"><span class="lbl">Commercial</span><span class="val">${state.commercial.nom||'—'}</span></div>
           <div class="synth-row"><span class="lbl">Agence</span><span class="val">${state.commercial.agence||'—'}</span></div>
         </div>
@@ -600,7 +715,7 @@ function exportDoc(){
     .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
     .ftr{background:#f8fafc;padding:10px 28px;border-top:.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
   </style></head><body>
-  <div class="hdr"><h1>Relevé de charpente — Traitement insectes xylophages</h1><p>Établi le ${date}</p></div>
+  <div class="hdr"><h1>Relevé de charpente — Traitement insectes xylophages</h1><p>Établi le ${date} · ${state.commercial.nom||''} · ${state.commercial.agence||''}</p></div>
   <div class="body">
     <h2>Identification</h2>
     <div class="irow"><span class="l">Client</span><span class="v">${state.client.nom||'—'}</span></div>
@@ -609,9 +724,6 @@ function exportDoc(){
     ${state.client.tel?`<div class="irow"><span class="l">Téléphone</span><span class="v">${state.client.tel}</span></div>`:''}
     <div class="irow"><span class="l">Commercial</span><span class="v">${state.commercial.nom||'—'}</span></div>
     <div class="irow"><span class="l">Agence</span><span class="v">${state.commercial.agence||'—'}</span></div>
-    <div class="irow"><span class="l">Essence</span><span class="v">${state.essence}</span></div>
-    <div class="irow"><span class="l">Insecte(s)</span><span class="v">${state.insectes.join(', ')}</span></div>
-    <div class="irow"><span class="l">Traitement</span><span class="v">${state.traitement}</span></div>
     <div class="kpis">
       <div class="kpi"><div class="n">${surf.toFixed(1)}</div><div class="u">m² surface développée</div></div>
       <div class="kpi"><div class="n">${ml.toFixed(1)}</div><div class="u">mètres linéaires</div></div>
@@ -624,16 +736,16 @@ function exportDoc(){
     </table>
     <h2>Conditions de chantier</h2>
     <div class="g2"><div>
-      <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓ Disponible':'Non'}</span></div>
-      <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓ Disponible':'Non'}</span></div>
-      <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓ Oui':'Non'}</span></div>
-      <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓ Possible':'Non'}</span></div>
+      <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓':'Non'}</span></div>
       <div class="irow"><span class="l">Hauteur sous plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
     </div><div>
       <div class="irow"><span class="l">Injecteurs présents</span><span class="v">${ch.injecteurs?`✓ (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
-      <div class="irow"><span class="l">Pose tourillons</span><span class="v">${ch.tourillon?'✓ Oui':'Non'}</span></div>
+      <div class="irow"><span class="l">Pose tourillons</span><span class="v">${ch.tourillon?'✓':'Non'}</span></div>
       <div class="irow"><span class="l">Bûchage</span><span class="v">${ch.buchage}</span></div>
-      <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓ Nécessaire':'Non'}</span></div>
+      <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓':'Non'}</span></div>
     </div></div>
   </div>
   <div class="ftr">Document établi par le commercial — à joindre au devis client · Pest Control Partnership</div>
@@ -647,14 +759,278 @@ function exportDoc(){
   showToast('Relevé téléchargé');
 }
 
+// ─── ADMIN ────────────────────────────────────────────────────────────────────
+async function renderAdmin(){
+  // Hide normal UI
+  document.querySelector('.app-header').style.display='none';
+  document.querySelector('.stepper-wrap').style.display='none';
+  document.getElementById('content').style.display='none';
+  document.getElementById('nav-bar').style.display='none';
+
+  const wrap=document.createElement('div');
+  wrap.id='admin-root';
+  wrap.innerHTML=`<div class="admin-wrap">
+    <div class="admin-header">
+      <div class="admin-title">🗂 Tableau de bord — Relevés PCP</div>
+      <button onclick="exportAdminCSV(window._adminData)" style="padding:8px 16px;background:var(--blue);color:white;border:none;border-radius:8px;font-size:13px;cursor:pointer">⬇ Export CSV</button>
+    </div>
+    <div id="admin-kpis" class="admin-kpis"></div>
+    <div class="admin-filters">
+      <input type="text" id="f-search" placeholder="Rechercher client, commercial…" oninput="filterAdmin()">
+      <select id="f-agence" onchange="filterAdmin()"><option value="">Toutes les agences</option></select>
+      <select id="f-commercial" onchange="filterAdmin()"><option value="">Tous les commerciaux</option></select>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr>
+          <th>Date</th><th>Client</th><th>Agence</th><th>Commercial</th>
+          <th>Surface (m²)</th><th>ML</th><th>Sync</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="admin-tbody"><tr><td colspan="8" style="text-align:center;padding:30px;color:#94a3b8">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </div>`;
+  document.body.appendChild(wrap);
+
+  // Load data
+  try{
+    const res=await fetch(`${SUPA_URL}/rest/v1/releves?select=*&order=created_at.desc&limit=500`,{
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
+    });
+    const data=await res.json();
+    window._adminData=data;
+    populateAdminFilters(data);
+    renderAdminTable(data);
+    renderAdminKpis(data);
+  }catch(e){
+    document.getElementById('admin-tbody').innerHTML=`<tr><td colspan="8" style="text-align:center;padding:30px;color:#dc2626">Erreur de chargement : ${e.message}</td></tr>`;
+  }
+
+  // Also show pending queue
+  const q=getQueue();
+  if(q.length>0){
+    const pending=document.createElement('div');
+    pending.style.cssText='background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;margin:0 14px 12px;font-size:13px;color:#854d0e';
+    pending.innerHTML=`⏳ ${q.length} relevé(s) en attente de synchronisation (hors ligne)`;
+    document.getElementById('admin-root').querySelector('.admin-wrap').prepend(pending);
+  }
+}
+
+function populateAdminFilters(data){
+  const agences=[...new Set(data.map(r=>r.commercial_agence).filter(Boolean))].sort();
+  const commerciaux=[...new Set(data.map(r=>r.commercial_nom).filter(Boolean))].sort();
+  const fa=document.getElementById('f-agence');
+  agences.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;fa.appendChild(o);});
+  const fc=document.getElementById('f-commercial');
+  commerciaux.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;fc.appendChild(o);});
+}
+
+function filterAdmin(){
+  const search=document.getElementById('f-search').value.toLowerCase();
+  const agence=document.getElementById('f-agence').value;
+  const commercial=document.getElementById('f-commercial').value;
+  const filtered=(window._adminData||[]).filter(r=>{
+    const matchSearch=!search||
+      (r.client_nom||'').toLowerCase().includes(search)||
+      (r.commercial_nom||'').toLowerCase().includes(search)||
+      (r.client_ville||'').toLowerCase().includes(search);
+    const matchAgence=!agence||(r.commercial_agence||'')==agence;
+    const matchComm=!commercial||(r.commercial_nom||'')==commercial;
+    return matchSearch&&matchAgence&&matchComm;
+  });
+  renderAdminTable(filtered);
+  renderAdminKpis(filtered);
+}
+
+function renderAdminKpis(data){
+  const totalSurf=data.reduce((s,r)=>s+(r.surface_totale||0),0);
+  const totalMl=data.reduce((s,r)=>s+(r.ml_total||0),0);
+  const agences=new Set(data.map(r=>r.commercial_agence).filter(Boolean));
+  document.getElementById('admin-kpis').innerHTML=`
+    <div class="admin-kpi"><div class="n">${data.length}</div><div class="u">Relevés</div></div>
+    <div class="admin-kpi"><div class="n">${totalSurf.toFixed(0)}</div><div class="u">m² total</div></div>
+    <div class="admin-kpi"><div class="n">${totalMl.toFixed(0)}</div><div class="u">ML total</div></div>
+    <div class="admin-kpi"><div class="n">${agences.size}</div><div class="u">Agences</div></div>`;
+}
+
+function renderAdminTable(data){
+  const tbody=document.getElementById('admin-tbody');
+  if(!data.length){
+    tbody.innerHTML=`<tr><td colspan="8"><div class="empty-state"><div class="icon">📋</div>Aucun relevé trouvé</div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML=data.map((r,i)=>{
+    const date=r.created_at?new Date(r.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
+    return `<tr>
+      <td>${date}</td>
+      <td><strong>${r.client_nom||'—'}</strong><br><span style="color:#94a3b8;font-size:11px">${r.client_ville||''}</span></td>
+      <td>${r.commercial_agence||'—'}</td>
+      <td>${r.commercial_nom||'—'}</td>
+      <td style="font-weight:600;color:#2563eb">${r.surface_totale!=null?r.surface_totale.toFixed(1):'—'}</td>
+      <td>${r.ml_total!=null?r.ml_total.toFixed(1):'—'}</td>
+      <td><span class="badge-sync ok"></span>Sync</td>
+      <td>
+        <button class="btn-view" onclick="showDetail(${i})">Voir</button>
+        <button class="btn-dl" onclick="exportSingleDoc(${i})">PDF</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function showDetail(idx){
+  const r=(window._adminFilteredData||window._adminData)[idx]||window._adminData[idx];
+  if(!r)return;
+  const date=r.created_at?new Date(r.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'}):'—';
+  const elems=Array.isArray(r.elements)?r.elements:[];
+  const ch=r.chantier||{};
+  const mc=document.getElementById('modal-container');
+  mc.innerHTML=`
+    <div class="detail-overlay" onclick="if(event.target===this)closeDetail()">
+      <div class="detail-sheet">
+        <button class="detail-close" onclick="closeDetail()">✕</button>
+        <h2>Relevé — ${r.client_nom||'Client inconnu'}</h2>
+        <div class="detail-section"><h3>Identification</h3>
+          <div class="detail-row"><span class="l">Date</span><span class="v">${date}</span></div>
+          <div class="detail-row"><span class="l">Client</span><span class="v">${r.client_nom||'—'}</span></div>
+          <div class="detail-row"><span class="l">Adresse</span><span class="v">${r.client_adresse||'—'}</span></div>
+          ${r.client_email?`<div class="detail-row"><span class="l">Email</span><span class="v">${r.client_email}</span></div>`:''}
+          ${r.client_tel?`<div class="detail-row"><span class="l">Tél.</span><span class="v">${r.client_tel}</span></div>`:''}
+          <div class="detail-row"><span class="l">Commercial</span><span class="v">${r.commercial_nom||'—'}</span></div>
+          <div class="detail-row"><span class="l">Agence</span><span class="v">${r.commercial_agence||'—'}</span></div>
+        </div>
+        <div class="detail-section"><h3>Traitement</h3>
+          <div class="detail-row"><span class="l">Essence</span><span class="v">${r.essence||'—'}</span></div>
+          <div class="detail-row"><span class="l">Insecte(s)</span><span class="v">${r.insectes||'—'}</span></div>
+          <div class="detail-row"><span class="l">Type</span><span class="v">${r.traitement||'—'}</span></div>
+        </div>
+        <div class="detail-section"><h3>Résultats</h3>
+          <div class="detail-row"><span class="l">Surface développée</span><span class="v" style="color:#2563eb;font-size:15px">${r.surface_totale!=null?r.surface_totale.toFixed(2)+' m²':'—'}</span></div>
+          <div class="detail-row"><span class="l">Linéaire total</span><span class="v" style="color:#2563eb;font-size:15px">${r.ml_total!=null?r.ml_total.toFixed(2)+' ml':'—'}</span></div>
+        </div>
+        <div class="detail-section"><h3>Éléments (${elems.length})</h3>
+          ${elems.sort((a,b)=>a.nom.localeCompare(b.nom,'fr')).map(el=>{
+            const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0,q=parseInt(el.qte)||0,m=parseFloat(el.ml)||0;
+            const s=l&&h&&q&&m?(2*(l+h)*m*q).toFixed(2):'—';
+            return `<div class="detail-row"><span class="l">${el.nom} (${el.l}×${el.h}cm / ${el.ml}ml / ${el.qte}u)</span><span class="v">${s} m²</span></div>`;
+          }).join('')||'<div style="color:#94a3b8;font-size:13px">Aucun élément</div>'}
+        </div>
+        <div class="detail-section"><h3>Chantier</h3>
+          <div class="detail-row"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓':'Non'}</span></div>
+          <div class="detail-row"><span class="l">Électricité</span><span class="v">${ch.elec?'✓':'Non'}</span></div>
+          <div class="detail-row"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓':'Non'}</span></div>
+          <div class="detail-row"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓':'Non'}</span></div>
+          <div class="detail-row"><span class="l">Hauteur plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
+          <div class="detail-row"><span class="l">Injecteurs</span><span class="v">${ch.injecteurs?`✓ (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
+          <div class="detail-row"><span class="l">Tourillons</span><span class="v">${ch.tourillon?'✓':'Non'}</span></div>
+          <div class="detail-row"><span class="l">Bûchage</span><span class="v">${ch.buchage||'—'}</span></div>
+          <div class="detail-row"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓':'Non'}</span></div>
+        </div>
+        <button class="download-btn" style="margin-top:10px" onclick="exportSingleDoc(${idx})">⬇ Télécharger ce relevé</button>
+      </div>
+    </div>`;
+}
+function closeDetail(){document.getElementById('modal-container').innerHTML='';}
+
+function exportAdminCSV(data){
+  if(!data||!data.length){showToast('Aucune donnée à exporter');return;}
+  const headers=['Date','Client','Adresse','CP','Ville','Email','Tél','Commercial','Agence','Essence','Insectes','Traitement','Surface m²','ML total'];
+  const rows=data.map(r=>[
+    r.created_at?new Date(r.created_at).toLocaleDateString('fr-FR'):'',
+    r.client_nom||'',r.client_adresse||'',r.client_cp||'',r.client_ville||'',
+    r.client_email||'',r.client_tel||'',
+    r.commercial_nom||'',r.commercial_agence||'',
+    r.essence||'',r.insectes||'',r.traitement||'',
+    r.surface_totale!=null?r.surface_totale.toFixed(2):'',
+    r.ml_total!=null?r.ml_total.toFixed(2):''
+  ].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';'));
+  const csv='\uFEFF'+[headers.join(';'),...rows].join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`releves_pcp_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();URL.revokeObjectURL(url);
+}
+
+function exportSingleDoc(idx){
+  const r=(window._adminData||[])[idx];
+  if(!r)return;
+  const elems=Array.isArray(r.elements)?r.elements:[];
+  const ch=r.chantier||{};
+  const date=r.created_at?new Date(r.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'}):'—';
+  const sorted=[...elems].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+  const rows=sorted.map(el=>{
+    const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
+    const per=l&&h?(2*(l+h)).toFixed(3):'—';
+    const s=l&&h&&el.qte&&el.ml?(2*(l+h)*parseFloat(el.ml)*parseInt(el.qte)).toFixed(2):'—';
+    return `<tr><td>${el.nom}</td><td style="text-align:center">${el.l}×${el.h}</td><td style="text-align:center">${el.ml}</td><td style="text-align:center">${el.qte}</td><td style="text-align:center">${per}</td><td style="text-align:right;font-weight:600">${s}</td></tr>`;
+  }).join('');
+  const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><style>
+    body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0}
+    .hdr{background:#1a3a5c;color:white;padding:20px 28px}.hdr h1{font-size:15pt;margin:0 0 4px}.hdr p{margin:0;font-size:10pt;opacity:.8}
+    .body{padding:22px 28px}h2{font-size:11pt;font-weight:700;color:#1a3a5c;border-bottom:2px solid #e8f0f8;padding-bottom:4px;margin:18px 0 10px}
+    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:.5px solid #e2e8f0}.irow .l{color:#64748b}.irow .v{font-weight:600}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.kpi{background:#eff6ff;border-radius:8px;padding:12px;text-align:center}.kpi .n{font-size:20pt;font-weight:700;color:#2563eb}.kpi .u{font-size:9pt;color:#64748b}
+    table{width:100%;border-collapse:collapse;font-size:10pt}th{background:#1a3a5c;color:white;padding:7px 8px;font-size:9pt;text-align:left}
+    td{padding:6px 8px;border-bottom:.5px solid #e2e8f0}tr:nth-child(even){background:#f8fafc}tfoot td{background:#eff6ff;font-weight:700}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
+    .ftr{background:#f8fafc;padding:10px 28px;border-top:.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
+  </style></head><body>
+  <div class="hdr"><h1>Relevé de charpente — Traitement insectes xylophages</h1><p>Établi le ${date} · ${r.commercial_nom||''} · ${r.commercial_agence||''}</p></div>
+  <div class="body">
+    <h2>Identification</h2>
+    <div class="irow"><span class="l">Client</span><span class="v">${r.client_nom||'—'}</span></div>
+    <div class="irow"><span class="l">Adresse</span><span class="v">${r.client_adresse||'—'}</span></div>
+    ${r.client_email?`<div class="irow"><span class="l">Email</span><span class="v">${r.client_email}</span></div>`:''}
+    ${r.client_tel?`<div class="irow"><span class="l">Téléphone</span><span class="v">${r.client_tel}</span></div>`:''}
+    <div class="irow"><span class="l">Commercial</span><span class="v">${r.commercial_nom||'—'}</span></div>
+    <div class="irow"><span class="l">Agence</span><span class="v">${r.commercial_agence||'—'}</span></div>
+    <div class="kpis">
+      <div class="kpi"><div class="n">${r.surface_totale!=null?r.surface_totale.toFixed(1):'—'}</div><div class="u">m² surface développée</div></div>
+      <div class="kpi"><div class="n">${r.ml_total!=null?r.ml_total.toFixed(1):'—'}</div><div class="u">mètres linéaires</div></div>
+      <div class="kpi"><div class="n">${elems.length}</div><div class="u">lignes relevées</div></div>
+    </div>
+    <h2>Éléments de charpente</h2>
+    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>ML/u.</th><th>Qté</th><th>Périm. (m)</th><th style="text-align:right">Surface (m²)</th></tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr><td colspan="3"><strong>Totaux</strong></td><td style="text-align:center"><strong>${r.ml_total!=null?r.ml_total.toFixed(2):'—'} ml</strong></td><td></td><td style="text-align:right"><strong>${r.surface_totale!=null?r.surface_totale.toFixed(2):'—'} m²</strong></td></tr></tfoot>
+    </table>
+    <h2>Conditions de chantier</h2>
+    <div class="g2"><div>
+      <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Hauteur plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
+    </div><div>
+      <div class="irow"><span class="l">Injecteurs</span><span class="v">${ch.injecteurs?`✓ (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
+      <div class="irow"><span class="l">Tourillons</span><span class="v">${ch.tourillon?'✓':'Non'}</span></div>
+      <div class="irow"><span class="l">Bûchage</span><span class="v">${ch.buchage||'—'}</span></div>
+      <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓':'Non'}</span></div>
+    </div></div>
+  </div>
+  <div class="ftr">Document établi par le commercial — à joindre au devis client · Pest Control Partnership</div>
+  </body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`releve_${(r.client_nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
+  a.click();URL.revokeObjectURL(url);
+}
+
 // ─── INIT ────────────────────────────────────────────────────────────────────
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
-const hadSaved=loadState();
-if(hadSaved && state.elements.length>0) setTimeout(()=>showToast('Relevé en cours restauré ✓'),400);
-
-if(state.step==='vignettes'){renderStepper();renderVignetteStep();}
-else{render();}
+// Check for admin mode
+const urlParams=new URLSearchParams(window.location.search);
+if(urlParams.get('admin')===ADMIN_TOKEN){
+  renderAdmin();
+} else {
+  const hadSaved=loadState();
+  if(hadSaved&&state.elements.length>0) setTimeout(()=>showToast('Relevé en cours restauré ✓'),400);
+  flushQueue(); // try to sync any pending items on load
+  if(state.step==='vignettes'){renderStepper();renderVignetteStep();}
+  else{render();}
+}
 </script>
 </body>
 </html>
