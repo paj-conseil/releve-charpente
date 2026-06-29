@@ -19,20 +19,15 @@
   --text:#1e293b;--text-muted:#64748b;--text-light:#94a3b8;
   --surface:#fff;--surface-1:#f8fafc;
   --red:#dc2626;--red-bg:#fef2f2;
-  --green:#16a34a;--green-bg:#f0fdf4;
   --radius:10px;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--surface-1);color:var(--text);min-height:100dvh;overflow-x:hidden}
-
-/* HEADER */
 .app-header{background:var(--blue);color:white;padding:calc(var(--safe-top) + 12px) 16px 12px;position:sticky;top:0;z-index:100}
 .header-inner{display:flex;align-items:center;gap:10px}
 .header-title{font-size:15px;font-weight:600;line-height:1.2}
 .header-sub{font-size:11px;opacity:.75}
-
-/* STEPPER */
 .stepper-wrap{background:var(--blue);padding:0 16px 12px}
 .stepper{display:flex;gap:3px}
 .step-dot{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.25);transition:background .3s}
@@ -41,21 +36,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .step-labels{display:flex;margin-top:5px}
 .step-label{flex:1;font-size:10px;color:rgba(255,255,255,.6);text-align:center;transition:color .3s}
 .step-label.active{color:white;font-weight:600}
-
-/* CONTENT */
 .content{padding:14px;padding-bottom:calc(var(--safe-bottom) + 88px);max-width:600px;margin:0 auto}
-
-/* CARDS */
 .card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
 .card-title{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
-
-/* FIELDS */
 .field{margin-bottom:12px}
 .field:last-child{margin-bottom:0}
 .field-label{font-size:13px;color:var(--text-muted);margin-bottom:5px;display:block}
 .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* INPUT WITH MIC */
 .input-mic-row{display:flex;gap:8px;align-items:center}
 .input-mic-row input{flex:1;font-size:16px;padding:11px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);-webkit-appearance:none}
 .input-mic-row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
@@ -64,17 +51,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .mic-inline.listening{background:var(--red-bg);border-color:var(--red);animation:pulse 1.2s infinite}
 .mic-inline.listening svg{fill:var(--red)}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-
-/* PLAIN INPUTS */
 input[type=text],input[type=number],select{font-size:16px;padding:11px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text);-webkit-appearance:none;width:100%}
 input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-
-/* CHIPS */
 .chip-group{display:flex;flex-wrap:wrap;gap:8px}
 .chip{padding:8px 14px;border:1px solid var(--border-strong);border-radius:20px;font-size:14px;cursor:pointer;color:var(--text-muted);background:var(--surface);transition:all .15s;user-select:none}
 .chip.selected{background:var(--accent-bg);border-color:var(--accent);color:var(--accent);font-weight:600}
-
-/* ELEMENT VIGNETTES GRID */
 .vignettes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .vignette{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:10px 6px 8px;cursor:pointer;text-align:center;transition:all .2s;user-select:none;position:relative}
 .vignette:active{transform:scale(.96)}
@@ -82,14 +63,12 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .vignette svg{width:52px;height:42px;margin-bottom:4px}
 .vignette-name{font-size:11px;font-weight:600;color:var(--text);line-height:1.2}
 .vignette-count{position:absolute;top:6px;right:6px;background:var(--accent);color:white;border-radius:10px;font-size:10px;font-weight:700;padding:1px 6px;min-width:18px;text-align:center}
-
-/* ELEMENT LIST (step 3) */
 .elem-list{display:flex;flex-direction:column;gap:8px}
 .elem-block{background:var(--surface);border:.5px solid var(--border);border-radius:12px;overflow:hidden}
 .elem-block-header{background:var(--blue-light);padding:8px 12px;display:flex;align-items:center;justify-content:space-between}
 .elem-block-name{font-size:13px;font-weight:700;color:var(--blue)}
 .elem-block-add{background:none;border:none;color:var(--accent);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
-.elem-row{display:grid;grid-template-columns:auto auto auto auto 28px;gap:6px;align-items:center;padding:8px 12px;border-top:.5px solid var(--border)}
+.elem-row{display:grid;grid-template-columns:auto auto auto auto auto 28px;gap:6px;align-items:center;padding:8px 12px;border-top:.5px solid var(--border)}
 .elem-row-label{font-size:11px;color:var(--text-muted);text-align:center;margin-bottom:2px}
 .elem-col{display:flex;flex-direction:column;align-items:center}
 .elem-col input{width:100%;font-size:14px;padding:6px 4px;text-align:center;border:1px solid var(--border);border-radius:6px}
@@ -97,10 +76,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .elem-surf{font-size:12px;font-weight:600;color:var(--accent);text-align:center;padding-top:16px;min-width:44px}
 .elem-del{background:none;border:none;cursor:pointer;padding-top:14px;display:flex;align-items:flex-start;justify-content:center}
 .elem-del svg{width:20px;height:20px;fill:var(--red)}
-
 .add-more-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--accent-bg);border:1.5px dashed var(--accent);border-radius:12px;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
-
-/* TOGGLE ROWS */
 .toggle-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:.5px solid var(--border)}
 .toggle-row:last-child{border-bottom:none}
 .toggle-row .tlabel{font-size:15px;color:var(--text)}
@@ -110,14 +86,10 @@ input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 
 .toggle-slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 input:checked+.toggle-slider{background:var(--accent)}
 input:checked+.toggle-slider:before{transform:translateX(18px)}
-
-/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .kpi-card{background:var(--surface);border:.5px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center}
 .kpi-val{font-size:22px;font-weight:700;color:var(--accent);line-height:1}
 .kpi-label{font-size:10px;color:var(--text-muted);margin-top:3px}
-
-/* SYNTHESE */
 .synth-section{margin-bottom:16px}
 .synth-section h3{font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;padding-bottom:6px;border-bottom:2px solid var(--blue-light);margin-bottom:8px}
 .synth-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:5px 0;border-bottom:.5px solid var(--border)}
@@ -127,20 +99,14 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
 .synth-total{background:var(--accent-bg);border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between}
 .synth-total .lbl{font-weight:600;color:var(--accent);font-size:14px}
 .synth-total .val{font-weight:700;color:var(--accent);font-size:16px}
-
-/* NAV */
 .nav-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 16px calc(var(--safe-bottom) + 10px);background:var(--surface);border-top:.5px solid var(--border);display:flex;gap:10px;z-index:100}
 .btn-back{padding:13px 18px;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--surface);color:var(--text-muted);font-size:15px;cursor:pointer;white-space:nowrap}
 .btn-next{flex:1;padding:13px;border-radius:var(--radius);border:none;background:var(--accent);color:white;font-size:15px;font-weight:600;cursor:pointer}
 .btn-next:active{opacity:.85;transform:scale(.98)}
-
 .download-btn{width:100%;padding:15px;background:var(--blue);color:white;border:none;border-radius:var(--radius);font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
 .new-btn{width:100%;padding:13px;background:var(--surface);color:var(--text-muted);border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;cursor:pointer}
-
 .toast{position:fixed;top:calc(var(--safe-top) + 80px);left:50%;transform:translateX(-50%);background:#1e293b;color:white;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .3s;z-index:200;white-space:nowrap;pointer-events:none}
 .toast.show{opacity:1}
-
-/* MODAL overlay for section input */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center}
 .modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:20px 20px calc(var(--safe-bottom) + 20px);width:100%;max-width:500px;animation:slideUp .25s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -155,7 +121,6 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
 .modal-btns{display:flex;gap:10px}
 .modal-btns .btn-cancel{flex:1;padding:13px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);font-size:15px;cursor:pointer;color:var(--text-muted)}
 .modal-btns .btn-ok{flex:2;padding:13px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer}
-
 .no-speech{font-size:12px;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;margin-top:8px}
 .inj-row{display:flex;align-items:center;gap:10px;padding-top:8px}
 .inj-row label{font-size:13px;color:var(--text-muted);white-space:nowrap}
@@ -163,7 +128,6 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
 </style>
 </head>
 <body>
-
 <div class="app-header">
   <div class="header-inner">
     <span style="font-size:20px">🪵</span>
@@ -177,122 +141,116 @@ input:checked+.toggle-slider:before{transform:translateX(18px)}
   <div class="stepper" id="stepper"></div>
   <div class="step-labels" id="step-labels"></div>
 </div>
-
 <div class="content" id="content"></div>
 <div class="nav-bar" id="nav-bar"></div>
 <div class="toast" id="toast"></div>
 <div id="modal-container"></div>
 
 <script>
-// ─── SVG ICONS PER ELEMENT ───────────────────────────────────────────────────
+// ─── SVG ─────────────────────────────────────────────────────────────────────
 const ELEM_SVG = {
-  'Tirant': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="19" width="44" height="6" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <circle cx="6" cy="22" r="3" fill="#2563eb"/>
-    <circle cx="46" cy="22" r="3" fill="#2563eb"/>
-  </svg>`,
-  'Faux entrait': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <line x1="8" y1="34" x2="44" y2="34" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
-    <rect x="10" y="20" width="32" height="5" rx="1.5" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="8" y1="34" x2="26" y2="8" stroke="#64748b" stroke-width="1.5"/>
-    <line x1="44" y1="34" x2="26" y2="8" stroke="#64748b" stroke-width="1.5"/>
-  </svg>`,
-  'Arbalétrier': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="6" y="8" width="40" height="5" rx="1.5" transform="rotate(25 6 8)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-  </svg>`,
-  'Poinçon': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="23" y="6" width="6" height="30" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="8" y1="36" x2="26" y2="6" stroke="#94a3b8" stroke-width="1.5"/>
-    <line x1="44" y1="36" x2="26" y2="6" stroke="#94a3b8" stroke-width="1.5"/>
-  </svg>`,
-  'Contrefiche': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="14" y="10" width="28" height="5" rx="1.5" transform="rotate(50 14 10)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
-    <line x1="26" y1="6" x2="26" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
-  </svg>`,
-  'Panne': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="16" width="44" height="8" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="4" y1="20" x2="48" y2="20" stroke="#93c5fd" stroke-width="1"/>
-  </svg>`,
-  'Sablière': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="28" width="44" height="8" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="8" y1="28" x2="26" y2="8" stroke="#94a3b8" stroke-width="1.5"/>
-    <line x1="44" y1="28" x2="26" y2="8" stroke="#94a3b8" stroke-width="1.5"/>
-  </svg>`,
-  'Chevron': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="9" width="28" height="4" rx="1.5" transform="rotate(22 4 9)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <rect x="20" y="9" width="28" height="4" rx="1.5" transform="rotate(-22 48 9)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-  </svg>`,
-  'Solive': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4" y="17" width="44" height="7" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="16" y1="17" x2="16" y2="24" stroke="#93c5fd" stroke-width="1"/>
-    <line x1="28" y1="17" x2="28" y2="24" stroke="#93c5fd" stroke-width="1"/>
-    <line x1="40" y1="17" x2="40" y2="24" stroke="#93c5fd" stroke-width="1"/>
-  </svg>`,
-  'Jambe de force': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="20" y="8" width="5" height="26" rx="1.5" transform="rotate(15 20 8)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
-    <line x1="26" y1="6" x2="26" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
-  </svg>`,
-  'Lien de faîtage': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="22" y="5" width="8" height="14" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="8" y1="36" x2="26" y2="5" stroke="#94a3b8" stroke-width="1.5"/>
-    <line x1="44" y1="36" x2="26" y2="5" stroke="#94a3b8" stroke-width="1.5"/>
-  </svg>`,
-  'Arêtier': `<svg viewBox="0 0 52 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="6" y="6" width="32" height="5" rx="1.5" transform="rotate(35 6 6)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
-    <line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/>
-  </svg>`,
+  'Tirant':`<svg viewBox="0 0 52 42" fill="none"><rect x="4" y="19" width="44" height="6" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><circle cx="6" cy="22" r="3" fill="#2563eb"/><circle cx="46" cy="22" r="3" fill="#2563eb"/></svg>`,
+  'Faux entrait':`<svg viewBox="0 0 52 42" fill="none"><line x1="8" y1="34" x2="44" y2="34" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/><rect x="10" y="20" width="32" height="5" rx="1.5" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="8" y1="34" x2="26" y2="8" stroke="#64748b" stroke-width="1.5"/><line x1="44" y1="34" x2="26" y2="8" stroke="#64748b" stroke-width="1.5"/></svg>`,
+  'Arbalétrier':`<svg viewBox="0 0 52 42" fill="none"><rect x="6" y="8" width="40" height="5" rx="1.5" transform="rotate(25 6 8)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/></svg>`,
+  'Poinçon':`<svg viewBox="0 0 52 42" fill="none"><rect x="23" y="6" width="6" height="30" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="8" y1="36" x2="26" y2="6" stroke="#94a3b8" stroke-width="1.5"/><line x1="44" y1="36" x2="26" y2="6" stroke="#94a3b8" stroke-width="1.5"/></svg>`,
+  'Contrefiche':`<svg viewBox="0 0 52 42" fill="none"><rect x="14" y="10" width="28" height="5" rx="1.5" transform="rotate(50 14 10)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/><line x1="26" y1="6" x2="26" y2="36" stroke="#94a3b8" stroke-width="1.5"/></svg>`,
+  'Panne':`<svg viewBox="0 0 52 42" fill="none"><rect x="4" y="16" width="44" height="8" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="4" y1="20" x2="48" y2="20" stroke="#93c5fd" stroke-width="1"/></svg>`,
+  'Sablière':`<svg viewBox="0 0 52 42" fill="none"><rect x="4" y="28" width="44" height="8" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="8" y1="28" x2="26" y2="8" stroke="#94a3b8" stroke-width="1.5"/><line x1="44" y1="28" x2="26" y2="8" stroke="#94a3b8" stroke-width="1.5"/></svg>`,
+  'Chevron':`<svg viewBox="0 0 52 42" fill="none"><rect x="4" y="9" width="28" height="4" rx="1.5" transform="rotate(22 4 9)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><rect x="20" y="9" width="28" height="4" rx="1.5" transform="rotate(-22 48 9)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/></svg>`,
+  'Solive':`<svg viewBox="0 0 52 42" fill="none"><rect x="4" y="17" width="44" height="7" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="16" y1="17" x2="16" y2="24" stroke="#93c5fd" stroke-width="1"/><line x1="28" y1="17" x2="28" y2="24" stroke="#93c5fd" stroke-width="1"/><line x1="40" y1="17" x2="40" y2="24" stroke="#93c5fd" stroke-width="1"/></svg>`,
+  'Jambe de force':`<svg viewBox="0 0 52 42" fill="none"><rect x="20" y="8" width="5" height="26" rx="1.5" transform="rotate(15 20 8)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/><line x1="26" y1="6" x2="26" y2="36" stroke="#94a3b8" stroke-width="1.5"/></svg>`,
+  'Lien de faîtage':`<svg viewBox="0 0 52 42" fill="none"><rect x="22" y="5" width="8" height="14" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="8" y1="36" x2="26" y2="5" stroke="#94a3b8" stroke-width="1.5"/><line x1="44" y1="36" x2="26" y2="5" stroke="#94a3b8" stroke-width="1.5"/></svg>`,
+  'Arêtier':`<svg viewBox="0 0 52 42" fill="none"><rect x="6" y="6" width="32" height="5" rx="1.5" transform="rotate(35 6 6)" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/><line x1="8" y1="36" x2="44" y2="36" stroke="#94a3b8" stroke-width="1.5"/></svg>`,
 };
-
 const ELEM_NAMES = Object.keys(ELEM_SVG);
-
 const STEPS = ['Client','Bois','Éléments','Chantier','Synthèse'];
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
 const state = {
-  step: 0,
-  client: {nom:'',adresse:'',cp:'',ville:''},
-  essence: 'Résineux',
-  insectes: ['Capricorne'],
-  traitement: 'Curatif',
-  elements: [],   // {nom, l, h, qte, ml, id}
-  chantier: {eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false},
-  rec: null, listening: false, recTarget: null,
-  _idCounter: 0,
+  step:0, _idCounter:0,
+  client:{nom:'',adresse:'',cp:'',ville:''},
+  essence:'Résineux', insectes:['Capricorne'], traitement:'Curatif',
+  elements:[],
+  chantier:{eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false},
+  rec:null, listening:false, recTarget:null,
 };
-
 function newId(){ return ++state._idCounter; }
 
-// ─── CALC ─────────────────────────────────────────────────────────────────────
+// ─── PERSISTENCE ─────────────────────────────────────────────────────────────
+const SAVE_KEY='pcp_releve_v3';
+function saveState(){
+  try{
+    localStorage.setItem(SAVE_KEY,JSON.stringify({
+      step:state.step==='vignettes'?'vignettes':(typeof state.step==='number'?state.step:0),
+      client:state.client, essence:state.essence, insectes:state.insectes,
+      traitement:state.traitement, elements:state.elements,
+      chantier:state.chantier, _idCounter:state._idCounter
+    }));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem(SAVE_KEY);
+    if(!raw)return false;
+    Object.assign(state,JSON.parse(raw));
+    return true;
+  }catch(e){return false;}
+}
+setInterval(saveState,3000);
+document.addEventListener('visibilitychange',saveState);
+window.addEventListener('pagehide',saveState);
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ─── CALC ────────────────────────────────────────────────────────────────────
 function rowSurf(el){
   const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0,q=parseInt(el.qte)||0,m=parseFloat(el.ml)||0;
-  return (l&&h&&q&&m)?2*(l+h)*m*q:0;
+  return(l&&h&&q&&m)?2*(l+h)*m*q:0;
 }
 function calcTotals(){
   let surf=0,ml=0;
   state.elements.forEach(e=>{surf+=rowSurf(e);ml+=(parseInt(e.qte)||0)*(parseFloat(e.ml)||0);});
-  return {surf,ml};
+  return{surf,ml};
 }
 
-// ─── STEPPER ──────────────────────────────────────────────────────────────────
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+function go(n){
+  if(state.rec){state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;}
+  if(n==='vignettes'){
+    state.step='vignettes';
+    renderStepper();
+    renderVignetteStep();
+  } else {
+    state.step=n;
+    render();
+  }
+  saveState();
+  window.scrollTo(0,0);
+}
+
+// ─── STEPPER ─────────────────────────────────────────────────────────────────
 function renderStepper(){
+  const stepNum=state.step==='vignettes'?2:(typeof state.step==='number'?state.step:0);
   document.getElementById('stepper').innerHTML=STEPS.map((_,i)=>{
-    let c='step-dot';if(i<state.step)c+=' done';else if(i===state.step)c+=' active';
+    let c='step-dot';if(i<stepNum)c+=' done';else if(i===stepNum)c+=' active';
     return `<div class="${c}"></div>`;
   }).join('');
   document.getElementById('step-labels').innerHTML=STEPS.map((s,i)=>
-    `<div class="step-label ${i===state.step?'active':''}">${s}</div>`
+    `<div class="step-label ${i===stepNum?'active':''}">${s}</div>`
   ).join('');
 }
 
-// ─── MIC HELPERS ──────────────────────────────────────────────────────────────
+// ─── MIC ─────────────────────────────────────────────────────────────────────
 function micBtn(targetId){
   return `<button class="mic-inline" id="mic-${targetId}" onclick="toggleMicField('${targetId}')" aria-label="Dicter">
     <svg viewBox="0 0 24 24"><path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm-1 14.93A7 7 0 0 1 5 9H3a9 9 0 0 0 8 8.94V20H8v2h8v-2h-3v-2.07A9 9 0 0 0 21 9h-2a7 7 0 0 1-6 6.93z"/></svg>
   </button>`;
 }
-
 function toggleMicField(targetId){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){showToast('Micro non disponible — utilisez Chrome');return;}
@@ -317,39 +275,21 @@ function toggleMicField(targetId){
   state.rec=r;state.listening=true;state.recTarget=targetId;r.start();
   updateMicBtns();
 }
-
 function updateMicBtns(){
   document.querySelectorAll('.mic-inline').forEach(b=>{
-    const tid=b.id.replace('mic-','');
-    b.classList.toggle('listening',state.listening&&state.recTarget===tid);
+    b.classList.toggle('listening',state.listening&&state.recTarget===b.id.replace('mic-',''));
   });
 }
 
-// ─── TOAST ────────────────────────────────────────────────────────────────────
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
-}
-
-function saveClient(){
-  state.client.nom=document.getElementById('f-nom')?.value||'';
-  state.client.adresse=document.getElementById('f-adr')?.value||'';
-  state.client.cp=document.getElementById('f-cp')?.value||'';
-  state.client.ville=document.getElementById('f-ville')?.value||'';
-  go(1);
-}
-
-// ─── MODAL (section input) ────────────────────────────────────────────────────
+// ─── MODAL ───────────────────────────────────────────────────────────────────
 function openModal(elemName){
-  const mc=document.getElementById('modal-container');
-  mc.innerHTML=`
+  document.getElementById('modal-container').innerHTML=`
     <div class="modal-overlay" onclick="closeModalOutside(event)">
       <div class="modal-sheet">
         <div class="modal-title">${elemName}</div>
-        <div class="modal-sub">Renseignez la section et les dimensions</div>
+        <div class="modal-sub">Section et dimensions</div>
         <div class="modal-field">
-          <label>Section (cm) — largeur × hauteur</label>
+          <label>Section (cm)</label>
           <div class="section-inputs">
             <input type="number" id="m-larg" inputmode="decimal" placeholder="8" min="0" step="0.5">
             <span class="section-sep">×</span>
@@ -357,12 +297,12 @@ function openModal(elemName){
           </div>
         </div>
         <div class="modal-field">
-          <label>Quantité</label>
-          <input type="number" id="m-qte" inputmode="numeric" placeholder="12" min="1">
+          <label>ML/u. (longueur unitaire en mètres)</label>
+          <input type="number" id="m-ml" inputmode="decimal" placeholder="4.5" min="0" step="0.1">
         </div>
         <div class="modal-field">
-          <label>Longueur unitaire (ML/u. en mètres)</label>
-          <input type="number" id="m-ml" inputmode="decimal" placeholder="4.5" min="0" step="0.1">
+          <label>Quantité</label>
+          <input type="number" id="m-qte" inputmode="numeric" placeholder="12" min="1">
         </div>
         <div class="modal-btns">
           <button class="btn-cancel" onclick="closeModal()">Annuler</button>
@@ -370,32 +310,27 @@ function openModal(elemName){
         </div>
       </div>
     </div>`;
-  document.getElementById('m-larg').focus();
+  setTimeout(()=>document.getElementById('m-larg').focus(),100);
 }
-
 function closeModalOutside(e){if(e.target===e.currentTarget)closeModal();}
 function closeModal(){document.getElementById('modal-container').innerHTML='';}
-
 function validateModal(nom){
   const l=document.getElementById('m-larg').value;
   const h=document.getElementById('m-haut').value;
-  const qte=document.getElementById('m-qte').value;
   const ml=document.getElementById('m-ml').value;
+  const qte=document.getElementById('m-qte').value;
   if(!l||!h||!qte){showToast('Section et quantité obligatoires');return;}
-  state.elements.push({id:newId(),nom,l,h,qte,ml:ml||''});
+  state.elements.push({id:newId(),nom,l,h,ml:ml||'',qte});
   closeModal();
-  // stay on vignette screen — update counts
   renderVignetteStep();
+  saveState();
   showToast(`✓ ${nom} ajouté`);
 }
 
-// ─── VIGNETTE STEP (2b — picking elements) ───────────────────────────────────
+// ─── VIGNETTES ───────────────────────────────────────────────────────────────
 function countByName(nom){return state.elements.filter(e=>e.nom===nom).length;}
-
 function renderVignetteStep(){
-  const c=document.getElementById('content');
-  const n=document.getElementById('nav-bar');
-  c.innerHTML=`
+  document.getElementById('content').innerHTML=`
     <div class="card">
       <div class="card-title">Sélectionnez les éléments à relever</div>
       <div class="vignettes-grid">
@@ -409,14 +344,62 @@ function renderVignetteStep(){
         }).join('')}
       </div>
     </div>`;
-  n.innerHTML=`
+  document.getElementById('nav-bar').innerHTML=`
     <button class="btn-back" onclick="go(1)">← Retour</button>
     <button class="btn-next" onclick="goToElemList()">Voir le relevé →</button>`;
 }
-
 function goToElemList(){
   if(state.elements.length===0){showToast('Ajoutez au moins un élément');return;}
   go(2);
+}
+
+// ─── ELEM LIST ────────────────────────────────────────────────────────────────
+function updateElem(id,field,val){
+  const el=state.elements.find(e=>e.id===id);
+  if(!el)return;
+  el[field]=val;
+  const s=rowSurf(el);
+  const sd=document.getElementById('surf-'+id);
+  if(sd)sd.textContent=s>0?s.toFixed(2)+' m²':'—';
+  saveState();
+}
+function deleteElem(id){
+  if(!confirm('Supprimer cette ligne ?'))return;
+  state.elements=state.elements.filter(e=>e.id!==id);
+  saveState();
+  render();
+}
+
+// ─── TOGGLES ─────────────────────────────────────────────────────────────────
+function toggleInsecte(name,el){
+  const idx=state.insectes.indexOf(name);
+  if(idx>=0){if(state.insectes.length===1){showToast('Au moins un insecte requis');return;}state.insectes.splice(idx,1);el.classList.remove('selected');}
+  else{state.insectes.push(name);el.classList.add('selected');}
+}
+function toggleInj(){
+  const d=document.getElementById('inj-detail');
+  if(d)d.style.display=state.chantier.injecteurs?'':'none';
+}
+
+// ─── NEW RELEVE ───────────────────────────────────────────────────────────────
+function newReleve(){
+  if(!confirm('Commencer un nouveau relevé ? Les données seront effacées.'))return;
+  state.step=0;state._idCounter=0;
+  state.client={nom:'',adresse:'',cp:'',ville:''};
+  state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
+  state.elements=[];
+  state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
+  try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+  render();
+}
+
+// ─── SAVE CLIENT ──────────────────────────────────────────────────────────────
+function saveClient(){
+  state.client.nom=document.getElementById('f-nom')?.value||'';
+  state.client.adresse=document.getElementById('f-adr')?.value||'';
+  state.client.cp=document.getElementById('f-cp')?.value||'';
+  state.client.ville=document.getElementById('f-ville')?.value||'';
+  go(1);
 }
 
 // ─── RENDER ───────────────────────────────────────────────────────────────────
@@ -425,154 +408,104 @@ function render(){
   const c=document.getElementById('content');
   const n=document.getElementById('nav-bar');
 
-  // STEP 0 — CLIENT
   if(state.step===0){
     const SR=typeof webkitSpeechRecognition!=='undefined'||typeof SpeechRecognition!=='undefined';
     c.innerHTML=`
       <div class="card">
         <div class="card-title">Informations client</div>
-        <div class="field">
-          <label class="field-label">Nom / Raison sociale</label>
-          <div class="input-mic-row">
-            <input type="text" id="f-nom" value="${state.client.nom}" placeholder="Jean Dupont" autocomplete="name">
-            ${micBtn('f-nom')}
-          </div>
-        </div>
-        <div class="field">
-          <label class="field-label">Adresse du chantier</label>
-          <div class="input-mic-row">
-            <input type="text" id="f-adr" value="${state.client.adresse}" placeholder="12 rue des Lilas" autocomplete="street-address">
-            ${micBtn('f-adr')}
-          </div>
-        </div>
+        <div class="field"><label class="field-label">Nom / Raison sociale</label>
+          <div class="input-mic-row"><input type="text" id="f-nom" value="${state.client.nom}" placeholder="Jean Dupont">${micBtn('f-nom')}</div></div>
+        <div class="field"><label class="field-label">Adresse du chantier</label>
+          <div class="input-mic-row"><input type="text" id="f-adr" value="${state.client.adresse}" placeholder="12 rue des Lilas">${micBtn('f-adr')}</div></div>
         <div class="field field-grid">
-          <div>
-            <label class="field-label">Code postal</label>
-            <div class="input-mic-row">
-              <input type="text" id="f-cp" value="${state.client.cp}" placeholder="33000" inputmode="numeric">
-              ${micBtn('f-cp')}
-            </div>
-          </div>
-          <div>
-            <label class="field-label">Ville</label>
-            <div class="input-mic-row">
-              <input type="text" id="f-ville" value="${state.client.ville}" placeholder="Bordeaux">
-              ${micBtn('f-ville')}
-            </div>
-          </div>
+          <div><label class="field-label">Code postal</label>
+            <div class="input-mic-row"><input type="text" id="f-cp" value="${state.client.cp}" placeholder="33000" inputmode="numeric">${micBtn('f-cp')}</div></div>
+          <div><label class="field-label">Ville</label>
+            <div class="input-mic-row"><input type="text" id="f-ville" value="${state.client.ville}" placeholder="Bordeaux">${micBtn('f-ville')}</div></div>
         </div>
-        ${!SR?'<div class="no-speech">Micro non disponible sur ce navigateur. Utilisez Chrome.</div>':''}
+        ${!SR?'<div class="no-speech">Micro non disponible. Utilisez Chrome.</div>':''}
       </div>`;
     n.innerHTML=`<button class="btn-next" onclick="saveClient()">Suivant →</button>`;
 
-  // STEP 1 — BOIS & TRAITEMENT
   } else if(state.step===1){
     c.innerHTML=`
       <div class="card">
         <div class="card-title">Essence du bois</div>
-        <div class="chip-group">
-          ${['Résineux','Chêne','Autre feuillu'].map(e=>`<div class="chip ${state.essence===e?'selected':''}" onclick="state.essence='${e}';this.closest('.chip-group').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">${e}</div>`).join('')}
+        <div class="chip-group" id="ess-g">
+          ${['Résineux','Chêne','Autre feuillu'].map(e=>`<div class="chip ${state.essence===e?'selected':''}" onclick="state.essence='${e}';document.querySelectorAll('#ess-g .chip').forEach(x=>x.classList.remove('selected'));this.classList.add('selected')">${e}</div>`).join('')}
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Insecte(s) ciblé(s) <span style="font-size:11px;font-weight:400;text-transform:none">(plusieurs choix possibles)</span></div>
-        <div class="chip-group" id="insecte-group">
+        <div class="card-title">Insecte(s) ciblé(s) <span style="font-size:11px;font-weight:400;text-transform:none">(plusieurs choix)</span></div>
+        <div class="chip-group" id="ins-g">
           ${['Capricorne','Vrillette','Lyctus','Termites','Autre'].map(e=>`<div class="chip ${state.insectes.includes(e)?'selected':''}" onclick="toggleInsecte('${e}',this)">${e}</div>`).join('')}
         </div>
       </div>
       <div class="card">
         <div class="card-title">Type de traitement</div>
-        <div class="chip-group" id="trait-group">
-          ${['Curatif','Préventif'].map(e=>`<div class="chip ${state.traitement===e?'selected':''}" onclick="state.traitement='${e}';document.querySelectorAll('#trait-group .chip').forEach(c=>c.classList.remove('selected'));this.classList.add('selected')">${e}</div>`).join('')}
+        <div class="chip-group" id="trt-g">
+          ${['Curatif','Préventif'].map(e=>`<div class="chip ${state.traitement===e?'selected':''}" onclick="state.traitement='${e}';document.querySelectorAll('#trt-g .chip').forEach(x=>x.classList.remove('selected'));this.classList.add('selected')">${e}</div>`).join('')}
         </div>
       </div>`;
     n.innerHTML=`<button class="btn-back" onclick="go(0)">← Retour</button><button class="btn-next" onclick="go('vignettes')">Suivant →</button>`;
 
-  // STEP 2 — ELEMENT LIST
   } else if(state.step===2){
-    // Sort elements alphabetically then by id within same name
     const sorted=[...state.elements].sort((a,b)=>a.nom.localeCompare(b.nom,'fr')||(a.id-b.id));
-    // Group by name
     const groups={};
     sorted.forEach(el=>{if(!groups[el.nom])groups[el.nom]=[];groups[el.nom].push(el);});
-
     const groupsHTML=Object.entries(groups).map(([nom,els])=>`
       <div class="elem-block">
         <div class="elem-block-header">
           <span class="elem-block-name">${nom}</span>
-          <button class="elem-block-add" onclick="openModal('${nom}')" title="Ajouter une ligne">＋</button>
+          <button class="elem-block-add" onclick="openModal('${nom}')">＋</button>
         </div>
         ${els.map(el=>{
           const s=rowSurf(el);
           return `<div class="elem-row" id="row-${el.id}">
-            <div class="elem-col">
-              <div class="elem-row-label">Larg.</div>
-              <input type="number" value="${el.l}" min="0" step="0.5" inputmode="decimal" oninput="updateElem(${el.id},'l',this.value)" style="width:52px">
-            </div>
+            <div class="elem-col"><div class="elem-row-label">Larg.</div>
+              <input type="number" value="${el.l}" min="0" step="0.5" inputmode="decimal" oninput="updateElem(${el.id},'l',this.value)" style="width:50px"></div>
             <div class="section-x">×</div>
-            <div class="elem-col">
-              <div class="elem-row-label">Haut.</div>
-              <input type="number" value="${el.h}" min="0" step="0.5" inputmode="decimal" oninput="updateElem(${el.id},'h',this.value)" style="width:52px">
-            </div>
-            <div class="elem-col" style="margin-left:4px">
-              <div class="elem-row-label">ML/u.</div>
-              <input type="number" value="${el.ml}" min="0" step="0.1" inputmode="decimal" oninput="updateElem(${el.id},'ml',this.value)" style="width:52px">
-            </div>
-            <div class="elem-col" style="margin-left:4px">
-              <div class="elem-row-label">Qté</div>
-              <input type="number" value="${el.qte}" min="0" inputmode="numeric" oninput="updateElem(${el.id},'qte',this.value)" style="width:44px">
-            </div>
+            <div class="elem-col"><div class="elem-row-label">Haut.</div>
+              <input type="number" value="${el.h}" min="0" step="0.5" inputmode="decimal" oninput="updateElem(${el.id},'h',this.value)" style="width:50px"></div>
+            <div class="elem-col" style="margin-left:4px"><div class="elem-row-label">ML/u.</div>
+              <input type="number" value="${el.ml}" min="0" step="0.1" inputmode="decimal" oninput="updateElem(${el.id},'ml',this.value)" style="width:50px"></div>
+            <div class="elem-col" style="margin-left:4px"><div class="elem-row-label">Qté</div>
+              <input type="number" value="${el.qte}" min="0" inputmode="numeric" oninput="updateElem(${el.id},'qte',this.value)" style="width:44px"></div>
             <div class="elem-surf" id="surf-${el.id}">${s>0?s.toFixed(2)+' m²':'—'}</div>
-            <button class="elem-del" onclick="deleteElem(${el.id})" title="Supprimer">
+            <button class="elem-del" onclick="deleteElem(${el.id})">
               <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
             </button>
           </div>`;
         }).join('')}
       </div>`).join('');
-
-    c.innerHTML=`
-      <div class="elem-list">${groupsHTML}</div>
-      <div class="add-more-btn" onclick="go('vignettes')">＋ Ajouter des éléments</div>`;
+    c.innerHTML=`<div class="elem-list">${groupsHTML}</div><div class="add-more-btn" onclick="go('vignettes')">＋ Ajouter des éléments</div>`;
     n.innerHTML=`<button class="btn-back" onclick="go('vignettes')">← Éléments</button><button class="btn-next" onclick="go(3)">Suivant →</button>`;
 
-  // STEP 3 — CHANTIER
   } else if(state.step===3){
     const ch=state.chantier;
-    const toggles=[
-      ['eau',"Point d'eau disponible"],['elec','Électricité disponible'],
-      ['sol','Sol dur (béton / carrelage)'],['parking','Stationnement possible'],
-      ['tourillon','Pose de tourillons'],['echaf','Échafaudage nécessaire']
-    ];
+    const togs=[['eau',"Point d'eau"],['elec','Électricité'],['sol','Sol dur'],['parking','Stationnement'],['tourillon','Pose tourillons'],['echaf','Échafaudage']];
     c.innerHTML=`
       <div class="card">
-        ${toggles.map(([k,l])=>`
-          <div class="toggle-row">
-            <span class="tlabel">${l}</span>
-            <label class="toggle-switch"><input type="checkbox" ${ch[k]?'checked':''} onchange="state.chantier['${k}']=this.checked"><span class="toggle-slider"></span></label>
-          </div>`).join('')}
-        <div class="toggle-row">
-          <span class="tlabel">Injecteurs déjà présents</span>
-          <label class="toggle-switch"><input type="checkbox" ${ch.injecteurs?'checked':''} onchange="state.chantier.injecteurs=this.checked;toggleInj()"><span class="toggle-slider"></span></label>
-        </div>
+        ${togs.map(([k,l])=>`<div class="toggle-row"><span class="tlabel">${l}</span>
+          <label class="toggle-switch"><input type="checkbox" ${ch[k]?'checked':''} onchange="state.chantier['${k}']=this.checked"><span class="toggle-slider"></span></label></div>`).join('')}
+        <div class="toggle-row"><span class="tlabel">Injecteurs déjà présents</span>
+          <label class="toggle-switch"><input type="checkbox" ${ch.injecteurs?'checked':''} onchange="state.chantier.injecteurs=this.checked;toggleInj()"><span class="toggle-slider"></span></label></div>
         <div id="inj-detail" style="${ch.injecteurs?'':'display:none'}">
-          <div class="inj-row"><label>Nombre d'injecteurs :</label><input type="number" min="0" inputmode="numeric" value="${ch.nbInj}" oninput="state.chantier.nbInj=this.value" style="width:80px"></div>
+          <div class="inj-row"><label>Nombre :</label><input type="number" min="0" inputmode="numeric" value="${ch.nbInj}" oninput="state.chantier.nbInj=this.value"></div>
         </div>
       </div>
       <div class="card">
         <div class="field field-grid">
           <div><label class="field-label">Hauteur sous plafond (m)</label>
-            <input type="number" step="0.1" min="0" inputmode="decimal" value="${ch.hauteur}" oninput="state.chantier.hauteur=this.value" placeholder="2.5">
-          </div>
-          <div><label class="field-label">Niveau de bûchage</label>
+            <input type="number" step="0.1" min="0" inputmode="decimal" value="${ch.hauteur}" oninput="state.chantier.hauteur=this.value" placeholder="2.5"></div>
+          <div><label class="field-label">Bûchage</label>
             <select onchange="state.chantier.buchage=this.value">
               ${['Aucun','Faible','Moyen','Important'].map(b=>`<option ${ch.buchage===b?'selected':''}>${b}</option>`).join('')}
-            </select>
-          </div>
+            </select></div>
         </div>
       </div>`;
     n.innerHTML=`<button class="btn-back" onclick="go(2)">← Retour</button><button class="btn-next" onclick="go(4)">Voir synthèse →</button>`;
 
-  // STEP 4 — SYNTHESE
   } else if(state.step===4){
     const {surf,ml}=calcTotals();
     const ch=state.chantier;
@@ -584,79 +517,36 @@ function render(){
         <div class="kpi-card"><div class="kpi-val">${state.elements.length}</div><div class="kpi-label">lignes relevées</div></div>
       </div>
       <div class="card">
-        <div class="synth-section">
-          <h3>Identification</h3>
+        <div class="synth-section"><h3>Identification</h3>
           <div class="synth-row"><span class="lbl">Client</span><span class="val">${state.client.nom||'—'}</span></div>
           <div class="synth-row"><span class="lbl">Adresse</span><span class="val">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
         </div>
-        <div class="synth-section">
-          <h3>Bois & traitement</h3>
+        <div class="synth-section"><h3>Bois & traitement</h3>
           <div class="synth-row"><span class="lbl">Essence</span><span class="val">${state.essence}</span></div>
           <div class="synth-row"><span class="lbl">Insecte(s)</span><span class="val">${state.insectes.join(', ')}</span></div>
           <div class="synth-row"><span class="lbl">Traitement</span><span class="val">${state.traitement}</span></div>
         </div>
-        <div class="synth-section">
-          <h3>Éléments de charpente</h3>
-          ${sorted.map(el=>{
-            const s=rowSurf(el);
-            return `<div class="synth-row">
-              <span class="lbl">${el.nom} (${el.l}×${el.h}cm / ${el.qte}u / ${el.ml}ml)</span>
-              <span class="val">${s>0?s.toFixed(2)+' m²':'—'}</span>
-            </div>`;
-          }).join('')||'<div style="color:#94a3b8;font-size:13px">Aucun élément</div>'}
+        <div class="synth-section"><h3>Éléments de charpente</h3>
+          ${sorted.map(el=>{const s=rowSurf(el);return`<div class="synth-row"><span class="lbl">${el.nom} (${el.l}×${el.h}cm / ${el.ml}ml / ${el.qte}u)</span><span class="val">${s>0?s.toFixed(2)+' m²':'—'}</span></div>`;}).join('')||'<div style="color:#94a3b8;font-size:13px">Aucun élément</div>'}
           <div class="synth-total"><span class="lbl">Surface développée</span><span class="val">${surf.toFixed(2)} m²</span></div>
           <div class="synth-total" style="margin-top:6px"><span class="lbl">Linéaire total</span><span class="val">${ml.toFixed(2)} ml</span></div>
         </div>
-        <div class="synth-section">
-          <h3>Conditions de chantier</h3>
-          <div class="synth-row"><span class="lbl">Point d'eau</span><span class="val">${ch.eau?'✓ Oui':'Non'}</span></div>
-          <div class="synth-row"><span class="lbl">Électricité</span><span class="val">${ch.elec?'✓ Oui':'Non'}</span></div>
-          <div class="synth-row"><span class="lbl">Sol dur</span><span class="val">${ch.sol?'✓ Oui':'Non'}</span></div>
-          <div class="synth-row"><span class="lbl">Stationnement</span><span class="val">${ch.parking?'✓ Oui':'Non'}</span></div>
+        <div class="synth-section"><h3>Conditions de chantier</h3>
+          <div class="synth-row"><span class="lbl">Point d'eau</span><span class="val">${ch.eau?'✓':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Électricité</span><span class="val">${ch.elec?'✓':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Sol dur</span><span class="val">${ch.sol?'✓':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Stationnement</span><span class="val">${ch.parking?'✓':'Non'}</span></div>
           <div class="synth-row"><span class="lbl">Hauteur sous plafond</span><span class="val">${ch.hauteur||'—'} m</span></div>
-          <div class="synth-row"><span class="lbl">Injecteurs présents</span><span class="val">${ch.injecteurs?`✓ Oui (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
-          <div class="synth-row"><span class="lbl">Pose tourillons</span><span class="val">${ch.tourillon?'✓ Oui':'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Injecteurs présents</span><span class="val">${ch.injecteurs?`✓ (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
+          <div class="synth-row"><span class="lbl">Pose tourillons</span><span class="val">${ch.tourillon?'✓':'Non'}</span></div>
           <div class="synth-row"><span class="lbl">Bûchage</span><span class="val">${ch.buchage}</span></div>
-          <div class="synth-row"><span class="lbl">Échafaudage</span><span class="val">${ch.echaf?'✓ Nécessaire':'Non nécessaire'}</span></div>
+          <div class="synth-row"><span class="lbl">Échafaudage</span><span class="val">${ch.echaf?'✓ Nécessaire':'Non'}</span></div>
         </div>
       </div>
       <button class="download-btn" onclick="exportDoc()">⬇ Télécharger le relevé</button>
       <button class="new-btn" onclick="newReleve()">Nouveau relevé</button>`;
     n.innerHTML=`<button class="btn-back" onclick="go(3)">← Modifier</button>`;
   }
-}
-
-// ─── ELEM UPDATE / DELETE ─────────────────────────────────────────────────────
-function updateElem(id,field,val){
-  const el=state.elements.find(e=>e.id===id);
-  if(!el)return;
-  el[field]=val;
-  const s=rowSurf(el);
-  const sd=document.getElementById(`surf-${id}`);
-  if(sd)sd.textContent=s>0?s.toFixed(2)+' m²':'—';
-}
-
-function deleteElem(id){
-  if(!confirm('Supprimer cette ligne ?'))return;
-  state.elements=state.elements.filter(e=>e.id!==id);
-  render();
-}
-
-function toggleInsecte(name,el){
-  const idx=state.insectes.indexOf(name);
-  if(idx>=0){if(state.insectes.length===1){showToast('Au moins un insecte requis');return;}state.insectes.splice(idx,1);el.classList.remove('selected');}
-  else{state.insectes.push(name);el.classList.add('selected');}
-}
-
-function toggleInj(){
-  const d=document.getElementById('inj-detail');
-  if(d)d.style.display=state.chantier.injecteurs?'':'none';
-}
-
-function go(n){
-  if(state.rec){state.rec.stop();state.rec=null;state.listening=false;state.recTarget=null;}
-  if(n==='vignettes'){state.step='vignettes';renderStepper();renderVignetteStep();saveState();window.scrollTo(0,0);return;}
-  state.step=n;render();saveState();window.scrollTo(0,0);
 }
 
 // ─── EXPORT ───────────────────────────────────────────────────────────────────
@@ -673,21 +563,15 @@ function exportDoc(){
   }).join('');
   const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><style>
     body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0}
-    .hdr{background:#1a3a5c;color:white;padding:20px 28px}
-    .hdr h1{font-size:15pt;margin:0 0 4px}
-    .hdr p{margin:0;font-size:10pt;opacity:.8}
+    .hdr{background:#1a3a5c;color:white;padding:20px 28px}.hdr h1{font-size:15pt;margin:0 0 4px}.hdr p{margin:0;font-size:10pt;opacity:.8}
     .body{padding:22px 28px}
     h2{font-size:11pt;font-weight:700;color:#1a3a5c;border-bottom:2px solid #e8f0f8;padding-bottom:4px;margin:18px 0 10px}
-    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:.5px solid #e2e8f0}
-    .irow .l{color:#64748b}.irow .v{font-weight:600}
+    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:.5px solid #e2e8f0}.irow .l{color:#64748b}.irow .v{font-weight:600}
     .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
-    .kpi{background:#eff6ff;border-radius:8px;padding:12px;text-align:center}
-    .kpi .n{font-size:20pt;font-weight:700;color:#2563eb}.kpi .u{font-size:9pt;color:#64748b}
+    .kpi{background:#eff6ff;border-radius:8px;padding:12px;text-align:center}.kpi .n{font-size:20pt;font-weight:700;color:#2563eb}.kpi .u{font-size:9pt;color:#64748b}
     table{width:100%;border-collapse:collapse;font-size:10pt}
     th{background:#1a3a5c;color:white;padding:7px 8px;font-size:9pt;text-align:left}
-    td{padding:6px 8px;border-bottom:.5px solid #e2e8f0}
-    tr:nth-child(even){background:#f8fafc}
-    tfoot td{background:#eff6ff;font-weight:700}
+    td{padding:6px 8px;border-bottom:.5px solid #e2e8f0}tr:nth-child(even){background:#f8fafc}tfoot td{background:#eff6ff;font-weight:700}
     .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
     .ftr{background:#f8fafc;padding:10px 28px;border-top:.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
   </style></head><body>
@@ -697,8 +581,8 @@ function exportDoc(){
     <div class="irow"><span class="l">Client</span><span class="v">${state.client.nom||'—'}</span></div>
     <div class="irow"><span class="l">Adresse</span><span class="v">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
     <div class="irow"><span class="l">Essence</span><span class="v">${state.essence}</span></div>
-    <div class="irow"><span class="l">Insecte(s) ciblé(s)</span><span class="v">${state.insectes.join(', ')}</span></div>
-    <div class="irow"><span class="l">Type de traitement</span><span class="v">${state.traitement}</span></div>
+    <div class="irow"><span class="l">Insecte(s)</span><span class="v">${state.insectes.join(', ')}</span></div>
+    <div class="irow"><span class="l">Traitement</span><span class="v">${state.traitement}</span></div>
     <div class="kpis">
       <div class="kpi"><div class="n">${surf.toFixed(1)}</div><div class="u">m² surface développée</div></div>
       <div class="kpi"><div class="n">${ml.toFixed(1)}</div><div class="u">mètres linéaires</div></div>
@@ -710,21 +594,18 @@ function exportDoc(){
     <tfoot><tr><td colspan="3"><strong>Totaux</strong></td><td style="text-align:center"><strong>${ml.toFixed(2)} ml</strong></td><td></td><td style="text-align:right"><strong>${surf.toFixed(2)} m²</strong></td></tr></tfoot>
     </table>
     <h2>Conditions de chantier</h2>
-    <div class="g2">
-      <div>
-        <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓ Disponible':'Non'}</span></div>
-        <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓ Disponible':'Non'}</span></div>
-        <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓ Oui':'Non'}</span></div>
-        <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓ Possible':'Non'}</span></div>
-        <div class="irow"><span class="l">Hauteur sous plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
-      </div>
-      <div>
-        <div class="irow"><span class="l">Injecteurs présents</span><span class="v">${ch.injecteurs?`✓ Oui (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
-        <div class="irow"><span class="l">Pose tourillons</span><span class="v">${ch.tourillon?'✓ Oui':'Non'}</span></div>
-        <div class="irow"><span class="l">Bûchage</span><span class="v">${ch.buchage}</span></div>
-        <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓ Nécessaire':'Non'}</span></div>
-      </div>
-    </div>
+    <div class="g2"><div>
+      <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓ Disponible':'Non'}</span></div>
+      <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓ Disponible':'Non'}</span></div>
+      <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓ Oui':'Non'}</span></div>
+      <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓ Possible':'Non'}</span></div>
+      <div class="irow"><span class="l">Hauteur sous plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
+    </div><div>
+      <div class="irow"><span class="l">Injecteurs présents</span><span class="v">${ch.injecteurs?`✓ (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
+      <div class="irow"><span class="l">Pose tourillons</span><span class="v">${ch.tourillon?'✓ Oui':'Non'}</span></div>
+      <div class="irow"><span class="l">Bûchage</span><span class="v">${ch.buchage}</span></div>
+      <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓ Nécessaire':'Non'}</span></div>
+    </div></div>
   </div>
   <div class="ftr">Document établi par le commercial — à joindre au devis client · Pest Control Partnership</div>
   </body></html>`;
@@ -737,69 +618,14 @@ function exportDoc(){
   showToast('Relevé téléchargé');
 }
 
-// ─── SAUVEGARDE AUTOMATIQUE ───────────────────────────────────────────────────
-const SAVE_KEY = 'pcp_releve_v2';
-
-function saveState(){
-  try {
-    const toSave = {
-      step: typeof state.step === 'number' ? state.step : 0,
-      client: state.client,
-      essence: state.essence,
-      insectes: state.insectes,
-      traitement: state.traitement,
-      elements: state.elements,
-      chantier: state.chantier,
-      _idCounter: state._idCounter,
-    };
-    localStorage.setItem(SAVE_KEY, JSON.stringify(toSave));
-  } catch(e){}
-}
-
-function loadState(){
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if(!raw) return false;
-    const saved = JSON.parse(raw);
-    Object.assign(state, saved);
-    return true;
-  } catch(e){ return false; }
-}
-
-// Auto-save every 3 seconds + on visibility change
-setInterval(saveState, 3000);
-document.addEventListener('visibilitychange', saveState);
-window.addEventListener('pagehide', saveState);
-
-function newReleve(){
-  if(!confirm('Commencer un nouveau relevé ? Les données seront effacées.'))return;
-  state.step=0;
-  state.client={nom:'',adresse:'',cp:'',ville:''};
-  state.essence='Résineux';state.insectes=['Capricorne'];state.traitement='Curatif';
-  state.elements=[];
-  state.chantier={eau:false,elec:false,sol:false,parking:false,hauteur:'',injecteurs:false,nbInj:'',tourillon:false,buchage:'Faible',echaf:false};
-  try{localStorage.removeItem(SAVE_KEY);}catch(e){}
-  render();
-}
-
 // ─── INIT ────────────────────────────────────────────────────────────────────
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
-}
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
-const hadSaved = loadState();
-if(hadSaved && state.elements.length > 0){
-  // Notify user data was restored
-  setTimeout(()=>showToast('Relevé en cours restauré ✓'), 400);
-}
+const hadSaved=loadState();
+if(hadSaved && state.elements.length>0) setTimeout(()=>showToast('Relevé en cours restauré ✓'),400);
 
-// Restore correct screen
-if(state.step === 'vignettes'){
-  renderStepper();
-  renderVignetteStep();
-} else {
-  render();
-}
+if(state.step==='vignettes'){renderStepper();renderVignetteStep();}
+else{render();}
 </script>
 </body>
 </html>
