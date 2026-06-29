@@ -693,73 +693,220 @@ function render(){
 }
 
 // ─── EXPORT ───────────────────────────────────────────────────────────────────
-function exportDoc(){
-  const {surf,ml}=calcTotals();
-  const ch=state.chantier;
-  const date=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  const sorted=[...state.elements].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
-  const rows=sorted.map(el=>{
+// ─── PDF ENGINE ──────────────────────────────────────────────────────────────
+function loadJsPDF(){
+  return new Promise((resolve,reject)=>{
+    if(window.jspdf){resolve(window.jspdf.jsPDF);return;}
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload=()=>resolve(window.jspdf.jsPDF);
+    s.onerror=reject;
+    document.head.appendChild(s);
+  });
+}
+
+function buildPdfData(d){
+  // d = { client, commercial, essence, insectes, traitement, elements, chantier, surf, ml, date }
+  return d;
+}
+
+async function generatePDF(d, filename){
+  showToast('Génération du PDF…');
+  const JsPDF = await loadJsPDF();
+  const doc = new JsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+  const W=210, M=14, CW=W-M*2;
+  let y=0;
+
+  // ── Helpers ──
+  const BLUE=[26,58,92], BLUE_LIGHT=[232,240,248], ACCENT=[37,99,235], GREY=[100,116,139];
+  function setFont(style,size,color){
+    doc.setFont('helvetica',style);
+    doc.setFontSize(size);
+    doc.setTextColor(...(color||[30,41,59]));
+  }
+  function line(x1,y1,x2,y2,color,w){
+    doc.setDrawColor(...(color||[226,232,240]));
+    doc.setLineWidth(w||0.3);
+    doc.line(x1,y1,x2,y2);
+  }
+  function checkPage(needed){
+    if(y+needed>280){doc.addPage();y=14;}
+  }
+  function row(label,value){
+    checkPage(7);
+    setFont('normal',9,GREY); doc.text(label,M,y);
+    setFont('bold',9); doc.text(String(value||'—'),M+50,y);
+    line(M,y+1.5,M+CW,y+1.5);
+    y+=6.5;
+  }
+  function sectionTitle(title){
+    checkPage(12);
+    y+=3;
+    doc.setFillColor(...BLUE_LIGHT);
+    doc.rect(M,y-4,CW,7,'F');
+    setFont('bold',9,BLUE); doc.text(title.toUpperCase(),M+2,y);
+    y+=5;
+  }
+
+  // ── Header band ──
+  doc.setFillColor(...BLUE);
+  doc.rect(0,0,W,28,'F');
+  setFont('bold',14,[255,255,255]);
+  doc.text('Relevé de charpente',M,11);
+  setFont('normal',9,[200,215,230]);
+  doc.text('Traitement insectes xylophages — Pest Control Partnership',M,17);
+  setFont('normal',8,[180,200,220]);
+  doc.text(`Établi le ${d.date}   ·   ${d.commercial.nom||''}   ·   ${d.commercial.agence||''}`,M,23);
+  y=36;
+
+  // ── KPI band ──
+  const kpis=[
+    {label:'Surface développée',val:d.surf.toFixed(2)+' m²'},
+    {label:'Linéaire total',val:d.ml.toFixed(2)+' ml'},
+    {label:'Éléments relevés',val:String(d.elements.length)},
+  ];
+  const kw=CW/3;
+  kpis.forEach((k,i)=>{
+    const x=M+i*kw;
+    doc.setFillColor(...BLUE_LIGHT);
+    doc.roundedRect(x,y,kw-3,18,2,2,'F');
+    setFont('bold',16,ACCENT); doc.text(k.val,x+kw/2-1.5,y+10,{align:'center'});
+    setFont('normal',7,GREY); doc.text(k.label,x+kw/2-1.5,y+15,{align:'center'});
+  });
+  y+=24;
+
+  // ── Identification ──
+  sectionTitle('Identification');
+  row('Client',d.client.nom);
+  row('Adresse',[d.client.adresse,d.client.cp,d.client.ville].filter(Boolean).join(', '));
+  if(d.client.email) row('Email',d.client.email);
+  if(d.client.tel) row('Téléphone',d.client.tel);
+  row('Commercial',d.commercial.nom);
+  row('Agence',d.commercial.agence);
+
+  // ── Bois & Traitement ──
+  sectionTitle('Bois & traitement');
+  row('Essence',d.essence);
+  row('Insecte(s)',Array.isArray(d.insectes)?d.insectes.join(', '):d.insectes);
+  row('Type de traitement',d.traitement);
+
+  // ── Éléments table ──
+  sectionTitle('Éléments de charpente');
+  const cols=['Élément','Section (cm)','ML/u.','Qté','Périm. (m)','Surface (m²)'];
+  const cw=[52,28,20,18,26,28];
+  const cx=[M, M+52, M+80, M+100, M+118, M+144];
+
+  // Header
+  doc.setFillColor(...BLUE);
+  doc.rect(M,y-4,CW,7,'F');
+  setFont('bold',7,[255,255,255]);
+  cols.forEach((c,i)=>doc.text(c,cx[i]+1,y,{align:i===5?'right':'left',maxWidth:cw[i]-2}));
+  y+=4.5;
+  line(M,y,M+CW,y,[200,210,220]);
+  y+=2;
+
+  // Rows
+  const sorted=d.elements.slice().sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+  sorted.forEach((el,ri)=>{
+    checkPage(8);
     const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
     const per=l&&h?(2*(l+h)).toFixed(3):'—';
-    const s=rowSurf(el);
-    return `<tr><td>${el.nom}</td><td style="text-align:center">${el.l}×${el.h}</td><td style="text-align:center">${el.ml}</td><td style="text-align:center">${el.qte}</td><td style="text-align:center">${per}</td><td style="text-align:right;font-weight:600">${s>0?s.toFixed(2):'—'}</td></tr>`;
-  }).join('');
-  const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><style>
-    body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0}
-    .hdr{background:#1a3a5c;color:white;padding:20px 28px}.hdr h1{font-size:15pt;margin:0 0 4px}.hdr p{margin:0;font-size:10pt;opacity:.8}
-    .body{padding:22px 28px}
-    h2{font-size:11pt;font-weight:700;color:#1a3a5c;border-bottom:2px solid #e8f0f8;padding-bottom:4px;margin:18px 0 10px}
-    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:.5px solid #e2e8f0}.irow .l{color:#64748b}.irow .v{font-weight:600}
-    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
-    .kpi{background:#eff6ff;border-radius:8px;padding:12px;text-align:center}.kpi .n{font-size:20pt;font-weight:700;color:#2563eb}.kpi .u{font-size:9pt;color:#64748b}
-    table{width:100%;border-collapse:collapse;font-size:10pt}
-    th{background:#1a3a5c;color:white;padding:7px 8px;font-size:9pt;text-align:left}
-    td{padding:6px 8px;border-bottom:.5px solid #e2e8f0}tr:nth-child(even){background:#f8fafc}tfoot td{background:#eff6ff;font-weight:700}
-    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
-    .ftr{background:#f8fafc;padding:10px 28px;border-top:.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
-  </style></head><body>
-  <div class="hdr"><h1>Relevé de charpente — Traitement insectes xylophages</h1><p>Établi le ${date} · ${state.commercial.nom||''} · ${state.commercial.agence||''}</p></div>
-  <div class="body">
-    <h2>Identification</h2>
-    <div class="irow"><span class="l">Client</span><span class="v">${state.client.nom||'—'}</span></div>
-    <div class="irow"><span class="l">Adresse</span><span class="v">${[state.client.adresse,state.client.cp,state.client.ville].filter(Boolean).join(', ')||'—'}</span></div>
-    ${state.client.email?`<div class="irow"><span class="l">Email</span><span class="v">${state.client.email}</span></div>`:''}
-    ${state.client.tel?`<div class="irow"><span class="l">Téléphone</span><span class="v">${state.client.tel}</span></div>`:''}
-    <div class="irow"><span class="l">Commercial</span><span class="v">${state.commercial.nom||'—'}</span></div>
-    <div class="irow"><span class="l">Agence</span><span class="v">${state.commercial.agence||'—'}</span></div>
-    <div class="kpis">
-      <div class="kpi"><div class="n">${surf.toFixed(1)}</div><div class="u">m² surface développée</div></div>
-      <div class="kpi"><div class="n">${ml.toFixed(1)}</div><div class="u">mètres linéaires</div></div>
-      <div class="kpi"><div class="n">${state.elements.length}</div><div class="u">lignes relevées</div></div>
-    </div>
-    <h2>Éléments de charpente</h2>
-    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>ML/u.</th><th>Qté</th><th>Périm. (m)</th><th style="text-align:right">Surface (m²)</th></tr></thead>
-    <tbody>${rows}</tbody>
-    <tfoot><tr><td colspan="3"><strong>Totaux</strong></td><td style="text-align:center"><strong>${ml.toFixed(2)} ml</strong></td><td></td><td style="text-align:right"><strong>${surf.toFixed(2)} m²</strong></td></tr></tfoot>
-    </table>
-    <h2>Conditions de chantier</h2>
-    <div class="g2"><div>
-      <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Hauteur sous plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
-    </div><div>
-      <div class="irow"><span class="l">Injecteurs présents</span><span class="v">${ch.injecteurs?`✓ (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
-      <div class="irow"><span class="l">Pose tourillons</span><span class="v">${ch.tourillon?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Bûchage</span><span class="v">${ch.buchage}</span></div>
-      <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓':'Non'}</span></div>
-    </div></div>
-  </div>
-  <div class="ftr">Document établi par le commercial &mdash; à joindre au devis client · Pest Control Partnership<br><br><em>L'ensemble des bois doit être accessible et dégagé préalablement à notre intervention. Toutes dégradations inhérentes à la bonne réalisation du traitement et effectuées dans les règles de l'art ne sauraient être imputées à notre société.</em></div>
-  </body></html>`;
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  a.download=`releve_${(state.client.nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
-  a.click();URL.revokeObjectURL(url);
-  showToast('Relevé téléchargé');
+    const qte=parseInt(el.qte)||0, ml=parseFloat(el.ml)||0;
+    const surf=l&&h&&qte&&ml?(2*(l+h)*ml*qte).toFixed(2):'—';
+    if(ri%2===0){doc.setFillColor(248,250,252);doc.rect(M,y-3.5,CW,6.5,'F');}
+    setFont('normal',8);
+    doc.text(el.nom,cx[0]+1,y);
+    doc.text(`${el.l}×${el.h}`,cx[1]+1,y);
+    doc.text(String(el.ml||'—'),cx[2]+1,y);
+    doc.text(String(el.qte||'—'),cx[3]+1,y);
+    doc.text(per,cx[4]+1,y);
+    setFont('bold',8,ACCENT);
+    doc.text(surf,cx[5]+cw[5]-2,y,{align:'right'});
+    setFont('normal',8,[30,41,59]);
+    line(M,y+2,M+CW,y+2,[230,235,240]);
+    y+=6.5;
+  });
+
+  // Totals row
+  checkPage(9);
+  doc.setFillColor(...BLUE_LIGHT);
+  doc.rect(M,y-3.5,CW,7,'F');
+  setFont('bold',9,BLUE);
+  doc.text('TOTAUX',M+2,y);
+  doc.text(d.ml.toFixed(2)+' ml',cx[3]+1,y);
+  doc.text(d.surf.toFixed(2)+' m²',cx[5]+cw[5]-2,y,{align:'right'});
+  y+=10;
+
+  // ── Conditions chantier ──
+  sectionTitle('Conditions de chantier');
+  const ch=d.chantier||{};
+  const half=CW/2;
+  const leftItems=[
+    ["Point d'eau",ch.eau?'Oui':'Non'],
+    ['Électricité',ch.elec?'Oui':'Non'],
+    ['Sol dur',ch.sol?'Oui':'Non'],
+    ['Stationnement',ch.parking?'Oui':'Non'],
+    ['Hauteur sous plafond',(ch.hauteur||'—')+' m'],
+  ];
+  const rightItems=[
+    ['Injecteurs présents',ch.injecteurs?`Oui (${ch.nbInj||'?'} u.)`:'Non'],
+    ['Pose de tourillons',ch.tourillon?'Oui':'Non'],
+    ['Bûchage',ch.buchage||'—'],
+    ['Échafaudage',ch.echaf?'Nécessaire':'Non'],
+  ];
+  const startY=y;
+  leftItems.forEach(([l,v],i)=>{
+    checkPage(7);
+    setFont('normal',8,GREY); doc.text(l,M,y);
+    setFont('bold',8); doc.text(v,M+half-2,y,{align:'right'});
+    line(M,y+1.5,M+half-3,y+1.5);
+    y+=6.5;
+  });
+  y=startY;
+  rightItems.forEach(([l,v])=>{
+    setFont('normal',8,GREY); doc.text(l,M+half+2,y);
+    setFont('bold',8); doc.text(v,M+CW,y,{align:'right'});
+    line(M+half+2,y+1.5,M+CW,y+1.5);
+    y+=6.5;
+  });
+  y=startY+leftItems.length*6.5+4;
+
+  // ── Legal notice ──
+  checkPage(20);
+  y+=4;
+  doc.setFillColor(245,245,245);
+  const legalText="L'ensemble des bois doit être accessible et dégagé préalablement à notre intervention. Toutes dégradations inhérentes à la bonne réalisation du traitement et effectuées dans les règles de l'art ne sauraient être imputées à notre société.";
+  const lines=doc.splitTextToSize(legalText,CW-6);
+  const lh=lines.length*4.5+8;
+  doc.rect(M,y,CW,lh,'F');
+  setFont('italic',7.5,GREY);
+  doc.text(lines,M+3,y+5);
+  y+=lh+4;
+
+  // ── Footer ──
+  const pageCount=doc.getNumberOfPages();
+  for(let i=1;i<=pageCount;i++){
+    doc.setPage(i);
+    line(M,287,W-M,287,[200,210,220]);
+    setFont('normal',7,GREY);
+    doc.text('Document à joindre au devis client — Pest Control Partnership',M,291);
+    doc.text(`Page ${i}/${pageCount}`,W-M,291,{align:'right'});
+  }
+
+  doc.save(filename);
+  showToast('PDF téléchargé ✓');
+}
+
+function exportDoc(){
+  const {surf,ml}=calcTotals();
+  const date=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  const fname=`releve_${(state.client.nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`;
+  generatePDF({
+    client:state.client, commercial:state.commercial,
+    essence:state.essence, insectes:state.insectes, traitement:state.traitement,
+    elements:state.elements, chantier:state.chantier,
+    surf, ml, date
+  }, fname).catch(e=>{showToast('Erreur PDF : '+e.message);console.error(e);});
 }
 
 // ─── ADMIN ────────────────────────────────────────────────────────────────────
@@ -958,66 +1105,20 @@ function exportSingleDoc(idx){
   const r=(window._adminData||[])[idx];
   if(!r)return;
   const elems=Array.isArray(r.elements)?r.elements:[];
-  const ch=r.chantier||{};
   const date=r.created_at?new Date(r.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'}):'—';
-  const sorted=[...elems].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
-  const rows=sorted.map(el=>{
-    const l=parseFloat(el.l)/100||0,h=parseFloat(el.h)/100||0;
-    const per=l&&h?(2*(l+h)).toFixed(3):'—';
-    const s=l&&h&&el.qte&&el.ml?(2*(l+h)*parseFloat(el.ml)*parseInt(el.qte)).toFixed(2):'—';
-    return `<tr><td>${el.nom}</td><td style="text-align:center">${el.l}×${el.h}</td><td style="text-align:center">${el.ml}</td><td style="text-align:center">${el.qte}</td><td style="text-align:center">${per}</td><td style="text-align:right;font-weight:600">${s}</td></tr>`;
-  }).join('');
-  const html=`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><style>
-    body{font-family:Arial,sans-serif;font-size:11pt;color:#1e293b;margin:0}
-    .hdr{background:#1a3a5c;color:white;padding:20px 28px}.hdr h1{font-size:15pt;margin:0 0 4px}.hdr p{margin:0;font-size:10pt;opacity:.8}
-    .body{padding:22px 28px}h2{font-size:11pt;font-weight:700;color:#1a3a5c;border-bottom:2px solid #e8f0f8;padding-bottom:4px;margin:18px 0 10px}
-    .irow{display:flex;justify-content:space-between;font-size:10pt;padding:4px 0;border-bottom:.5px solid #e2e8f0}.irow .l{color:#64748b}.irow .v{font-weight:600}
-    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.kpi{background:#eff6ff;border-radius:8px;padding:12px;text-align:center}.kpi .n{font-size:20pt;font-weight:700;color:#2563eb}.kpi .u{font-size:9pt;color:#64748b}
-    table{width:100%;border-collapse:collapse;font-size:10pt}th{background:#1a3a5c;color:white;padding:7px 8px;font-size:9pt;text-align:left}
-    td{padding:6px 8px;border-bottom:.5px solid #e2e8f0}tr:nth-child(even){background:#f8fafc}tfoot td{background:#eff6ff;font-weight:700}
-    .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
-    .ftr{background:#f8fafc;padding:10px 28px;border-top:.5px solid #e2e8f0;font-size:9pt;color:#94a3b8;margin-top:20px}
-  </style></head><body>
-  <div class="hdr"><h1>Relevé de charpente — Traitement insectes xylophages</h1><p>Établi le ${date} · ${r.commercial_nom||''} · ${r.commercial_agence||''}</p></div>
-  <div class="body">
-    <h2>Identification</h2>
-    <div class="irow"><span class="l">Client</span><span class="v">${r.client_nom||'—'}</span></div>
-    <div class="irow"><span class="l">Adresse</span><span class="v">${r.client_adresse||'—'}</span></div>
-    ${r.client_email?`<div class="irow"><span class="l">Email</span><span class="v">${r.client_email}</span></div>`:''}
-    ${r.client_tel?`<div class="irow"><span class="l">Téléphone</span><span class="v">${r.client_tel}</span></div>`:''}
-    <div class="irow"><span class="l">Commercial</span><span class="v">${r.commercial_nom||'—'}</span></div>
-    <div class="irow"><span class="l">Agence</span><span class="v">${r.commercial_agence||'—'}</span></div>
-    <div class="kpis">
-      <div class="kpi"><div class="n">${r.surface_totale!=null?r.surface_totale.toFixed(1):'—'}</div><div class="u">m² surface développée</div></div>
-      <div class="kpi"><div class="n">${r.ml_total!=null?r.ml_total.toFixed(1):'—'}</div><div class="u">mètres linéaires</div></div>
-      <div class="kpi"><div class="n">${elems.length}</div><div class="u">lignes relevées</div></div>
-    </div>
-    <h2>Éléments de charpente</h2>
-    <table><thead><tr><th>Élément</th><th>Section (cm)</th><th>ML/u.</th><th>Qté</th><th>Périm. (m)</th><th style="text-align:right">Surface (m²)</th></tr></thead>
-    <tbody>${rows}</tbody>
-    <tfoot><tr><td colspan="3"><strong>Totaux</strong></td><td style="text-align:center"><strong>${r.ml_total!=null?r.ml_total.toFixed(2):'—'} ml</strong></td><td></td><td style="text-align:right"><strong>${r.surface_totale!=null?r.surface_totale.toFixed(2):'—'} m²</strong></td></tr></tfoot>
-    </table>
-    <h2>Conditions de chantier</h2>
-    <div class="g2"><div>
-      <div class="irow"><span class="l">Point d'eau</span><span class="v">${ch.eau?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Électricité</span><span class="v">${ch.elec?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Sol dur</span><span class="v">${ch.sol?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Stationnement</span><span class="v">${ch.parking?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Hauteur plafond</span><span class="v">${ch.hauteur||'—'} m</span></div>
-    </div><div>
-      <div class="irow"><span class="l">Injecteurs</span><span class="v">${ch.injecteurs?`✓ (${ch.nbInj||'?'} u.)`:'Non'}</span></div>
-      <div class="irow"><span class="l">Tourillons</span><span class="v">${ch.tourillon?'✓':'Non'}</span></div>
-      <div class="irow"><span class="l">Bûchage</span><span class="v">${ch.buchage||'—'}</span></div>
-      <div class="irow"><span class="l">Échafaudage</span><span class="v">${ch.echaf?'✓':'Non'}</span></div>
-    </div></div>
-  </div>
-  <div class="ftr">Document établi par le commercial &mdash; à joindre au devis client · Pest Control Partnership<br><br><em>L'ensemble des bois doit être accessible et dégagé préalablement à notre intervention. Toutes dégradations inhérentes à la bonne réalisation du traitement et effectuées dans les règles de l'art ne sauraient être imputées à notre société.</em></div>
-  </body></html>`;
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=`releve_${(r.client_nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.html`;
-  a.click();URL.revokeObjectURL(url);
+  const mlTotal=r.ml_total||elems.reduce((s,e)=>(s+(parseInt(e.qte)||0)*(parseFloat(e.ml)||0)),0);
+  const surfTotal=r.surface_totale||elems.reduce((s,e)=>{
+    const l=parseFloat(e.l)/100||0,h=parseFloat(e.h)/100||0,q=parseInt(e.qte)||0,m=parseFloat(e.ml)||0;
+    return s+(l&&h&&q&&m?2*(l+h)*m*q:0);
+  },0);
+  const fname=`releve_${(r.client_nom||'chantier').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`;
+  generatePDF({
+    client:{nom:r.client_nom||'',adresse:r.client_adresse||'',cp:r.client_cp||'',ville:r.client_ville||'',email:r.client_email||'',tel:r.client_tel||''},
+    commercial:{nom:r.commercial_nom||'',agence:r.commercial_agence||''},
+    essence:r.essence||'', insectes:r.insectes||'', traitement:r.traitement||'',
+    elements:elems, chantier:r.chantier||{},
+    surf:surfTotal, ml:mlTotal, date
+  }, fname).catch(e=>{showToast('Erreur PDF : '+e.message);});
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
